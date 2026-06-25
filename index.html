@@ -14,7 +14,7 @@
   <style>
 /* ================================================================
    BLOG DE STAGE v2 — Benjamin Krauss @ Pairi Daiza
-   GSAP · Swiper · Custom Cursor · Preloader · Timeline · Stats
+   GSAP · Swiper · Custom Cursor · Preloader · Timeline · i18n FR/EN
 ================================================================ */
 
 :root {
@@ -22,16 +22,12 @@
   --gold-dark:   #b07d12;
   --gold-light:  #e8b84b;
   --gold-dim:    rgba(220,157,35,0.10);
-  --gold-glow:   rgba(220,157,35,0.28);
 
   --ink:   #1a1208;
-  --ink-2: #3d2f10;
   --muted: #6b5e3e;
   --faint: #a89878;
-
-  --cream:   #fdf8f0;
-  --cream-2: #f5ede0;
-  --dark:    #0d0a05;
+  --cream: #fdf8f0;
+  --dark:  #0d0a05;
 
   --glass:   rgba(255,255,255,0.72);
   --glass-b: rgba(220,157,35,0.14);
@@ -54,793 +50,410 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
-
 body {
-  font-family: var(--font-b);
-  color: var(--ink);
-  background: var(--cream);
-  line-height: 1.75;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-b); color: var(--ink); background: var(--cream);
+  line-height: 1.75; overflow-x: hidden; -webkit-font-smoothing: antialiased;
   cursor: none;
 }
 @media (pointer: coarse) { body { cursor: auto; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
 }
-
 h1,h2,h3,h4 { font-family: var(--font-h); letter-spacing: -0.025em; }
 img,svg { display: block; max-width: 100%; }
-ul,ol  { list-style: none; }
-a      { color: inherit; text-decoration: none; }
-button { font-family: inherit; border: none; background: none; cursor: none; }
+ul,ol   { list-style: none; }
+a       { color: inherit; text-decoration: none; }
+button  { font-family: inherit; border: none; background: none; cursor: none; }
 @media (pointer: coarse) { button { cursor: auto; } }
-::selection { background: var(--gold); color:#fff; }
+::selection { background: var(--gold); color: #fff; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--cream); }
 ::-webkit-scrollbar-thumb { background: #e8d5a8; border-radius: 5px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
-
-/* ================================================================
-   PRELOADER
-================================================================ */
+/* ── PRELOADER ── */
 .preloader {
-  position: fixed; inset: 0; z-index: 9999;
-  background: var(--dark);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 1.75rem;
+  position: fixed; inset: 0; z-index: 9999; background: var(--dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.75rem;
 }
-.preloader__logo {
-  height: 66px; opacity: 0;
-  animation: plFade 0.6s 0.2s forwards;
-}
+.preloader__logo  { height: 66px; opacity: 0; animation: plFade 0.6s 0.2s forwards; }
 .preloader__label {
-  font-family: var(--font-h);
-  font-size: 0.68rem; font-weight: 700;
-  letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
+  font-family: var(--font-h); font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.3);
   opacity: 0; animation: plFade 0.6s 0.4s forwards;
 }
 .preloader__bar-wrap {
-  width: 160px; height: 1.5px;
-  background: rgba(255,255,255,0.07);
-  border-radius: 2px; overflow: hidden;
-  opacity: 0; animation: plFade 0.6s 0.4s forwards;
+  width: 160px; height: 1.5px; background: rgba(255,255,255,0.07);
+  border-radius: 2px; overflow: hidden; opacity: 0; animation: plFade 0.6s 0.4s forwards;
 }
-.preloader__bar {
-  height: 100%; width: 0%;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  transition: width 0.08s linear;
-}
-@keyframes plFade { to { opacity:1; } }
+.preloader__bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 0.08s linear; }
+@keyframes plFade { to { opacity: 1; } }
 
-
-/* ================================================================
-   CURSOR
-================================================================ */
+/* ── CURSOR ── */
 .cursor {
-  position: fixed; top:0; left:0;
-  width: 8px; height: 8px;
-  background: var(--gold);
-  border-radius: 50%;
-  pointer-events: none; z-index: 10001;
-  transform: translate(-50%,-50%);
-  transition: width var(--t-fast), height var(--t-fast), background var(--t-fast);
-  mix-blend-mode: multiply;
+  position: fixed; top: 0; left: 0; width: 8px; height: 8px; background: var(--gold);
+  border-radius: 50%; pointer-events: none; z-index: 10001;
+  transform: translate(-50%,-50%); mix-blend-mode: multiply;
+  transition: width var(--t-fast), height var(--t-fast);
 }
 .cursor-ring {
-  position: fixed; top:0; left:0;
-  width: 36px; height: 36px;
-  border: 1.5px solid rgba(220,157,35,0.45);
-  border-radius: 50%;
-  pointer-events: none; z-index: 10000;
-  transform: translate(-50%,-50%);
-  will-change: transform;
+  position: fixed; top: 0; left: 0; width: 36px; height: 36px;
+  border: 1.5px solid rgba(220,157,35,0.45); border-radius: 50%;
+  pointer-events: none; z-index: 10000; transform: translate(-50%,-50%); will-change: transform;
   transition: width var(--t), height var(--t), border-color var(--t);
 }
-.cursor.hovering   { width: 14px; height: 14px; background: var(--gold-dark); }
+.cursor.hovering    { width: 14px; height: 14px; }
 .cursor-ring.hovering { width: 52px; height: 52px; border-color: rgba(220,157,35,0.2); }
-@media (pointer: coarse) { .cursor, .cursor-ring { display:none; } }
+@media (pointer: coarse) { .cursor, .cursor-ring { display: none; } }
 
-
-/* ================================================================
-   SCROLL PROGRESS
-================================================================ */
+/* ── SCROLL PROGRESS ── */
 .scroll-progress {
-  position: fixed; top:0; left:0;
-  height: 3px; width: 0%;
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
   background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  z-index: 10002; pointer-events: none;
-  border-radius: 0 2px 2px 0;
+  z-index: 10002; pointer-events: none; border-radius: 0 2px 2px 0;
 }
 
-
-/* ================================================================
-   BACK TO TOP
-================================================================ */
+/* ── BACK TO TOP ── */
 .back-to-top {
-  position: fixed; bottom: 1.75rem; right: 1.75rem;
-  width: 46px; height: 46px;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: #fff; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  z-index: 500; cursor: none;
-  box-shadow: 0 8px 24px rgba(220,157,35,0.38);
-  opacity: 0; transform: translateY(16px);
-  transition: opacity var(--t), transform var(--t), box-shadow var(--t);
+  position: fixed; bottom: 1.75rem; right: 1.75rem; width: 46px; height: 46px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #fff;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  z-index: 500; cursor: none; box-shadow: 0 8px 24px rgba(220,157,35,0.38);
+  opacity: 0; transform: translateY(16px); transition: opacity var(--t), transform var(--t), box-shadow var(--t);
 }
-.back-to-top.visible { opacity:1; transform: translateY(0); }
+.back-to-top.visible { opacity: 1; transform: translateY(0); }
 .back-to-top:hover   { box-shadow: 0 14px 36px rgba(220,157,35,0.52); transform: translateY(-3px); }
-.back-to-top svg { width:18px; height:18px; }
+.back-to-top svg { width: 18px; height: 18px; }
 @media (pointer: coarse) { .back-to-top { cursor: auto; } }
 
+/* ── BACKGROUND ── */
+.bg-mesh { position: fixed; inset: 0; z-index: -1; background: var(--cream); overflow: hidden; }
+.blob { position: absolute; filter: blur(100px); opacity: 0.48; border-radius: 50%; animation: drift 22s infinite alternate cubic-bezier(0.4,0,0.2,1); }
+.blob-1 { width: 500px; height: 500px; background: #fff3cd; top: -14%; left: -12%; }
+.blob-2 { width: 600px; height: 600px; background: #fdecc8; bottom: -24%; right: -14%; animation-delay: -6s; }
+.blob-3 { width: 340px; height: 340px; background: #fef9ee; top: 40%; left: 52%; animation-delay: -11s; }
+@keyframes drift { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(60px,80px) scale(1.12); } }
 
-/* ================================================================
-   BACKGROUND BLOBS
-================================================================ */
-.bg-mesh { position:fixed; inset:0; z-index:-1; background:var(--cream); overflow:hidden; }
-.blob {
-  position: absolute; filter: blur(100px); opacity:0.48;
-  border-radius: 50%;
-  animation: drift 22s infinite alternate cubic-bezier(0.4,0,0.2,1);
-}
-.blob-1 { width:500px; height:500px; background:#fff3cd; top:-14%; left:-12%; }
-.blob-2 { width:600px; height:600px; background:#fdecc8; bottom:-24%; right:-14%; animation-delay:-6s; }
-.blob-3 { width:340px; height:340px; background:#fef9ee; top:40%; left:52%; animation-delay:-11s; }
-@keyframes drift {
-  0%   { transform: translate(0,0) scale(1); }
-  100% { transform: translate(60px,80px) scale(1.12); }
-}
-
-
-/* ================================================================
-   LAYOUT
-================================================================ */
+/* ── LAYOUT ── */
 .main-container {
-  max-width: var(--w);
-  margin-inline: auto;
-  padding-inline: var(--px);
-  padding-top: calc(var(--nav-h) + 1.75rem);
-  padding-bottom: 5rem;
+  max-width: var(--w); margin-inline: auto; padding-inline: var(--px);
+  padding-top: calc(var(--nav-h) + 1.75rem); padding-bottom: 5rem;
   display: flex; flex-direction: column; gap: 1.875rem;
 }
 
-
-/* ================================================================
-   NAVIGATION
-================================================================ */
+/* ── NAVIGATION ── */
 .site-header {
-  position: fixed; top:14px; left:50%;
-  transform: translateX(-50%);
-  width: calc(100% - 40px); max-width:880px;
-  z-index: 200;
+  position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+  width: calc(100% - 40px); max-width: 920px; z-index: 200;
 }
 .header-inner {
   display: flex; justify-content: space-between; align-items: center;
-  background: rgba(253,248,240,0.84);
-  backdrop-filter: blur(28px) saturate(160%);
+  background: rgba(253,248,240,0.84); backdrop-filter: blur(28px) saturate(160%);
   -webkit-backdrop-filter: blur(28px) saturate(160%);
-  padding: 11px 20px;
-  border-radius: var(--r-pill);
+  padding: 11px 20px; border-radius: var(--r-pill);
   border: 1px solid rgba(220,157,35,0.18);
   box-shadow: 0 4px 30px rgba(26,18,8,0.07), inset 0 1px 0 rgba(255,255,255,0.65);
   transition: box-shadow 0.4s;
 }
-.site-header.scrolled .header-inner {
-  box-shadow: 0 10px 48px rgba(26,18,8,0.13), inset 0 1px 0 rgba(255,255,255,0.65);
-}
-.nav-logo { display:flex; align-items:center; gap:10px; flex-shrink:0; }
-.nav-logo-img { height:33px; width:auto; object-fit:contain; }
-.nav-logo-text {
-  font-family: var(--font-h); font-size:0.84rem;
-  font-weight:800; color:var(--ink); letter-spacing:-0.02em;
-}
-nav { display:flex; align-items:center; gap:2px; }
+.site-header.scrolled .header-inner { box-shadow: 0 10px 48px rgba(26,18,8,0.13), inset 0 1px 0 rgba(255,255,255,0.65); }
+.nav-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.nav-logo-img { height: 33px; width: auto; object-fit: contain; }
+.nav-logo-text { font-family: var(--font-h); font-size: 0.84rem; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+nav { display: flex; align-items: center; gap: 2px; }
 .nav-link {
-  font-family: var(--font-h); font-size:0.82rem; font-weight:600;
-  color:var(--muted); padding:7px 13px; border-radius:var(--r-pill);
+  font-family: var(--font-h); font-size: 0.82rem; font-weight: 600;
+  color: var(--muted); padding: 7px 13px; border-radius: var(--r-pill);
   transition: color var(--t-fast), background var(--t-fast);
 }
-.nav-link:hover, .nav-link.active { color:var(--ink); background:rgba(220,157,35,0.1); }
-.nav-link--cta {
-  color:var(--gold-dark); margin-left:4px;
-  border:1px solid rgba(220,157,35,0.28);
-  background:var(--gold-dim);
-}
-.nav-link--cta:hover { background:rgba(220,157,35,0.18); }
+.nav-link:hover, .nav-link.active { color: var(--ink); background: rgba(220,157,35,0.1); }
+.nav-link--cta { color: var(--gold-dark); margin-left: 4px; border: 1px solid rgba(220,157,35,0.28); background: var(--gold-dim); }
+.nav-link--cta:hover { background: rgba(220,157,35,0.18); }
 
-.nav-toggle {
-  display:none; flex-direction:column; gap:5px; padding:6px; cursor:none;
+/* ── LANG SWITCHER ── */
+.lang-switch {
+  display: flex; align-items: center; gap: 2px;
+  background: rgba(220,157,35,0.07); border-radius: var(--r-pill);
+  border: 1px solid rgba(220,157,35,0.18); padding: 3px;
+  margin-left: 8px; flex-shrink: 0;
 }
-.nav-toggle span {
-  display:block; width:20px; height:1.5px;
-  background:var(--ink); border-radius:2px;
-  transition: transform 0.36s cubic-bezier(0.16,1,0.3,1), opacity 0.36s;
+.lang-btn {
+  font-family: var(--font-h); font-size: 0.72rem; font-weight: 700;
+  color: var(--muted); padding: 4px 10px; border-radius: var(--r-pill);
+  transition: color var(--t-fast), background var(--t-fast);
+  letter-spacing: 0.04em;
 }
-.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform:translateY(6.5px) rotate(45deg); }
-.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity:0; transform:scaleX(0); }
-.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform:translateY(-6.5px) rotate(-45deg); }
+.lang-btn.active { background: var(--gold); color: #fff; }
+.lang-btn:hover:not(.active) { color: var(--ink); background: rgba(220,157,35,0.1); }
 
+.nav-toggle { display: none; flex-direction: column; gap: 5px; padding: 6px; cursor: none; }
+.nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--ink); border-radius: 2px; transition: transform 0.36s cubic-bezier(0.16,1,0.3,1), opacity 0.36s; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-/* ================================================================
-   CARDS
-================================================================ */
+/* ── CARDS ── */
 .card {
-  background: var(--glass);
-  backdrop-filter: blur(28px) saturate(150%);
+  background: var(--glass); backdrop-filter: blur(28px) saturate(150%);
   -webkit-backdrop-filter: blur(28px) saturate(150%);
-  border: 1px solid var(--glass-b);
-  border-radius: var(--r-lg);
-  padding: 48px;
+  border: 1px solid var(--glass-b); border-radius: var(--r-lg); padding: 48px;
   box-shadow: 0 20px 56px rgba(26,18,8,0.06), inset 0 1px 0 rgba(255,255,255,0.85);
   position: relative; overflow: hidden;
   transition: transform var(--t), box-shadow var(--t);
 }
 .card::after {
-  content:''; position:absolute; inset:0;
-  border-radius:inherit;
-  background: linear-gradient(135deg, rgba(255,255,255,0.28) 0%, transparent 55%);
-  pointer-events:none;
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,0.28) 0%, transparent 55%); pointer-events: none;
 }
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 36px 72px rgba(26,18,8,0.09), inset 0 1px 0 rgba(255,255,255,0.85);
-}
+.card:hover { transform: translateY(-4px); box-shadow: 0 36px 72px rgba(26,18,8,0.09), inset 0 1px 0 rgba(255,255,255,0.85); }
 
-.section-eyebrow {
-  font-family: var(--font-h); font-size:0.67rem; font-weight:700;
-  letter-spacing:0.2em; text-transform:uppercase;
-  color:var(--gold); margin-bottom:0.6rem;
-}
-.section-title {
-  font-size: clamp(1.45rem,3vw,1.9rem); font-weight:800;
-  color:var(--ink); line-height:1.15; margin-bottom:1.75rem;
-}
-.description {
-  color:var(--muted); font-size:1.03rem; line-height:1.85; margin-top:1.2rem;
-}
+.section-eyebrow { font-family: var(--font-h); font-size: 0.67rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+.section-title   { font-size: clamp(1.45rem,3vw,1.9rem); font-weight: 800; color: var(--ink); line-height: 1.15; margin-bottom: 1.75rem; }
+.description     { color: var(--muted); font-size: 1.03rem; line-height: 1.85; margin-top: 1.2rem; }
 
-
-/* ================================================================
-   BADGES & CHIPS
-================================================================ */
+/* ── BADGE ── */
 .badge {
-  display:inline-flex; align-items:center; gap:7px;
-  padding: 6px 16px;
-  background: rgba(220,157,35,0.12);
-  color:var(--gold-dark);
-  border:1px solid rgba(220,157,35,0.28);
-  border-radius:var(--r-pill);
-  font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
-  text-transform:uppercase; margin-bottom:1.2rem;
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 16px;
+  background: rgba(220,157,35,0.12); color: var(--gold-dark);
+  border: 1px solid rgba(220,157,35,0.28); border-radius: var(--r-pill);
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 1.2rem;
 }
-.badge-dot {
-  width:7px; height:7px; border-radius:50%;
-  background:var(--gold);
-  animation: blink 2s ease-in-out infinite;
-}
+.badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: blink 2s ease-in-out infinite; }
 @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
-.skill-chips { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:1.5rem; }
+/* ── CHIPS ── */
+.skill-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
 .chip {
-  padding:5px 14px; border-radius:var(--r-pill);
-  border:1px solid rgba(220,157,35,0.2);
-  background:rgba(220,157,35,0.07);
-  font-family:var(--font-h); font-size:0.74rem; font-weight:600;
-  color:var(--gold-dark);
+  padding: 5px 14px; border-radius: var(--r-pill); border: 1px solid rgba(220,157,35,0.2);
+  background: rgba(220,157,35,0.07); font-family: var(--font-h); font-size: 0.74rem;
+  font-weight: 600; color: var(--gold-dark);
   transition: background var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
 }
-.chip:hover { background:rgba(220,157,35,0.16); border-color:var(--gold); transform:translateY(-1px); }
+.chip:hover { background: rgba(220,157,35,0.16); border-color: var(--gold); transform: translateY(-1px); }
 
-
-/* ================================================================
-   BUTTONS
-================================================================ */
+/* ── BUTTONS ── */
 .btn {
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  padding:13px 28px; border-radius:var(--r-pill);
-  font-family:var(--font-h); font-size:0.88rem; font-weight:700;
-  transition: transform var(--t), box-shadow var(--t);
-  position:relative; overflow:hidden; cursor:none;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 28px; border-radius: var(--r-pill);
+  font-family: var(--font-h); font-size: 0.88rem; font-weight: 700;
+  transition: transform var(--t), box-shadow var(--t); position: relative; overflow: hidden; cursor: none;
 }
-.btn::before {
-  content:''; position:absolute; inset:0;
-  background:rgba(255,255,255,0.15);
-  opacity:0; transition:opacity var(--t-fast);
-}
-.btn:hover::before { opacity:1; }
-.btn--primary {
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color:#fff;
-  box-shadow: 0 6px 20px rgba(220,157,35,0.38), inset 0 1px 0 rgba(255,255,255,0.2);
-}
-.btn--primary:hover { transform:translateY(-3px); box-shadow:0 14px 36px rgba(220,157,35,0.5); }
-.btn--ghost {
-  background:rgba(26,18,8,0.05); color:var(--ink);
-  border:1px solid rgba(26,18,8,0.12);
-}
-.btn--ghost:hover { background:rgba(220,157,35,0.08); border-color:var(--gold); color:var(--gold-dark); transform:translateY(-3px); }
-.btn--full { width:100%; }
-.btn svg { width:17px; height:17px; flex-shrink:0; }
+.btn::before { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.15); opacity: 0; transition: opacity var(--t-fast); }
+.btn:hover::before { opacity: 1; }
+.btn--primary { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #fff; box-shadow: 0 6px 20px rgba(220,157,35,0.38), inset 0 1px 0 rgba(255,255,255,0.2); }
+.btn--primary:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(220,157,35,0.5); }
+.btn--ghost   { background: rgba(26,18,8,0.05); color: var(--ink); border: 1px solid rgba(26,18,8,0.12); }
+.btn--ghost:hover { background: rgba(220,157,35,0.08); border-color: var(--gold); color: var(--gold-dark); transform: translateY(-3px); }
+.btn--full { width: 100%; }
+.btn svg { width: 17px; height: 17px; flex-shrink: 0; }
 @media (pointer: coarse) { .btn { cursor: auto; } }
 
+/* ── HERO ── */
+.hero-section { position: relative; border-radius: var(--r-lg); overflow: hidden; min-height: 580px; display: flex; align-items: flex-end; }
+.hero-bg-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.hero-bg-img  { width: 100%; height: 100%; object-fit: cover; object-position: center; animation: kenBurns 24s ease-in-out infinite alternate; }
+@keyframes kenBurns { 0% { transform: scale(1.06) translate(0,0); } 100% { transform: scale(1.13) translate(-1.5%,-1%); } }
+.hero-bg-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,10,5,0.92) 0%, rgba(13,10,5,0.55) 45%, rgba(13,10,5,0.18) 100%); }
+.hero-content-wrap { position: relative; z-index: 1; padding: 3.5rem 4rem; max-width: 660px; }
+.hero-content-wrap h1 { font-size: clamp(2.6rem,6vw,4.5rem); font-weight: 800; color: #fff; line-height: 1.03; margin-bottom: 1rem; }
+.text-gradient { background: linear-gradient(135deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero-sub  { color: rgba(255,255,255,0.75); font-size: 1.04rem; margin-bottom: 2rem; line-height: 1.75; max-width: 490px; }
+.hero-sub strong { color: var(--gold-light); font-weight: 600; }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-tags { position: absolute; top: 2rem; right: 2rem; z-index: 1; display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end; }
+.hero-tag { padding: 5px 14px; border-radius: var(--r-pill); background: rgba(255,255,255,0.1); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.16); font-family: var(--font-h); font-size: 0.71rem; font-weight: 600; color: rgba(255,255,255,0.85); letter-spacing: 0.03em; }
 
-/* ================================================================
-   HERO
-================================================================ */
-.hero-section {
-  position:relative; border-radius:var(--r-lg); overflow:hidden;
-  min-height:580px; display:flex; align-items:flex-end;
-}
-.hero-bg-wrap { position:absolute; inset:0; z-index:0; overflow:hidden; }
-.hero-bg-img {
-  width:100%; height:100%; object-fit:cover; object-position:center;
-  animation: kenBurns 24s ease-in-out infinite alternate;
-  transform-origin: center;
-}
-@keyframes kenBurns {
-  0%   { transform: scale(1.06) translate(0,0); }
-  100% { transform: scale(1.13) translate(-1.5%,-1%); }
-}
-.hero-bg-overlay {
-  position:absolute; inset:0;
-  background: linear-gradient(
-    to top,
-    rgba(13,10,5,0.92) 0%,
-    rgba(13,10,5,0.55) 45%,
-    rgba(13,10,5,0.18) 100%
-  );
-}
-.hero-content-wrap {
-  position:relative; z-index:1;
-  padding: 3.5rem 4rem;
-  max-width: 660px;
-}
-.hero-content-wrap h1 {
-  font-size: clamp(2.6rem,6vw,4.5rem);
-  font-weight:800; color:#fff; line-height:1.03; margin-bottom:1rem;
-}
-.text-gradient {
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-}
-.hero-sub {
-  color:rgba(255,255,255,0.75); font-size:1.04rem;
-  margin-bottom:2rem; line-height:1.75; max-width:490px;
-}
-.hero-sub strong { color:var(--gold-light); font-weight:600; }
-.hero-actions { display:flex; gap:1rem; flex-wrap:wrap; }
-
-.hero-tags {
-  position:absolute; top:2rem; right:2rem; z-index:1;
-  display:flex; flex-direction:column; gap:0.5rem; align-items:flex-end;
-}
-.hero-tag {
-  padding:5px 14px; border-radius:var(--r-pill);
-  background:rgba(255,255,255,0.1); backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,0.16);
-  font-family:var(--font-h); font-size:0.71rem; font-weight:600;
-  color:rgba(255,255,255,0.85); letter-spacing:0.03em;
-}
-
-
-/* ================================================================
-   MARQUEE STRIP
-================================================================ */
-.marquee-wrap {
-  overflow:hidden;
-  padding:0.85rem 0;
-  border-top:1px solid rgba(220,157,35,0.12);
-  border-bottom:1px solid rgba(220,157,35,0.12);
-  margin-inline: calc(var(--px) * -1);
-}
-.marquee-track {
-  display:flex; width:max-content;
-  animation: marqueeScroll 28s linear infinite;
-  gap:0;
-}
-.marquee-track:hover { animation-play-state:paused; }
-.marquee-item {
-  display:flex; align-items:center; gap:1.25rem;
-  padding:0 2rem;
-  font-family:var(--font-h); font-size:0.72rem; font-weight:700;
-  letter-spacing:0.14em; text-transform:uppercase; color:var(--faint); white-space:nowrap;
-}
-.marquee-dot { width:4px; height:4px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+/* ── MARQUEE ── */
+.marquee-wrap { overflow: hidden; padding: 0.85rem 0; border-top: 1px solid rgba(220,157,35,0.12); border-bottom: 1px solid rgba(220,157,35,0.12); margin-inline: calc(var(--px) * -1); }
+.marquee-track { display: flex; width: max-content; animation: marqueeScroll 28s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item  { display: flex; align-items: center; gap: 1.25rem; padding: 0 2rem; font-family: var(--font-h); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); white-space: nowrap; }
+.marquee-dot   { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
 @keyframes marqueeScroll { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
 
+/* ── STATS ── */
+.stats-section { background: var(--dark); border-radius: var(--r-lg); padding: 2.75rem 2.5rem; position: relative; overflow: hidden; }
+.stats-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; text-align: center; }
+.stat-item { padding: 0.75rem; position: relative; }
+.stat-item:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 20%; bottom: 20%; width: 1px; background: rgba(255,255,255,0.07); }
+.stat-number { display: inline-block; font-family: var(--font-h); font-size: clamp(2rem,4vw,2.8rem); font-weight: 800; color: var(--gold); line-height: 1; letter-spacing: -0.04em; }
+.stat-unit   { font-family: var(--font-h); font-size: 1rem; font-weight: 700; color: var(--gold-light); }
+.stat-label  { display: block; font-size: 0.68rem; font-weight: 600; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.55rem; }
 
-/* ================================================================
-   STATS BAR
-================================================================ */
-.stats-section {
-  background: var(--dark);
-  border-radius: var(--r-lg);
-  padding: 2.75rem 2.5rem;
-  position:relative; overflow:hidden;
-}
-.stats-section::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-.stats-section::after {
-  content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
-  background: linear-gradient(90deg, transparent, rgba(220,157,35,0.3), transparent);
-}
-.stats-grid {
-  display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; text-align:center;
-}
-.stat-item { padding:0.75rem; position:relative; }
-.stat-item:not(:last-child)::after {
-  content:''; position:absolute; right:0; top:20%; bottom:20%;
-  width:1px; background:rgba(255,255,255,0.07);
-}
-.stat-number {
-  display:inline-block;
-  font-family:var(--font-h);
-  font-size: clamp(2rem,4vw,2.8rem);
-  font-weight:800; color:var(--gold); line-height:1; letter-spacing:-0.04em;
-}
-.stat-unit {
-  font-family:var(--font-h); font-size:1rem; font-weight:700; color:var(--gold-light);
-}
-.stat-label {
-  display:block; font-size:0.68rem; font-weight:600;
-  color:rgba(255,255,255,0.35); letter-spacing:0.1em; text-transform:uppercase; margin-top:0.55rem;
-}
+/* ── ABOUT ── */
+.about-card { display: grid; grid-template-columns: 260px 1fr; gap: 0; padding: 0; overflow: hidden; }
+.about-img-wrap { height: 100%; min-height: 400px; position: relative; overflow: hidden; }
+.about-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+.about-img-wrap:hover .about-img { transform: scale(1.05); }
+.about-img-shim { position: absolute; inset: 0; background: linear-gradient(to right, transparent 65%, rgba(255,255,255,0.7)); }
+.about-content { padding: 2.75rem; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+.info-item { background: rgba(255,255,255,0.55); padding: 14px 16px; border-radius: var(--r-sm); border: 1px solid rgba(220,157,35,0.1); transition: border-color var(--t-fast), background var(--t-fast), transform var(--t-fast); }
+.info-item:hover { border-color: rgba(220,157,35,0.3); background: rgba(255,248,235,0.85); transform: translateY(-2px); }
+.label { display: block; font-size: 0.67rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--faint); font-weight: 700; margin-bottom: 3px; }
+.value { font-family: var(--font-h); font-weight: 700; font-size: 1rem; color: var(--ink); }
 
+/* ── SWIPER ── */
+.animal-swiper { margin-top: 2rem; padding-bottom: 3rem !important; }
+.swiper { overflow: hidden; }
+.animal-swiper .swiper-slide { border-radius: var(--r-md); overflow: hidden; aspect-ratio: 4/5; position: relative; cursor: none; }
+.animal-swiper .swiper-slide img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+.animal-swiper .swiper-slide:hover img { transform: scale(1.07); }
+.animal-slide-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem 1rem 0.9rem; background: linear-gradient(to top, rgba(13,10,5,0.82), transparent); color: #fff; font-family: var(--font-h); font-size: 0.84rem; font-weight: 700; letter-spacing: 0.04em; }
+.swiper-pagination-bullet { background: var(--gold)!important; opacity: 0.3!important; width: 6px!important; height: 6px!important; }
+.swiper-pagination-bullet-active { opacity: 1!important; width: 22px!important; border-radius: 3px!important; }
+.swiper-button-prev, .swiper-button-next { width: 44px!important; height: 44px!important; background: rgba(255,255,255,0.9)!important; border-radius: 50%!important; box-shadow: 0 4px 16px rgba(26,18,8,0.1)!important; border: 1px solid rgba(220,157,35,0.2)!important; top: 40%!important; }
+.swiper-button-prev::after, .swiper-button-next::after { font-size: 13px!important; color: var(--ink)!important; font-weight: 900!important; }
+.swiper-button-prev:hover, .swiper-button-next:hover { background: rgba(220,157,35,0.1)!important; }
 
-/* ================================================================
-   ABOUT
-================================================================ */
-.about-card {
-  display:grid; grid-template-columns:260px 1fr; gap:0;
-  padding:0; overflow:hidden;
-}
-.about-img-wrap { height:100%; min-height:400px; position:relative; overflow:hidden; }
-.about-img {
-  width:100%; height:100%; object-fit:cover;
-  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
-}
-.about-img-wrap:hover .about-img { transform:scale(1.05); }
-.about-img-shim {
-  position:absolute; inset:0;
-  background: linear-gradient(to right, transparent 65%, rgba(255,255,255,0.7));
-}
-.about-content { padding:2.75rem; }
+/* ── MISSIONS ── */
+.missions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.mission-item { display: flex; gap: 1.25rem; align-items: flex-start; padding: 1.5rem; border-radius: var(--r-md); background: rgba(255,255,255,0.5); border: 1px solid rgba(220,157,35,0.1); position: relative; overflow: hidden; transition: background var(--t), border-color var(--t), transform var(--t), box-shadow var(--t); }
+.mission-item::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(220,157,35,0.06), transparent 60%); opacity: 0; transition: opacity var(--t); }
+.mission-item:hover { background: rgba(255,248,235,0.88); border-color: rgba(220,157,35,0.25); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(220,157,35,0.12); }
+.mission-item:hover::before { opacity: 1; }
+.mission-icon { width: 46px; height: 46px; color: var(--gold); flex-shrink: 0; padding: 10px; background: rgba(220,157,35,0.1); border-radius: 12px; border: 1px solid rgba(220,157,35,0.15); transition: background var(--t-fast), transform var(--t); }
+.mission-item:hover .mission-icon { background: rgba(220,157,35,0.18); transform: scale(1.1) rotate(-4deg); }
+.mission-icon svg { width: 100%; height: 100%; }
+.mission-item h3 { font-family: var(--font-h); font-size: 0.94rem; font-weight: 700; color: var(--ink); margin-bottom: 0.4rem; }
+.mission-item p  { font-size: 0.84rem; color: var(--muted); line-height: 1.65; margin-bottom: 0.65rem; }
+.mission-tag { font-size: 0.67rem; font-weight: 700; color: var(--gold-dark); letter-spacing: 0.08em; text-transform: uppercase; }
 
-.info-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem; }
-.info-item {
-  background:rgba(255,255,255,0.55); padding:14px 16px;
-  border-radius:var(--r-sm); border:1px solid rgba(220,157,35,0.1);
-  transition: border-color var(--t-fast), background var(--t-fast), transform var(--t-fast);
-}
-.info-item:hover { border-color:rgba(220,157,35,0.3); background:rgba(255,248,235,0.85); transform:translateY(-2px); }
-.label {
-  display:block; font-size:0.67rem; text-transform:uppercase;
-  letter-spacing:0.1em; color:var(--faint); font-weight:700; margin-bottom:3px;
-}
-.value { font-family:var(--font-h); font-weight:700; font-size:1rem; color:var(--ink); }
+/* ── TIMELINE ── */
+.timeline { position: relative; padding-left: 2.25rem; margin-top: 0.5rem; }
+.timeline::before { content: ''; position: absolute; left: 5px; top: 0.5rem; bottom: 0.5rem; width: 2px; background: linear-gradient(to bottom, var(--gold) 0%, rgba(220,157,35,0.08) 100%); border-radius: 2px; }
+.timeline-item { position: relative; padding: 0 0 1.75rem 1.25rem; }
+.timeline-item::before { content: ''; position: absolute; left: calc(-2.25rem + 5px - 5px); top: 1.6rem; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; border: 2.5px solid var(--cream); box-shadow: 0 0 0 3px rgba(220,157,35,0.25); z-index: 1; }
+.timeline-item--featured::before { width: 14px; height: 14px; box-shadow: 0 0 0 4px rgba(220,157,35,0.2), 0 0 12px rgba(220,157,35,0.4); left: calc(-2.25rem + 5px - 6px); }
+.timeline-date { display: block; font-family: var(--font-h); font-size: 0.7rem; font-weight: 700; color: var(--faint); letter-spacing: 0.06em; margin-bottom: 0.65rem; }
+.timeline-card { display: flex; gap: 1.25rem; align-items: flex-start; padding: 1.25rem; border-radius: var(--r-md); background: rgba(255,255,255,0.5); border: 1px solid rgba(220,157,35,0.1); transition: background var(--t), border-color var(--t), transform var(--t); }
+.timeline-card:hover { background: rgba(255,248,235,0.82); border-color: rgba(220,157,35,0.22); transform: translateX(5px); }
+.timeline-item--featured .timeline-card { background: linear-gradient(145deg, rgba(255,248,235,0.9), rgba(255,243,205,0.45)); border-color: rgba(220,157,35,0.2); }
+.timeline-thumb { width: 96px; height: 70px; object-fit: cover; border-radius: var(--r-sm); flex-shrink: 0; }
+.timeline-item--featured .timeline-thumb { width: 116px; height: 86px; }
+.timeline-body { flex: 1; }
+.article-tag { display: inline-block; padding: 2px 10px; border-radius: var(--r-pill); background: var(--gold-dim); border: 1px solid rgba(220,157,35,0.2); font-size: 0.67rem; font-weight: 700; color: var(--gold-dark); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.4rem; }
+.timeline-body h3 { font-family: var(--font-h); font-size: 0.94rem; font-weight: 700; color: var(--ink); line-height: 1.3; margin-bottom: 0.35rem; }
+.timeline-body p  { font-size: 0.83rem; color: var(--muted); line-height: 1.65; margin-bottom: 0.6rem; }
+.article-link { font-family: var(--font-h); font-size: 0.81rem; font-weight: 700; color: var(--gold-dark); display: inline-flex; align-items: center; gap: 4px; transition: gap var(--t-fast); }
+.article-link:hover { gap: 8px; }
 
+/* ── LIFE ── */
+.life-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+.life-photos { display: flex; flex-direction: column; gap: 0.75rem; }
+.life-photo { border-radius: var(--r-md); object-fit: cover; width: 100%; box-shadow: 0 8px 24px rgba(26,18,8,0.08); transition: transform var(--t), box-shadow var(--t); }
+.life-photo:hover { transform: scale(1.02) rotate(-0.4deg); box-shadow: 0 16px 40px rgba(26,18,8,0.12); }
+.life-photo--main { height: 220px; }
+.life-photo--sub  { height: 148px; }
 
-/* ================================================================
-   DESTINATION — Swiper
-================================================================ */
-.animal-swiper { margin-top:2rem; padding-bottom:3rem !important; overflow:visible !important; }
-.swiper { overflow:hidden; }
-.animal-swiper .swiper-slide {
-  border-radius:var(--r-md); overflow:hidden;
-  aspect-ratio:4/5; position:relative;
-  cursor:none;
-}
-.animal-swiper .swiper-slide img {
-  width:100%; height:100%; object-fit:cover;
-  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
-}
-.animal-swiper .swiper-slide:hover img { transform:scale(1.07); }
-.animal-slide-label {
-  position:absolute; bottom:0; left:0; right:0;
-  padding:1.5rem 1rem 0.9rem;
-  background: linear-gradient(to top, rgba(13,10,5,0.82), transparent);
-  color:#fff; font-family:var(--font-h); font-size:0.84rem;
-  font-weight:700; letter-spacing:0.04em;
-}
-.swiper-pagination-bullet { background:var(--gold)!important; opacity:0.3!important; width:6px!important; height:6px!important; }
-.swiper-pagination-bullet-active { opacity:1!important; width:22px!important; border-radius:3px!important; }
-.swiper-button-prev, .swiper-button-next {
-  width:44px!important; height:44px!important;
-  background:rgba(255,255,255,0.9)!important; border-radius:50%!important;
-  box-shadow:0 4px 16px rgba(26,18,8,0.1)!important;
-  border:1px solid rgba(220,157,35,0.2)!important;
-  top:40%!important;
-}
-.swiper-button-prev::after, .swiper-button-next::after { font-size:13px!important; color:var(--ink)!important; font-weight:900!important; }
-.swiper-button-prev:hover, .swiper-button-next:hover { background:rgba(220,157,35,0.1)!important; }
-
-
-/* ================================================================
-   MISSIONS
-================================================================ */
-.missions-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
-.mission-item {
-  display:flex; gap:1.25rem; align-items:flex-start;
-  padding:1.5rem; border-radius:var(--r-md);
-  background:rgba(255,255,255,0.5);
-  border:1px solid rgba(220,157,35,0.1);
-  position:relative; overflow:hidden;
-  transition: background var(--t), border-color var(--t), transform var(--t), box-shadow var(--t);
-}
-.mission-item::before {
-  content:''; position:absolute; inset:0;
-  background: linear-gradient(135deg, rgba(220,157,35,0.06), transparent 60%);
-  opacity:0; transition:opacity var(--t);
-}
-.mission-item:hover { background:rgba(255,248,235,0.88); border-color:rgba(220,157,35,0.25); transform:translateY(-3px); box-shadow:0 12px 32px rgba(220,157,35,0.12); }
-.mission-item:hover::before { opacity:1; }
-.mission-icon {
-  width:46px; height:46px; color:var(--gold); flex-shrink:0;
-  padding:10px; background:rgba(220,157,35,0.1);
-  border-radius:12px; border:1px solid rgba(220,157,35,0.15);
-  transition: background var(--t-fast), transform var(--t);
-}
-.mission-item:hover .mission-icon { background:rgba(220,157,35,0.18); transform:scale(1.1) rotate(-4deg); }
-.mission-icon svg { width:100%; height:100%; }
-.mission-item h3 { font-family:var(--font-h); font-size:0.94rem; font-weight:700; color:var(--ink); margin-bottom:0.4rem; }
-.mission-item p  { font-size:0.84rem; color:var(--muted); line-height:1.65; margin-bottom:0.65rem; }
-.mission-tag { font-size:0.67rem; font-weight:700; color:var(--gold-dark); letter-spacing:0.08em; text-transform:uppercase; }
-
-
-/* ================================================================
-   JOURNAL — TIMELINE
-================================================================ */
-.timeline {
-  position:relative; padding-left:2.25rem; margin-top:0.5rem;
-}
-.timeline::before {
-  content:''; position:absolute; left:5px; top:0.5rem; bottom:0.5rem;
-  width:2px;
-  background: linear-gradient(to bottom, var(--gold) 0%, rgba(220,157,35,0.08) 100%);
-  border-radius:2px;
-}
-.timeline-item { position:relative; padding:0 0 1.75rem 1.25rem; }
-.timeline-item::before {
-  content:''; position:absolute;
-  left:calc(-2.25rem + 5px - 5px);
-  top:1.6rem;
-  width:12px; height:12px;
-  background:var(--gold); border-radius:50%;
-  border:2.5px solid var(--cream);
-  box-shadow: 0 0 0 3px rgba(220,157,35,0.25);
-  z-index:1;
-}
-.timeline-item--featured::before {
-  width:14px; height:14px;
-  box-shadow: 0 0 0 4px rgba(220,157,35,0.2), 0 0 12px rgba(220,157,35,0.4);
-  left:calc(-2.25rem + 5px - 6px);
-}
-.timeline-date {
-  display:block; font-family:var(--font-h);
-  font-size:0.7rem; font-weight:700; color:var(--faint);
-  letter-spacing:0.06em; margin-bottom:0.65rem;
-}
-.timeline-card {
-  display:flex; gap:1.25rem; align-items:flex-start;
-  padding:1.25rem; border-radius:var(--r-md);
-  background:rgba(255,255,255,0.5);
-  border:1px solid rgba(220,157,35,0.1);
-  transition: background var(--t), border-color var(--t), transform var(--t);
-}
-.timeline-card:hover { background:rgba(255,248,235,0.82); border-color:rgba(220,157,35,0.22); transform:translateX(5px); }
-.timeline-item--featured .timeline-card {
-  background: linear-gradient(145deg, rgba(255,248,235,0.9), rgba(255,243,205,0.45));
-  border-color:rgba(220,157,35,0.2);
-}
-.timeline-thumb { width:96px; height:70px; object-fit:cover; border-radius:var(--r-sm); flex-shrink:0; }
-.timeline-item--featured .timeline-thumb { width:116px; height:86px; }
-.timeline-body { flex:1; }
-.article-tag {
-  display:inline-block; padding:2px 10px; border-radius:var(--r-pill);
-  background:var(--gold-dim); border:1px solid rgba(220,157,35,0.2);
-  font-size:0.67rem; font-weight:700; color:var(--gold-dark);
-  letter-spacing:0.06em; text-transform:uppercase; margin-bottom:0.4rem;
-}
-.timeline-body h3 { font-family:var(--font-h); font-size:0.94rem; font-weight:700; color:var(--ink); line-height:1.3; margin-bottom:0.35rem; }
-.timeline-body p  { font-size:0.83rem; color:var(--muted); line-height:1.65; margin-bottom:0.6rem; }
-.article-link {
-  font-family:var(--font-h); font-size:0.81rem; font-weight:700; color:var(--gold-dark);
-  display:inline-flex; align-items:center; gap:4px;
-  transition:gap var(--t-fast);
-}
-.article-link:hover { gap:8px; }
-
-
-/* ================================================================
-   VIE DE STAGE
-================================================================ */
-.life-grid { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; align-items:start; }
-.life-photos { display:flex; flex-direction:column; gap:0.75rem; }
-.life-photo {
-  border-radius:var(--r-md); object-fit:cover; width:100%;
-  box-shadow:0 8px 24px rgba(26,18,8,0.08);
-  transition: transform var(--t), box-shadow var(--t);
-}
-.life-photo:hover { transform:scale(1.02) rotate(-0.4deg); box-shadow:0 16px 40px rgba(26,18,8,0.12); }
-.life-photo--main { height:220px; }
-.life-photo--sub  { height:148px; }
-
-
-/* ================================================================
-   TIPS — SHIMMER TOP BAR
-================================================================ */
-.highlight-card { position:relative; overflow:hidden; }
-.highlight-card::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:4px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
-  background-size:200% 100%;
-  animation: shimmer 3.5s linear infinite;
-}
+/* ── TIPS ── */
+.highlight-card { position: relative; overflow: hidden; }
+.highlight-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold)); background-size: 200% 100%; animation: shimmer 3.5s linear infinite; }
 @keyframes shimmer { 0%{background-position:-200% 0;} 100%{background-position:200% 0;} }
-.custom-list { display:flex; flex-direction:column; gap:1rem; }
-.custom-list li {
-  position:relative; padding:0.9rem 1rem 0.9rem 1.75rem;
-  color:var(--muted); font-size:1.02rem; line-height:1.7;
-  border-radius:var(--r-sm);
-  transition: background var(--t-fast), transform var(--t-fast);
-}
-.custom-list li:hover { background:rgba(255,255,255,0.52); transform:translateX(4px); }
-.custom-list li::before {
-  content:'→'; position:absolute; left:0.5rem;
-  color:var(--gold); font-weight:800;
-  transition:transform var(--t-fast);
-}
-.custom-list li:hover::before { transform:translateX(4px); }
-.custom-list li strong { color:var(--ink); }
+.custom-list { display: flex; flex-direction: column; gap: 1rem; }
+.custom-list li { position: relative; padding: 0.9rem 1rem 0.9rem 1.75rem; color: var(--muted); font-size: 1.02rem; line-height: 1.7; border-radius: var(--r-sm); transition: background var(--t-fast), transform var(--t-fast); }
+.custom-list li:hover { background: rgba(255,255,255,0.52); transform: translateX(4px); }
+.custom-list li::before { content: '→'; position: absolute; left: 0.5rem; color: var(--gold); font-weight: 800; transition: transform var(--t-fast); }
+.custom-list li:hover::before { transform: translateX(4px); }
+.custom-list li strong { color: var(--ink); }
 
-
-/* ================================================================
-   CONTACT
-================================================================ */
-.contact-form { display:flex; flex-direction:column; gap:1.25rem; margin-top:1.75rem; }
-.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; }
-.form-group { display:flex; flex-direction:column; gap:0.4rem; }
-.form-group label { font-family:var(--font-h); font-size:0.82rem; font-weight:600; color:var(--muted); }
+/* ── CONTACT ── */
+.contact-form { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1.75rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group label { font-family: var(--font-h); font-size: 0.82rem; font-weight: 600; color: var(--muted); }
 .form-group input,
-.form-group textarea {
-  width:100%; padding:0.9rem 1.1rem;
-  background:rgba(255,255,255,0.65);
-  border:1.5px solid rgba(220,157,35,0.16);
-  border-radius:var(--r-sm); color:var(--ink);
-  font-family:var(--font-b); font-size:1rem;
-  transition: border-color var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
-  resize:vertical;
-}
+.form-group textarea { width: 100%; padding: 0.9rem 1.1rem; background: rgba(255,255,255,0.65); border: 1.5px solid rgba(220,157,35,0.16); border-radius: var(--r-sm); color: var(--ink); font-family: var(--font-b); font-size: 1rem; transition: border-color var(--t-fast), box-shadow var(--t-fast), background var(--t-fast); resize: vertical; }
 .form-group input:focus,
-.form-group textarea:focus {
-  outline:none; border-color:var(--gold);
-  box-shadow:0 0 0 4px rgba(220,157,35,0.1);
-  background:rgba(255,255,255,0.9);
-}
+.form-group textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 4px rgba(220,157,35,0.1); background: rgba(255,255,255,0.9); }
 .form-group input::placeholder,
-.form-group textarea::placeholder { color:var(--faint); }
+.form-group textarea::placeholder { color: var(--faint); }
 
+/* ── FOOTER ── */
+footer { text-align: center; padding: 3rem var(--px) 4rem; }
+.footer-inner { max-width: var(--w); margin-inline: auto; display: flex; flex-direction: column; align-items: center; gap: 0.65rem; }
+.footer-logo { height: 50px; width: auto; object-fit: contain; opacity: 0.6; margin-bottom: 0.5rem; }
+.footer-divider { width: 56px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 0.35rem 0; }
+footer p { color: var(--faint); font-size: 0.84rem; font-weight: 500; }
+footer strong { color: var(--muted); }
+.footer-sub { font-size: 0.73rem; color: var(--faint); }
 
-/* ================================================================
-   FOOTER
-================================================================ */
-footer { text-align:center; padding:3rem var(--px) 4rem; }
-.footer-inner {
-  max-width:var(--w); margin-inline:auto;
-  display:flex; flex-direction:column; align-items:center; gap:0.65rem;
-}
-.footer-logo { height:50px; width:auto; object-fit:contain; opacity:0.6; margin-bottom:0.5rem; }
-.footer-divider {
-  width:56px; height:1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  margin:0.35rem 0;
-}
-footer p { color:var(--faint); font-size:0.84rem; font-weight:500; }
-footer strong { color:var(--muted); }
-.footer-sub { font-size:0.73rem; color:var(--faint); }
+/* ── LANG SWITCH ANIMATION ── */
+[data-i18n], [data-i18n-ph] { transition: opacity 0.2s; }
+.lang-switching [data-i18n], .lang-switching [data-i18n-ph] { opacity: 0; }
 
-
-/* ================================================================
-   RESPONSIVE — TABLET ≤ 768px
-================================================================ */
+/* ── RESPONSIVE ── */
 @media (max-width: 768px) {
-  .site-header { width:calc(100% - 20px); top:8px; }
-  .header-inner { padding:10px 16px; }
-  .nav-toggle { display:flex; }
-  nav {
-    position:fixed; inset:0;
-    background:rgba(253,248,240,0.97);
-    backdrop-filter:blur(28px);
-    flex-direction:column; justify-content:center;
-    font-size:1.25rem;
-    opacity:0; pointer-events:none;
-    transform:translateY(-10px);
-    transition: opacity 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1);
-    z-index:99; gap:1rem;
-  }
-  nav.open { opacity:1; pointer-events:auto; transform:translateY(0); }
-  .nav-link { font-size:1.3rem; padding:10px 24px; }
-
-  .hero-section { min-height:420px; }
-  .hero-content-wrap { padding:2rem; }
-  .hero-tags { top:1rem; right:1rem; }
-
-  .about-card { grid-template-columns:1fr; }
-  .about-img-wrap { min-height:200px; max-height:240px; }
-  .about-content { padding:1.75rem; }
-
-  .stats-grid { grid-template-columns:1fr 1fr; }
-  .stat-item:nth-child(2)::after { display:none; }
-
-  .missions-grid { grid-template-columns:1fr; }
-  .form-row      { grid-template-columns:1fr; }
-  .life-grid     { grid-template-columns:1fr; }
-
-  .timeline::before { display:none; }
-  .timeline-item::before { display:none; }
-  .timeline { padding-left:0; }
-  .timeline-item { padding-left:0; }
-  .timeline-card { flex-direction:column; }
-  .timeline-thumb, .timeline-item--featured .timeline-thumb { width:100%; height:150px; }
-
-  .card { padding:28px 22px; }
-  .back-to-top { bottom:1.25rem; right:1.25rem; }
+  .site-header { width: calc(100% - 20px); top: 8px; }
+  .header-inner { padding: 10px 14px; gap: 8px; }
+  .nav-toggle { display: flex; }
+  nav { position: fixed; inset: 0; background: rgba(253,248,240,0.97); backdrop-filter: blur(28px); flex-direction: column; justify-content: center; font-size: 1.25rem; opacity: 0; pointer-events: none; transform: translateY(-10px); transition: opacity 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.35s cubic-bezier(0.16,1,0.3,1); z-index: 99; gap: 1rem; }
+  nav.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .nav-link { font-size: 1.3rem; padding: 10px 24px; }
+  .hero-section { min-height: 420px; }
+  .hero-content-wrap { padding: 2rem; }
+  .hero-tags { top: 1rem; right: 1rem; }
+  .about-card { grid-template-columns: 1fr; }
+  .about-img-wrap { min-height: 200px; max-height: 240px; }
+  .about-content { padding: 1.75rem; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stat-item:nth-child(2)::after { display: none; }
+  .missions-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .life-grid { grid-template-columns: 1fr; }
+  .timeline::before { display: none; }
+  .timeline-item::before { display: none; }
+  .timeline { padding-left: 0; }
+  .timeline-item { padding-left: 0; }
+  .timeline-card { flex-direction: column; }
+  .timeline-thumb, .timeline-item--featured .timeline-thumb { width: 100%; height: 150px; }
+  .card { padding: 28px 22px; }
+  .back-to-top { bottom: 1.25rem; right: 1.25rem; }
+  .lang-switch { margin-left: 4px; }
 }
-
 @media (max-width: 480px) {
-  .hero-section { min-height:360px; }
-  .hero-content-wrap h1 { font-size:clamp(2rem,8vw,2.6rem); }
-  .hero-actions { flex-direction:column; }
-  .stats-grid { grid-template-columns:1fr 1fr; gap:0.5rem; }
-  .nav-logo-text { display:none; }
-  .hero-tags { display:none; }
+  .hero-section { min-height: 360px; }
+  .hero-content-wrap h1 { font-size: clamp(2rem,8vw,2.6rem); }
+  .hero-actions { flex-direction: column; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .nav-logo-text { display: none; }
+  .hero-tags { display: none; }
 }
   </style>
 </head>
 
 <body>
 
-  <!-- ── PRELOADER ── -->
-  <div class="preloader" id="preloader" aria-label="Chargement" role="status">
+  <!-- PRELOADER -->
+  <div class="preloader" id="preloader" role="status">
     <img src="photo/logo.png" alt="Pairi Daiza" class="preloader__logo" />
-    <span class="preloader__label">Loading internship blog</span>
-    <div class="preloader__bar-wrap">
-      <div class="preloader__bar" id="preloaderBar"></div>
-    </div>
+    <span class="preloader__label" data-i18n="preloader.label">Loading internship blog</span>
+    <div class="preloader__bar-wrap"><div class="preloader__bar" id="preloaderBar"></div></div>
   </div>
 
-  <!-- ── CURSOR ── -->
-  <div class="cursor"      id="cursor"      aria-hidden="true"></div>
-  <div class="cursor-ring" id="cursorRing"  aria-hidden="true"></div>
+  <!-- CURSOR -->
+  <div class="cursor"      id="cursor"     aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
-  <!-- ── SCROLL PROGRESS ── -->
+  <!-- SCROLL PROGRESS -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-  <!-- ── BACK TO TOP ── -->
+  <!-- BACK TO TOP -->
   <button class="back-to-top" id="backToTop" aria-label="Back to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-         stroke-linecap="round" stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="18 15 12 9 6 15"/>
     </svg>
   </button>
 
-  <!-- ── BACKGROUND ── -->
+  <!-- BG -->
   <div class="bg-mesh" aria-hidden="true">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+    <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
   </div>
 
 
-  <!-- ============================================================
-       NAVIGATION
-  ============================================================ -->
+  <!-- ============================================================ NAVIGATION -->
   <header class="site-header" id="navbar">
     <div class="header-inner">
 
@@ -849,18 +462,23 @@ footer strong { color:var(--muted); }
         <span class="nav-logo-text">Benjamin Krauss</span>
       </a>
 
-      <button class="nav-toggle" id="navToggle"
-              aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
         <span></span><span></span><span></span>
       </button>
 
       <nav id="navMenu" aria-label="Main navigation">
-        <a href="#about"    class="nav-link">About</a>
-        <a href="#missions" class="nav-link">Missions</a>
-        <a href="#articles" class="nav-link">Journal</a>
-        <a href="#life"     class="nav-link">Life</a>
-        <a href="#contact"  class="nav-link nav-link--cta">Contact</a>
+        <a href="#about"    class="nav-link" data-i18n="nav.about">About</a>
+        <a href="#missions" class="nav-link" data-i18n="nav.missions">Missions</a>
+        <a href="#articles" class="nav-link" data-i18n="nav.journal">Journal</a>
+        <a href="#life"     class="nav-link" data-i18n="nav.life">Life</a>
+        <a href="#contact"  class="nav-link nav-link--cta" data-i18n="nav.contact">Contact</a>
       </nav>
+
+      <!-- LANG SWITCHER -->
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
+        <button class="lang-btn"        data-lang="fr" aria-pressed="false">FR</button>
+      </div>
 
     </div>
   </header>
@@ -868,52 +486,44 @@ footer strong { color:var(--muted); }
 
   <main class="main-container">
 
-    <!-- ============================================================
-         HERO
-    ============================================================ -->
+    <!-- ============================================================ HERO -->
     <section id="hero" class="hero-section" aria-label="Introduction">
-
       <div class="hero-bg-wrap">
         <img src="photo/entre.png" alt="Pairi Daiza main entrance" class="hero-bg-img" />
         <div class="hero-bg-overlay" aria-hidden="true"></div>
       </div>
 
       <div class="hero-tags" aria-hidden="true">
-        <span class="hero-tag">Best Zoo in Europe</span>
+        <span class="hero-tag" data-i18n="hero.tag1">Best Zoo in Europe</span>
         <span class="hero-tag">80 ha · Wallonia</span>
-        <span class="hero-tag">IT Department</span>
+        <span class="hero-tag" data-i18n="hero.tag3">IT Department</span>
       </div>
 
       <div class="hero-content-wrap" id="heroContent">
         <div class="badge">
           <span class="badge-dot" aria-hidden="true"></span>
-          ESAIP Engineering Student · Work-Study
+          <span data-i18n="hero.badge">ESAIP Engineering Student · Work-Study</span>
         </div>
-        <h1>Live from<br /><span class="text-gradient">Pairi Daiza</span></h1>
-        <p class="hero-sub">
+        <h1><span data-i18n="hero.line1">Live from</span><br /><span class="text-gradient">Pairi Daiza</span></h1>
+        <p class="hero-sub" data-i18n="hero.sub">
           Systems &amp; Network Administrator — three months at the heart of Europe's best zoo.
           I monitor infrastructure with <strong>Zabbix</strong>, manage IT assets via
           <strong>GLPI</strong>, and harden network security.
         </p>
         <div class="hero-actions">
           <a href="#articles" class="btn btn--primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
             </svg>
-            Read the journal
+            <span data-i18n="hero.btn.journal">Read the journal</span>
           </a>
-          <a href="#missions" class="btn btn--ghost">View missions</a>
+          <a href="#missions" class="btn btn--ghost" data-i18n="hero.btn.missions">View missions</a>
         </div>
       </div>
-
     </section>
 
 
-    <!-- ============================================================
-         MARQUEE
-    ============================================================ -->
+    <!-- ============================================================ MARQUEE -->
     <div class="marquee-wrap" aria-hidden="true">
       <div class="marquee-track">
         <span class="marquee-item">Zabbix monitoring<span class="marquee-dot"></span></span>
@@ -936,154 +546,113 @@ footer strong { color:var(--muted); }
     </div>
 
 
-    <!-- ============================================================
-         STATS
-    ============================================================ -->
+    <!-- ============================================================ STATS -->
     <section class="stats-section" aria-label="Key figures">
       <div class="stats-grid">
         <div class="stat-item">
-          <span class="stat-number" data-target="80" id="stat0">0</span><span class="stat-unit"> ha</span>
-          <span class="stat-label">Park area</span>
+          <span class="stat-number" data-target="80">0</span><span class="stat-unit"> ha</span>
+          <span class="stat-label" data-i18n="stat.area">Park area</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number" data-target="5" id="stat1">0</span><span class="stat-unit">M+</span>
-          <span class="stat-label">Visitors / year</span>
+          <span class="stat-number" data-target="5">0</span><span class="stat-unit">M+</span>
+          <span class="stat-label" data-i18n="stat.visitors">Visitors / year</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number" data-target="200" id="stat2">0</span><span class="stat-unit"></span>
-          <span class="stat-label">Machines deployed</span>
+          <span class="stat-number" data-target="200">0</span><span class="stat-unit"></span>
+          <span class="stat-label" data-i18n="stat.machines">Machines deployed</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number" data-target="3" id="stat3">0</span><span class="stat-unit"> months</span>
-          <span class="stat-label">Internship</span>
+          <span class="stat-number" data-target="3">0</span><span class="stat-unit"> months</span>
+          <span class="stat-label" data-i18n="stat.internship">Internship</span>
         </div>
       </div>
     </section>
 
 
-    <!-- ============================================================
-         ABOUT
-    ============================================================ -->
+    <!-- ============================================================ ABOUT -->
     <section id="about" aria-labelledby="about-title">
       <div class="card about-card">
-
         <div class="about-img-wrap">
           <img src="photo/entrezoom.png" alt="Pairi Daiza entrance plaza" class="about-img" />
           <div class="about-img-shim" aria-hidden="true"></div>
         </div>
-
         <div class="about-content">
-          <p class="section-eyebrow">Who I am</p>
+          <p class="section-eyebrow" data-i18n="about.eyebrow">Who I am</p>
           <h2 class="section-title" id="about-title">Benjamin Krauss</h2>
-
           <div class="info-grid">
             <div class="info-item">
-              <span class="label">School</span>
+              <span class="label" data-i18n="about.lbl.school">School</span>
               <span class="value">ESAIP · Engineering</span>
             </div>
             <div class="info-item">
-              <span class="label">Role</span>
-              <span class="value">Systems &amp; Network Admin</span>
+              <span class="label" data-i18n="about.lbl.role">Role</span>
+              <span class="value" data-i18n="about.val.role">Systems &amp; Network Admin</span>
             </div>
             <div class="info-item">
-              <span class="label">Location</span>
-              <span class="value">Brugelette, Belgium</span>
+              <span class="label" data-i18n="about.lbl.location">Location</span>
+              <span class="value" data-i18n="about.val.location">Brugelette, Belgium</span>
             </div>
             <div class="info-item">
-              <span class="label">Duration</span>
-              <span class="value">3 months · 2026</span>
+              <span class="label" data-i18n="about.lbl.duration">Duration</span>
+              <span class="value" data-i18n="about.val.duration">3 months · 2026</span>
             </div>
           </div>
-
-          <p class="description">
-            Passionate about network infrastructure and cybersecurity, I joined Pairi Daiza's
-            IT department for my final-year internship. Running a professional information
-            system just steps from giant pandas and Siberian tigers — an experience unlike any other.
+          <p class="description" data-i18n="about.desc">
+            Passionate about network infrastructure and cybersecurity, I joined Pairi Daiza's IT department
+            for my final-year internship. Running a professional information system just steps from giant pandas
+            and Siberian tigers — an experience unlike any other.
           </p>
-
           <ul class="skill-chips" role="list" aria-label="Skills">
-            <li class="chip">GLPI</li>
-            <li class="chip">Zabbix</li>
-            <li class="chip">Cybersecurity</li>
+            <li class="chip">GLPI</li><li class="chip">Zabbix</li>
+            <li class="chip" data-i18n="chip.cyber">Cybersecurity</li>
             <li class="chip">LAN / VLAN</li>
-            <li class="chip">Network monitoring</li>
-            <li class="chip">System administration</li>
-            <li class="chip">Documentation</li>
+            <li class="chip" data-i18n="chip.monitoring">Network monitoring</li>
+            <li class="chip" data-i18n="chip.sysadmin">System administration</li>
+            <li class="chip" data-i18n="chip.docs">Documentation</li>
           </ul>
         </div>
-
       </div>
     </section>
 
 
-    <!-- ============================================================
-         DESTINATION
-    ============================================================ -->
+    <!-- ============================================================ DESTINATION -->
     <section id="destination" aria-labelledby="dest-title">
       <div class="card">
-        <p class="section-eyebrow">The destination</p>
+        <p class="section-eyebrow" data-i18n="dest.eyebrow">The destination</p>
         <h2 class="section-title" id="dest-title">Pairi Daiza</h2>
-
         <div class="info-grid">
           <div class="info-item">
-            <span class="label">Company</span>
+            <span class="label" data-i18n="dest.lbl.company">Company</span>
             <span class="value">Pairi Daiza</span>
           </div>
           <div class="info-item">
-            <span class="label">Sector</span>
-            <span class="value">Zoological &amp; botanical park</span>
+            <span class="label" data-i18n="dest.lbl.sector">Sector</span>
+            <span class="value" data-i18n="dest.val.sector">Zoological &amp; botanical park</span>
           </div>
           <div class="info-item">
-            <span class="label">Location</span>
-            <span class="value">Brugelette, Wallonia</span>
+            <span class="label" data-i18n="dest.lbl.location">Location</span>
+            <span class="value" data-i18n="dest.val.location">Brugelette, Wallonia</span>
           </div>
           <div class="info-item">
-            <span class="label">Department</span>
-            <span class="value">IT · Systems &amp; Network</span>
+            <span class="label" data-i18n="dest.lbl.dept">Department</span>
+            <span class="value" data-i18n="dest.val.dept">IT · Systems &amp; Network</span>
           </div>
         </div>
-
-        <p class="description">
-          One of the largest zoological parks in Europe — voted best zoo in Europe several times,
-          three Michelin Green Guide stars. Its IT department runs a critical infrastructure across
-          80 hectares: ticketing, video surveillance, internal networks. An exceptional technical playground.
+        <p class="description" data-i18n="dest.desc">
+          One of the largest zoological parks in Europe — voted best zoo in Europe several times, three Michelin
+          Green Guide stars. Its IT department runs a critical infrastructure across 80 hectares: ticketing,
+          video surveillance, internal networks. An exceptional technical playground.
         </p>
-
-        <!-- Swiper carousel -->
         <div class="swiper animal-swiper" aria-label="Animals at Pairi Daiza">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="photo/panda.webp"        alt="Giant panda at Pairi Daiza" />
-              <span class="animal-slide-label">Giant panda</span>
-            </div>
-            <div class="swiper-slide">
-              <img src="photo/flamandrose.jpeg"  alt="Flamingos at Pairi Daiza" />
-              <span class="animal-slide-label">Flamingos</span>
-            </div>
-            <div class="swiper-slide">
-              <img src="photo/manchot.jpeg"      alt="Penguins at Pairi Daiza" />
-              <span class="animal-slide-label">Penguins</span>
-            </div>
-            <div class="swiper-slide">
-              <img src="photo/ours.jpeg"         alt="Bear at Pairi Daiza" />
-              <span class="animal-slide-label">Bear</span>
-            </div>
-            <div class="swiper-slide">
-              <img src="photo/paon.jpeg"         alt="Peacock at Pairi Daiza" />
-              <span class="animal-slide-label">Peacock</span>
-            </div>
-            <div class="swiper-slide">
-              <img src="photo/kangourou.jpeg"    alt="Kangaroo at Pairi Daiza" />
-              <span class="animal-slide-label">Kangaroo</span>
-            </div>
-            <div class="swiper-slide">
-              <img src="photo/singe.jpeg"        alt="Monkey at Pairi Daiza" />
-              <span class="animal-slide-label">Monkey</span>
-            </div>
-            <div class="swiper-slide">
-              <img src="photo/panda2.jpeg"       alt="Panda at Pairi Daiza" />
-              <span class="animal-slide-label">Panda</span>
-            </div>
+            <div class="swiper-slide"><img src="photo/panda.webp"       alt="Giant panda"  /><span class="animal-slide-label" data-i18n="animal.panda">Giant panda</span></div>
+            <div class="swiper-slide"><img src="photo/flamandrose.jpeg" alt="Flamingos"    /><span class="animal-slide-label" data-i18n="animal.flamingo">Flamingos</span></div>
+            <div class="swiper-slide"><img src="photo/manchot.jpeg"     alt="Penguins"     /><span class="animal-slide-label" data-i18n="animal.penguin">Penguins</span></div>
+            <div class="swiper-slide"><img src="photo/ours.jpeg"        alt="Bear"         /><span class="animal-slide-label" data-i18n="animal.bear">Bear</span></div>
+            <div class="swiper-slide"><img src="photo/paon.jpeg"        alt="Peacock"      /><span class="animal-slide-label" data-i18n="animal.peacock">Peacock</span></div>
+            <div class="swiper-slide"><img src="photo/kangourou.jpeg"   alt="Kangaroo"     /><span class="animal-slide-label" data-i18n="animal.kangaroo">Kangaroo</span></div>
+            <div class="swiper-slide"><img src="photo/singe.jpeg"       alt="Monkey"       /><span class="animal-slide-label" data-i18n="animal.monkey">Monkey</span></div>
+            <div class="swiper-slide"><img src="photo/panda2.jpeg"      alt="Panda"        /><span class="animal-slide-label" data-i18n="animal.panda2">Panda</span></div>
           </div>
           <div class="swiper-pagination"></div>
           <div class="swiper-button-prev" aria-label="Previous"></div>
@@ -1093,71 +662,46 @@ footer strong { color:var(--muted); }
     </section>
 
 
-    <!-- ============================================================
-         MISSIONS
-    ============================================================ -->
+    <!-- ============================================================ MISSIONS -->
     <section id="missions" aria-labelledby="missions-title">
       <div class="card">
-        <p class="section-eyebrow">What I did</p>
-        <h2 class="section-title" id="missions-title">Technical missions</h2>
-
+        <p class="section-eyebrow" data-i18n="missions.eyebrow">What I did</p>
+        <h2 class="section-title" id="missions-title" data-i18n="missions.title">Technical missions</h2>
         <div class="missions-grid">
 
           <article class="mission-item">
-            <div class="mission-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <rect x="2" y="3" width="20" height="14" rx="2"/>
-                <path d="M8 21h8M12 17v4"/>
-              </svg>
-            </div>
+            <div class="mission-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
             <div>
-              <h3>Asset management — GLPI</h3>
-              <p>Inventory, ticketing and IT asset tracking. Agent deployment, automated imports,
-                 SLA configuration and the internal helpdesk.</p>
+              <h3 data-i18n="m1.title">Asset management — GLPI</h3>
+              <p data-i18n="m1.desc">Inventory, ticketing and IT asset tracking. Agent deployment, automated imports, SLA configuration and the internal helpdesk.</p>
               <span class="mission-tag">GLPI · ITSM</span>
             </div>
           </article>
 
           <article class="mission-item">
-            <div class="mission-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-              </svg>
-            </div>
+            <div class="mission-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
             <div>
-              <h3>Network monitoring — Zabbix</h3>
-              <p>Building monitoring dashboards, configuring custom triggers and alerts to
-                 watch the park's infrastructure in real time.</p>
+              <h3 data-i18n="m2.title">Network monitoring — Zabbix</h3>
+              <p data-i18n="m2.desc">Building monitoring dashboards, configuring custom triggers and alerts to watch the park's infrastructure in real time.</p>
               <span class="mission-tag">Zabbix · Monitoring</span>
             </div>
           </article>
 
           <article class="mission-item">
-            <div class="mission-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              </svg>
-            </div>
+            <div class="mission-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
             <div>
-              <h3>Cybersecurity &amp; hardening</h3>
-              <p>Auditing network configurations, strengthening security policies and applying
-                 best practices across the IS active equipment.</p>
-              <span class="mission-tag">Security · Audit</span>
+              <h3 data-i18n="m3.title">Cybersecurity &amp; hardening</h3>
+              <p data-i18n="m3.desc">Auditing network configurations, strengthening security policies and applying best practices across the IS active equipment.</p>
+              <span class="mission-tag" data-i18n="m3.tag">Security · Audit</span>
             </div>
           </article>
 
           <article class="mission-item">
-            <div class="mission-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <rect x="2" y="2" width="20" height="20" rx="4"/>
-                <path d="M9 9h6M9 12h6M9 15h4"/>
-              </svg>
-            </div>
+            <div class="mission-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M9 9h6M9 12h6M9 15h4"/></svg></div>
             <div>
-              <h3>Documentation &amp; procedures</h3>
-              <p>Writing technical procedures, documenting critical configurations and passing
-                 best practices on to the IT team.</p>
-              <span class="mission-tag">Docs · Knowledge base</span>
+              <h3 data-i18n="m4.title">Documentation &amp; procedures</h3>
+              <p data-i18n="m4.desc">Writing technical procedures, documenting critical configurations and passing best practices on to the IT team.</p>
+              <span class="mission-tag" data-i18n="m4.tag">Docs · Knowledge base</span>
             </div>
           </article>
 
@@ -1166,68 +710,62 @@ footer strong { color:var(--muted); }
     </section>
 
 
-    <!-- ============================================================
-         JOURNAL — TIMELINE
-    ============================================================ -->
+    <!-- ============================================================ JOURNAL -->
     <section id="articles" aria-labelledby="articles-title">
       <div class="card">
-        <p class="section-eyebrow">Week by week</p>
-        <h2 class="section-title" id="articles-title">Technical journal</h2>
+        <p class="section-eyebrow" data-i18n="journal.eyebrow">Week by week</p>
+        <h2 class="section-title" id="articles-title" data-i18n="journal.title">Technical journal</h2>
 
         <div class="timeline">
 
           <div class="timeline-item timeline-item--featured">
-            <span class="timeline-date">April 8, 2025</span>
+            <span class="timeline-date" data-i18n="art1.date">April 8, 2025</span>
             <article class="timeline-card">
               <img src="photo/panda.webp" alt="Giant panda" class="timeline-thumb" />
               <div class="timeline-body">
                 <span class="article-tag">GLPI</span>
-                <h3>Rolling out a GLPI agent to 200 machines without getting lost</h3>
-                <p>First major project: mass deployment across the zoo's machine estate.
-                   Lessons on automation, silent failures, and unexpected inventory discoveries.</p>
-                <a href="#" class="article-link" aria-label="Read the GLPI article">Read the article →</a>
+                <h3 data-i18n="art1.title">Rolling out a GLPI agent to 200 machines without getting lost</h3>
+                <p data-i18n="art1.desc">First major project: mass deployment across the zoo's machine estate. Lessons on automation, silent failures, and unexpected inventory discoveries.</p>
+                <a href="#" class="article-link" data-i18n="art1.link">Read the article →</a>
               </div>
             </article>
           </div>
 
           <div class="timeline-item">
-            <span class="timeline-date">April 22, 2025</span>
+            <span class="timeline-date" data-i18n="art2.date">April 22, 2025</span>
             <article class="timeline-card">
               <img src="photo/paon.jpeg" alt="Peacock" class="timeline-thumb" />
               <div class="timeline-body">
                 <span class="article-tag">Zabbix</span>
-                <h3>My first Zabbix dashboards in production</h3>
-                <p>How I designed the network monitoring dashboards and tuned alert thresholds
-                   to be actually actionable day to day.</p>
-                <a href="#" class="article-link">Read →</a>
+                <h3 data-i18n="art2.title">My first Zabbix dashboards in production</h3>
+                <p data-i18n="art2.desc">How I designed the network monitoring dashboards and tuned alert thresholds to be actually actionable day to day.</p>
+                <a href="#" class="article-link" data-i18n="art.read">Read →</a>
               </div>
             </article>
           </div>
 
           <div class="timeline-item">
-            <span class="timeline-date">May 6, 2025</span>
+            <span class="timeline-date" data-i18n="art3.date">May 6, 2025</span>
             <article class="timeline-card">
               <img src="photo/ours.jpeg" alt="Bear" class="timeline-thumb" />
               <div class="timeline-body">
-                <span class="article-tag">Cybersecurity</span>
-                <h3>Security audit: what I found (and fixed)</h3>
-                <p>A walkthrough of a network configuration audit in a critical production
-                   environment — and how to prioritize fixes without cutting the service.</p>
-                <a href="#" class="article-link">Read →</a>
+                <span class="article-tag" data-i18n="tag.cyber">Cybersecurity</span>
+                <h3 data-i18n="art3.title">Security audit: what I found (and fixed)</h3>
+                <p data-i18n="art3.desc">A walkthrough of a network configuration audit in a critical production environment — and how to prioritize fixes without cutting the service.</p>
+                <a href="#" class="article-link" data-i18n="art.read">Read →</a>
               </div>
             </article>
           </div>
 
           <div class="timeline-item">
-            <span class="timeline-date">May 20, 2025</span>
+            <span class="timeline-date" data-i18n="art4.date">May 20, 2025</span>
             <article class="timeline-card">
               <img src="photo/herbe.jpeg" alt="Countryside around Ath" class="timeline-thumb" />
               <div class="timeline-body">
-                <span class="article-tag">Internship life</span>
-                <h3>Ath to Brugelette: the other rhythm of the internship</h3>
-                <p>The shared flat, the morning commute, animals glimpsed from the car park.
-                   What life around the internship adds to the way you work.</p>
-                <a href="#" class="article-link">Read →</a>
+                <span class="article-tag" data-i18n="tag.life">Internship life</span>
+                <h3 data-i18n="art4.title">Ath to Brugelette: the other rhythm of the internship</h3>
+                <p data-i18n="art4.desc">The shared flat, the morning commute, animals glimpsed from the car park. What life around the internship adds to the way you work.</p>
+                <a href="#" class="article-link" data-i18n="art.read">Read →</a>
               </div>
             </article>
           </div>
@@ -1237,127 +775,90 @@ footer strong { color:var(--muted); }
     </section>
 
 
-    <!-- ============================================================
-         LIFE
-    ============================================================ -->
+    <!-- ============================================================ LIFE -->
     <section id="life" aria-labelledby="life-title">
       <div class="card">
-        <p class="section-eyebrow">Beyond the helpdesk</p>
-        <h2 class="section-title" id="life-title">Internship life</h2>
-
+        <p class="section-eyebrow" data-i18n="life.eyebrow">Beyond the helpdesk</p>
+        <h2 class="section-title" id="life-title" data-i18n="life.title">Internship life</h2>
         <div class="life-grid">
-
           <div class="life-photos">
-            <img src="photo/herbe.jpeg"
-                 alt="Fields around Ath — personal photo"
-                 class="life-photo life-photo--main" />
-            <img src="photo/chevaux.perso.jpeg"
-                 alt="Horses near the shared flat in Ath — personal photo"
-                 class="life-photo life-photo--sub" />
+            <img src="photo/herbe.jpeg"         alt="Fields around Ath"             class="life-photo life-photo--main" />
+            <img src="photo/chevaux.perso.jpeg" alt="Horses near the flat in Ath"  class="life-photo life-photo--sub"  />
           </div>
-
           <div class="life-content">
             <div class="info-grid">
               <div class="info-item">
-                <span class="label">Housing</span>
-                <span class="value">Shared flat in Ath</span>
+                <span class="label" data-i18n="life.lbl.housing">Housing</span>
+                <span class="value" data-i18n="life.val.housing">Shared flat in Ath</span>
               </div>
               <div class="info-item">
-                <span class="label">Flatmates</span>
-                <span class="value">3 other people</span>
+                <span class="label" data-i18n="life.lbl.flatmates">Flatmates</span>
+                <span class="value" data-i18n="life.val.flatmates">3 other people</span>
               </div>
               <div class="info-item">
-                <span class="label">Commute</span>
-                <span class="value">Personal car</span>
+                <span class="label" data-i18n="life.lbl.commute">Commute</span>
+                <span class="value" data-i18n="life.val.commute">Personal car</span>
               </div>
               <div class="info-item">
-                <span class="label">Travel time</span>
+                <span class="label" data-i18n="life.lbl.travel">Travel time</span>
                 <span class="value">Ath → Brugelette (~25 min)</span>
               </div>
             </div>
-
-            <p class="description">
-              Based in Ath with three flatmates, I drive to the park every morning. Twenty-five
-              minutes of Walloon countryside between fields and horses — a decompression bubble
-              before diving into the helpdesk tickets.
+            <p class="description" data-i18n="life.desc1">
+              Based in Ath with three flatmates, I drive to the park every morning. Twenty-five minutes of
+              Walloon countryside between fields and horses — a decompression bubble before diving into the helpdesk tickets.
             </p>
-            <p class="description">
-              These photos, taken right from the flat, capture the atmosphere well: calm, green,
-              far from open-plan offices. A striking contrast with the technical days.
+            <p class="description" data-i18n="life.desc2">
+              These photos, taken right from the flat, capture the atmosphere well: calm, green, far from
+              open-plan offices. A striking contrast with the technical days.
             </p>
           </div>
-
         </div>
       </div>
     </section>
 
 
-    <!-- ============================================================
-         TIPS
-    ============================================================ -->
+    <!-- ============================================================ TIPS -->
     <section id="tips" aria-labelledby="tips-title">
       <div class="card highlight-card">
-        <p class="section-eyebrow">Takeaways</p>
-        <h2 class="section-title" id="tips-title">Lessons from the internship</h2>
+        <p class="section-eyebrow" data-i18n="tips.eyebrow">Takeaways</p>
+        <h2 class="section-title" id="tips-title" data-i18n="tips.title">Lessons from the internship</h2>
         <ul class="custom-list" role="list">
-          <li>
-            <strong>Handle the paperwork early:</strong>
-            student health cover, car insurance abroad, the internship agreement — sort it all out before day one.
-          </li>
-          <li>
-            <strong>Truly immerse yourself:</strong>
-            make the most of being in a wildlife park. A lunch break among the pandas recharges you as much as a coffee.
-          </li>
-          <li>
-            <strong>Network internally:</strong>
-            breaks with the IT team are often where you learn the most — the undocumented fixes, the in-house practices.
-          </li>
-          <li>
-            <strong>Document as you go:</strong>
-            never put off the docs. A ticket closed without a resolution note is technical debt for the whole team.
-          </li>
+          <li data-i18n="tip1"><strong>Handle the paperwork early:</strong> student health cover, car insurance abroad, the internship agreement — sort it all out before day one.</li>
+          <li data-i18n="tip2"><strong>Truly immerse yourself:</strong> make the most of being in a wildlife park. A lunch break among the pandas recharges you as much as a coffee.</li>
+          <li data-i18n="tip3"><strong>Network internally:</strong> breaks with the IT team are often where you learn the most — the undocumented fixes, the in-house practices.</li>
+          <li data-i18n="tip4"><strong>Document as you go:</strong> never put off the docs. A ticket closed without a resolution note is technical debt for the whole team.</li>
         </ul>
       </div>
     </section>
 
 
-    <!-- ============================================================
-         CONTACT
-    ============================================================ -->
+    <!-- ============================================================ CONTACT -->
     <section id="contact" aria-labelledby="contact-title">
       <div class="card">
-        <p class="section-eyebrow">Get in touch</p>
-        <h2 class="section-title" id="contact-title">A question about my internship?</h2>
-        <p class="description">
-          Recruiter, curious student, or simply passionate about systems and networks —
-          I'm always up for a conversation.
+        <p class="section-eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
+        <h2 class="section-title" id="contact-title" data-i18n="contact.title">A question about my internship?</h2>
+        <p class="description" data-i18n="contact.desc">
+          Recruiter, curious student, or simply passionate about systems and networks — I'm always up for a conversation.
         </p>
-
-        <form class="contact-form" id="contactForm" novalidate aria-label="Contact form">
+        <form class="contact-form" id="contactForm" novalidate>
           <div class="form-row">
             <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" name="name"
-                     placeholder="Your name" autocomplete="name" required />
+              <label for="name"  data-i18n="form.name">Name</label>
+              <input type="text"  id="name"  name="name"  data-i18n-ph="ph.name"  placeholder="Your name"    autocomplete="name"  required />
             </div>
             <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email"
-                     placeholder="you@email.com" autocomplete="email" required />
+              <label for="email" data-i18n="form.email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@email.com" autocomplete="email" required />
             </div>
           </div>
           <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5"
-                      placeholder="Your message..." required></textarea>
+            <label for="message" data-i18n="form.message">Message</label>
+            <textarea id="message" name="message" rows="5" data-i18n-ph="ph.message" placeholder="Your message..." required></textarea>
           </div>
           <button type="submit" class="btn btn--primary btn--full">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"/>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-            Send message
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            <span data-i18n="form.submit">Send message</span>
           </button>
         </form>
       </div>
@@ -1366,21 +867,18 @@ footer strong { color:var(--muted); }
   </main>
 
 
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
+  <!-- ============================================================ FOOTER -->
   <footer>
     <div class="footer-inner">
       <img src="photo/logo.png" alt="Pairi Daiza logo" class="footer-logo" />
       <div class="footer-divider" aria-hidden="true"></div>
-      <p>Designed by <strong>Benjamin Krauss</strong> · ESAIP Engineering · Pairi Daiza Internship
-         <span id="year"></span></p>
+      <p><span data-i18n="footer.text">Designed by</span> <strong>Benjamin Krauss</strong> · ESAIP Engineering · Pairi Daiza Internship <span id="year"></span></p>
       <p class="footer-sub">Domaine de Cambron · Brugelette, Wallonia, Belgium</p>
     </div>
   </footer>
 
 
-  <!-- ── LIBRARIES ── -->
+  <!-- LIBRARIES -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -1388,14 +886,222 @@ footer strong { color:var(--muted); }
   <script>
 /* ================================================================
    BLOG DE STAGE v2 — Benjamin Krauss @ Pairi Daiza
-   GSAP · Swiper · Custom Cursor · Preloader · Stats counter
+   GSAP · Swiper · Custom Cursor · Preloader · i18n FR/EN
 ================================================================ */
 
+/* ── TRANSLATIONS ── */
+const T = {
+  en: {
+    'preloader.label': 'Loading internship blog',
+    'nav.about': 'About', 'nav.missions': 'Missions', 'nav.journal': 'Journal',
+    'nav.life': 'Life', 'nav.contact': 'Contact',
+    'hero.badge': 'ESAIP Engineering Student · Work-Study',
+    'hero.line1': 'Live from',
+    'hero.sub': 'Systems &amp; Network Administrator — three months at the heart of Europe\'s best zoo. I monitor infrastructure with <strong>Zabbix</strong>, manage IT assets via <strong>GLPI</strong>, and harden network security.',
+    'hero.btn.journal': 'Read the journal', 'hero.btn.missions': 'View missions',
+    'hero.tag1': 'Best Zoo in Europe', 'hero.tag3': 'IT Department',
+    'stat.area': 'Park area', 'stat.visitors': 'Visitors / year',
+    'stat.machines': 'Machines deployed', 'stat.internship': 'Internship',
+    'about.eyebrow': 'Who I am',
+    'about.lbl.school': 'School', 'about.lbl.role': 'Role',
+    'about.lbl.location': 'Location', 'about.lbl.duration': 'Duration',
+    'about.val.role': 'Systems &amp; Network Admin',
+    'about.val.location': 'Brugelette, Belgium', 'about.val.duration': '3 months · 2026',
+    'about.desc': 'Passionate about network infrastructure and cybersecurity, I joined Pairi Daiza\'s IT department for my final-year internship. Running a professional information system just steps from giant pandas and Siberian tigers — an experience unlike any other.',
+    'chip.cyber': 'Cybersecurity', 'chip.monitoring': 'Network monitoring',
+    'chip.sysadmin': 'System administration', 'chip.docs': 'Documentation',
+    'dest.eyebrow': 'The destination',
+    'dest.lbl.company': 'Company', 'dest.lbl.sector': 'Sector',
+    'dest.lbl.location': 'Location', 'dest.lbl.dept': 'Department',
+    'dest.val.sector': 'Zoological &amp; botanical park',
+    'dest.val.location': 'Brugelette, Wallonia',
+    'dest.val.dept': 'IT · Systems &amp; Network',
+    'dest.desc': 'One of the largest zoological parks in Europe — voted best zoo in Europe several times, three Michelin Green Guide stars. Its IT department runs a critical infrastructure across 80 hectares: ticketing, video surveillance, internal networks. An exceptional technical playground.',
+    'animal.panda': 'Giant panda', 'animal.flamingo': 'Flamingos', 'animal.penguin': 'Penguins',
+    'animal.bear': 'Bear', 'animal.peacock': 'Peacock', 'animal.kangaroo': 'Kangaroo',
+    'animal.monkey': 'Monkey', 'animal.panda2': 'Panda',
+    'missions.eyebrow': 'What I did', 'missions.title': 'Technical missions',
+    'm1.title': 'Asset management — GLPI',
+    'm1.desc': 'Inventory, ticketing and IT asset tracking. Agent deployment, automated imports, SLA configuration and the internal helpdesk.',
+    'm2.title': 'Network monitoring — Zabbix',
+    'm2.desc': 'Building monitoring dashboards, configuring custom triggers and alerts to watch the park\'s infrastructure in real time.',
+    'm3.title': 'Cybersecurity &amp; hardening',
+    'm3.desc': 'Auditing network configurations, strengthening security policies and applying best practices across the IS active equipment.',
+    'm3.tag': 'Security · Audit',
+    'm4.title': 'Documentation &amp; procedures',
+    'm4.desc': 'Writing technical procedures, documenting critical configurations and passing best practices on to the IT team.',
+    'm4.tag': 'Docs · Knowledge base',
+    'journal.eyebrow': 'Week by week', 'journal.title': 'Technical journal',
+    'art1.date': 'April 8, 2025',
+    'art1.title': 'Rolling out a GLPI agent to 200 machines without getting lost',
+    'art1.desc': 'First major project: mass deployment across the zoo\'s machine estate. Lessons on automation, silent failures, and unexpected inventory discoveries.',
+    'art1.link': 'Read the article →',
+    'art2.date': 'April 22, 2025',
+    'art2.title': 'My first Zabbix dashboards in production',
+    'art2.desc': 'How I designed the network monitoring dashboards and tuned alert thresholds to be actually actionable day to day.',
+    'art3.date': 'May 6, 2025',
+    'art3.title': 'Security audit: what I found (and fixed)',
+    'art3.desc': 'A walkthrough of a network configuration audit in a critical production environment — and how to prioritize fixes without cutting the service.',
+    'art4.date': 'May 20, 2025',
+    'art4.title': 'Ath to Brugelette: the other rhythm of the internship',
+    'art4.desc': 'The shared flat, the morning commute, animals glimpsed from the car park. What life around the internship adds to the way you work.',
+    'art.read': 'Read →',
+    'tag.cyber': 'Cybersecurity', 'tag.life': 'Internship life',
+    'life.eyebrow': 'Beyond the helpdesk', 'life.title': 'Internship life',
+    'life.lbl.housing': 'Housing', 'life.val.housing': 'Shared flat in Ath',
+    'life.lbl.flatmates': 'Flatmates', 'life.val.flatmates': '3 other people',
+    'life.lbl.commute': 'Commute', 'life.val.commute': 'Personal car',
+    'life.lbl.travel': 'Travel time',
+    'life.desc1': 'Based in Ath with three flatmates, I drive to the park every morning. Twenty-five minutes of Walloon countryside between fields and horses — a decompression bubble before diving into the helpdesk tickets.',
+    'life.desc2': 'These photos, taken right from the flat, capture the atmosphere well: calm, green, far from open-plan offices. A striking contrast with the technical days.',
+    'tips.eyebrow': 'Takeaways', 'tips.title': 'Lessons from the internship',
+    'tip1': '<strong>Handle the paperwork early:</strong> student health cover, car insurance abroad, the internship agreement — sort it all out before day one.',
+    'tip2': '<strong>Truly immerse yourself:</strong> make the most of being in a wildlife park. A lunch break among the pandas recharges you as much as a coffee.',
+    'tip3': '<strong>Network internally:</strong> breaks with the IT team are often where you learn the most — the undocumented fixes, the in-house practices.',
+    'tip4': '<strong>Document as you go:</strong> never put off the docs. A ticket closed without a resolution note is technical debt for the whole team.',
+    'contact.eyebrow': 'Get in touch',
+    'contact.title': 'A question about my internship?',
+    'contact.desc': 'Recruiter, curious student, or simply passionate about systems and networks — I\'m always up for a conversation.',
+    'form.name': 'Name', 'form.email': 'Email', 'form.message': 'Message',
+    'ph.name': 'Your name', 'ph.message': 'Your message...',
+    'form.submit': 'Send message',
+    'footer.text': 'Designed by',
+    'form.sent': 'Message sent! ✓',
+  },
+  fr: {
+    'preloader.label': 'Chargement du blog de stage',
+    'nav.about': 'À propos', 'nav.missions': 'Missions', 'nav.journal': 'Journal',
+    'nav.life': 'Vie de stage', 'nav.contact': 'Contact',
+    'hero.badge': 'Étudiant ingénieur ESAIP · Alternance',
+    'hero.line1': 'En direct de',
+    'hero.sub': 'Administrateur Systèmes &amp; Réseaux — trois mois au cœur du meilleur zoo d\'Europe. Je supervise l\'infrastructure avec <strong>Zabbix</strong>, gère le parc informatique via <strong>GLPI</strong> et renforce la sécurité réseau.',
+    'hero.btn.journal': 'Lire le journal', 'hero.btn.missions': 'Voir les missions',
+    'hero.tag1': 'Meilleur Zoo d\'Europe', 'hero.tag3': 'Département IT',
+    'stat.area': 'Surface du parc', 'stat.visitors': 'Visiteurs / an',
+    'stat.machines': 'Machines déployées', 'stat.internship': 'Stage',
+    'about.eyebrow': 'Qui suis-je',
+    'about.lbl.school': 'École', 'about.lbl.role': 'Poste',
+    'about.lbl.location': 'Lieu', 'about.lbl.duration': 'Durée',
+    'about.val.role': 'Admin Systèmes &amp; Réseaux',
+    'about.val.location': 'Brugelette, Belgique', 'about.val.duration': '3 mois · 2026',
+    'about.desc': 'Passionné par l\'infrastructure réseau et la cybersécurité, j\'ai rejoint le département IT de Pairi Daiza pour mon stage de fin d\'études. Gérer un système d\'information professionnel à quelques pas des pandas géants et des tigres de Sibérie — une expérience unique.',
+    'chip.cyber': 'Cybersécurité', 'chip.monitoring': 'Supervision réseau',
+    'chip.sysadmin': 'Administration système', 'chip.docs': 'Documentation',
+    'dest.eyebrow': 'La destination',
+    'dest.lbl.company': 'Entreprise', 'dest.lbl.sector': 'Secteur',
+    'dest.lbl.location': 'Lieu', 'dest.lbl.dept': 'Département',
+    'dest.val.sector': 'Parc zoologique &amp; botanique',
+    'dest.val.location': 'Brugelette, Wallonie',
+    'dest.val.dept': 'IT · Systèmes &amp; Réseaux',
+    'dest.desc': 'L\'un des plus grands parcs zoologiques d\'Europe — plusieurs fois élu meilleur zoo d\'Europe, trois étoiles au Guide Vert Michelin. Son département IT gère une infrastructure critique sur 80 hectares : billetterie, vidéosurveillance, réseaux internes. Un terrain technique exceptionnel.',
+    'animal.panda': 'Panda géant', 'animal.flamingo': 'Flamants roses', 'animal.penguin': 'Manchots',
+    'animal.bear': 'Ours', 'animal.peacock': 'Paon', 'animal.kangaroo': 'Kangourou',
+    'animal.monkey': 'Singe', 'animal.panda2': 'Panda',
+    'missions.eyebrow': 'Ce que j\'ai fait', 'missions.title': 'Missions techniques',
+    'm1.title': 'Gestion des actifs — GLPI',
+    'm1.desc': 'Inventaire, ticketing et suivi du parc informatique. Déploiement des agents, imports automatisés, configuration des SLA et helpdesk interne.',
+    'm2.title': 'Supervision réseau — Zabbix',
+    'm2.desc': 'Construction de tableaux de bord de supervision, configuration de déclencheurs et alertes personnalisés pour surveiller l\'infrastructure du parc en temps réel.',
+    'm3.title': 'Cybersécurité &amp; durcissement',
+    'm3.desc': 'Audit des configurations réseau, renforcement des politiques de sécurité et application des bonnes pratiques sur les équipements actifs du système d\'information.',
+    'm3.tag': 'Sécurité · Audit',
+    'm4.title': 'Documentation &amp; procédures',
+    'm4.desc': 'Rédaction de procédures techniques, documentation des configurations critiques et transmission des bonnes pratiques à l\'équipe IT.',
+    'm4.tag': 'Docs · Base de connaissances',
+    'journal.eyebrow': 'Semaine par semaine', 'journal.title': 'Journal de bord technique',
+    'art1.date': '8 avril 2025',
+    'art1.title': 'Déployer un agent GLPI sur 200 machines sans se perdre',
+    'art1.desc': 'Premier grand projet : déploiement massif de l\'agent GLPI sur le parc machine du zoo. Leçons sur l\'automatisation, les échecs silencieux et ce que l\'inventaire révèle d\'inattendu.',
+    'art1.link': 'Lire l\'article →',
+    'art2.date': '22 avril 2025',
+    'art2.title': 'Mes premiers dashboards Zabbix en production',
+    'art2.desc': 'Comment j\'ai conçu les tableaux de bord de supervision réseau et calibré les seuils d\'alerte pour qu\'ils soient réellement exploitables au quotidien.',
+    'art3.date': '6 mai 2025',
+    'art3.title': 'Audit de sécurité : ce que j\'ai trouvé (et corrigé)',
+    'art3.desc': 'Retour sur un audit de configuration réseau en environnement de production critique — et comment prioriser les correctifs sans couper le service.',
+    'art4.date': '20 mai 2025',
+    'art4.title': 'D\'Ath à Brugelette : l\'autre rythme du stage',
+    'art4.desc': 'La colocation, le trajet matinal en voiture, les animaux aperçus depuis le parking. Ce que la vie autour du stage apporte à la façon de travailler.',
+    'art.read': 'Lire →',
+    'tag.cyber': 'Cybersécurité', 'tag.life': 'Vie de stage',
+    'life.eyebrow': 'Au-delà du helpdesk', 'life.title': 'Vie de stage',
+    'life.lbl.housing': 'Logement', 'life.val.housing': 'Colocation à Ath',
+    'life.lbl.flatmates': 'Colocataires', 'life.val.flatmates': '3 autres personnes',
+    'life.lbl.commute': 'Trajet', 'life.val.commute': 'Voiture personnelle',
+    'life.lbl.travel': 'Durée du trajet',
+    'life.desc1': 'Basé à Ath avec trois colocataires, je rejoins le parc chaque matin en voiture. Vingt-cinq minutes de campagne wallonne entre champs et chevaux — une bulle de décompression avant de plonger dans les tickets helpdesk.',
+    'life.desc2': 'Ces photos, prises depuis la colocation, restituent bien l\'atmosphère : calme, verte, loin des open spaces. Un contraste saisissant avec les journées techniques.',
+    'tips.eyebrow': 'À retenir', 'tips.title': 'Leçons du stage',
+    'tip1': '<strong>Gérer les démarches tôt :</strong> couverture santé étudiant, assurance auto à l\'étranger, convention de stage — tout régler avant le premier jour.',
+    'tip2': '<strong>S\'immerger vraiment :</strong> profiter d\'être dans un parc animalier. Une pause déjeuner parmi les pandas recharge autant qu\'un café.',
+    'tip3': '<strong>Tisser des liens en interne :</strong> les pauses avec l\'équipe IT sont souvent là où l\'on apprend le plus — les fixes non documentés, les pratiques maison.',
+    'tip4': '<strong>Documenter au fil de l\'eau :</strong> ne jamais repousser la rédaction. Un ticket fermé sans note de résolution est une dette technique pour toute l\'équipe.',
+    'contact.eyebrow': 'Prendre contact',
+    'contact.title': 'Une question sur mon stage ?',
+    'contact.desc': 'Recruteur, étudiant curieux ou passionné de systèmes et réseaux — je suis toujours partant pour une conversation.',
+    'form.name': 'Nom', 'form.email': 'Email', 'form.message': 'Message',
+    'ph.name': 'Votre nom', 'ph.message': 'Votre message...',
+    'form.submit': 'Envoyer le message',
+    'footer.text': 'Conçu par',
+    'form.sent': 'Message envoyé ! ✓',
+  }
+};
+
+/* ── i18n ENGINE ── */
+let currentLang = localStorage.getItem('lang') || 'en';
+
+function applyLang(lang, animate = false) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.documentElement.lang = lang;
+
+  const dict = T[lang];
+
+  const apply = () => {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const key = el.dataset.i18nPh;
+      if (dict[key] !== undefined) el.placeholder = dict[key];
+    });
+  };
+
+  if (animate) {
+    document.body.classList.add('lang-switching');
+    setTimeout(() => {
+      apply();
+      document.body.classList.remove('lang-switching');
+    }, 200);
+  } else {
+    apply();
+  }
+
+  /* update buttons */
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    const active = btn.dataset.lang === lang;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-pressed', active);
+  });
+}
+
+/* ── INIT ── */
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── YEAR ── */
+  /* year */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  /* apply saved/default lang */
+  applyLang(currentLang, false);
+
+  /* lang switcher */
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.dataset.lang !== currentLang) applyLang(btn.dataset.lang, true);
+    });
+  });
 
   /* ── PRELOADER ── */
   const preloaderEl = document.getElementById('preloader');
@@ -1420,20 +1126,19 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── GSAP ── */
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ── HERO ENTRANCE ── */
-  gsap.set(['#heroContent .badge','#heroContent h1',
-            '#heroContent .hero-sub','#heroContent .hero-actions .btn',
-            '.hero-tag'], { opacity:0 });
+  /* hero entrance */
+  gsap.set(['#heroContent .badge','#heroContent h1','#heroContent .hero-sub',
+            '#heroContent .hero-actions .btn','.hero-tag'], { opacity: 0 });
 
-  const heroTL = gsap.timeline({ delay: 0.4 });
+  const heroTL = gsap.timeline({ delay: 0.5 });
   heroTL
-    .to('#heroContent .badge',         { opacity:1, y:0, from:{y:20}, duration:0.7, ease:'power3.out' })
-    .to('#heroContent h1',             { opacity:1, y:0, from:{y:40}, duration:1,   ease:'power3.out' }, '-=0.4')
-    .to('#heroContent .hero-sub',      { opacity:1, y:0, from:{y:28}, duration:0.8, ease:'power3.out' }, '-=0.6')
-    .to('#heroContent .hero-actions .btn', { opacity:1, y:0, from:{y:20}, duration:0.7, stagger:0.12, ease:'power3.out' }, '-=0.5')
-    .to('.hero-tag',                   { opacity:1, x:0, from:{x:20}, duration:0.6, stagger:0.1,  ease:'power3.out' }, '-=0.5');
+    .to('#heroContent .badge',              { opacity:1, y:0, from:{y:20}, duration:0.7, ease:'power3.out' })
+    .to('#heroContent h1',                  { opacity:1, y:0, from:{y:40}, duration:1,   ease:'power3.out' }, '-=0.4')
+    .to('#heroContent .hero-sub',           { opacity:1, y:0, from:{y:28}, duration:0.8, ease:'power3.out' }, '-=0.55')
+    .to('#heroContent .hero-actions .btn',  { opacity:1, y:0, from:{y:20}, duration:0.65, stagger:0.12, ease:'power3.out' }, '-=0.5')
+    .to('.hero-tag',                        { opacity:1, x:0, from:{x:20}, duration:0.6, stagger:0.1, ease:'power3.out' }, '-=0.5');
 
-  /* ── SCROLL-TRIGGERED CARDS ── */
+  /* scroll-triggered sections */
   gsap.utils.toArray('.card, .stats-section, .marquee-wrap').forEach(el => {
     gsap.fromTo(el,
       { opacity:0, y:44 },
@@ -1443,19 +1148,14 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   });
 
-  /* Mission items */
   gsap.from('.mission-item', {
     opacity:0, y:32, duration:0.7, stagger:0.1, ease:'power3.out',
     scrollTrigger: { trigger:'.missions-grid', start:'top 84%' }
   });
-
-  /* Timeline */
   gsap.from('.timeline-item', {
     opacity:0, x:-28, duration:0.65, stagger:0.13, ease:'power3.out',
     scrollTrigger: { trigger:'.timeline', start:'top 84%' }
   });
-
-  /* Life photos */
   gsap.from('.life-photo', {
     opacity:0, scale:0.95, duration:0.8, stagger:0.15, ease:'power3.out',
     scrollTrigger: { trigger:'.life-photos', start:'top 86%' }
@@ -1469,7 +1169,7 @@ document.addEventListener('DOMContentLoaded', () => {
       onEnter() {
         const obj = { val: 0 };
         gsap.to(obj, {
-          val: target, duration: 1.8, ease:'power2.out',
+          val: target, duration:1.8, ease:'power2.out',
           onUpdate: () => { el.textContent = Math.round(obj.val); }
         });
       }
@@ -1478,22 +1178,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── SCROLL PROGRESS ── */
   const progressBar = document.getElementById('scrollProgress');
-  const onScroll    = () => {
-    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
-    progressBar.style.width = pct + '%';
-  };
-
-  /* ── BACK TO TOP ── */
-  const backBtn = document.getElementById('backToTop');
-  const navBar  = document.getElementById('navbar');
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link:not(.nav-link--cta)');
+  const navBar      = document.getElementById('navbar');
+  const sections    = document.querySelectorAll('section[id]');
+  const navLinks    = document.querySelectorAll('.nav-link:not(.nav-link--cta)');
+  const backBtn     = document.getElementById('backToTop');
 
   window.addEventListener('scroll', () => {
-    onScroll();
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    progressBar.style.width = pct + '%';
     navBar.classList.toggle('scrolled', window.scrollY > 40);
     backBtn.classList.toggle('visible', window.scrollY > 500);
-
     let current = '';
     sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
     navLinks.forEach(lk => lk.classList.toggle('active', lk.getAttribute('href') === `#${current}`));
@@ -1501,7 +1195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   backBtn.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
 
-  /* ── MOBILE HAMBURGER ── */
+  /* ── HAMBURGER ── */
   const toggle  = document.getElementById('navToggle');
   const navMenu = document.getElementById('navMenu');
   toggle?.addEventListener('click', () => {
@@ -1515,63 +1209,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── CUSTOM CURSOR (desktop fine pointer only) ── */
+  /* ── CUSTOM CURSOR ── */
   if (window.matchMedia('(pointer: fine)').matches) {
     const cur  = document.getElementById('cursor');
     const ring = document.getElementById('cursorRing');
-    let rx = 0, ry = 0, mx = 0, my = 0;
-
+    let rx=0, ry=0, mx=0, my=0;
     document.addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
-      cur.style.left = mx + 'px';
-      cur.style.top  = my + 'px';
+      cur.style.left = mx+'px'; cur.style.top = my+'px';
     });
-
     const tick = () => {
-      rx += (mx - rx) * 0.11;
-      ry += (my - ry) * 0.11;
-      ring.style.left = rx + 'px';
-      ring.style.top  = ry + 'px';
+      rx += (mx-rx)*0.11; ry += (my-ry)*0.11;
+      ring.style.left = rx+'px'; ring.style.top = ry+'px';
       requestAnimationFrame(tick);
     };
     tick();
-
-    document.querySelectorAll('a, button, .card, .mission-item, .timeline-card, .animal-swiper').forEach(el => {
-      el.addEventListener('mouseenter', () => { cur.classList.add('hovering'); ring.classList.add('hovering'); });
-      el.addEventListener('mouseleave', () => { cur.classList.remove('hovering'); ring.classList.remove('hovering'); });
+    document.querySelectorAll('a,button,.card,.mission-item,.timeline-card').forEach(el => {
+      el.addEventListener('mouseenter', ()=>{ cur.classList.add('hovering'); ring.classList.add('hovering'); });
+      el.addEventListener('mouseleave', ()=>{ cur.classList.remove('hovering'); ring.classList.remove('hovering'); });
     });
-
-    document.addEventListener('mouseleave', () => { cur.style.opacity='0'; ring.style.opacity='0'; });
-    document.addEventListener('mouseenter', () => { cur.style.opacity='1'; ring.style.opacity='1'; });
+    document.addEventListener('mouseleave', ()=>{ cur.style.opacity='0'; ring.style.opacity='0'; });
+    document.addEventListener('mouseenter', ()=>{ cur.style.opacity='1'; ring.style.opacity='1'; });
   }
 
   /* ── SWIPER ── */
   new Swiper('.animal-swiper', {
-    slidesPerView: 3,
-    spaceBetween: 16,
-    loop: true,
-    speed: 700,
-    grabCursor: true,
+    slidesPerView:3, spaceBetween:16, loop:true, speed:700, grabCursor:true,
     pagination:  { el:'.swiper-pagination', clickable:true, dynamicBullets:true },
     navigation:  { nextEl:'.swiper-button-next', prevEl:'.swiper-button-prev' },
     autoplay:    { delay:3800, disableOnInteraction:false, pauseOnMouseEnter:true },
-    breakpoints: {
-      0:   { slidesPerView:1.2, spaceBetween:12 },
-      480: { slidesPerView:2,   spaceBetween:14 },
-      700: { slidesPerView:3,   spaceBetween:16 },
-    }
+    breakpoints: { 0:{slidesPerView:1.2,spaceBetween:12}, 480:{slidesPerView:2,spaceBetween:14}, 700:{slidesPerView:3,spaceBetween:16} }
   });
 
-  /* ── CONTACT FORM ── */
+  /* ── CONTACT ── */
   document.getElementById('contactForm')?.addEventListener('submit', e => {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type="submit"]');
+    const btn  = e.target.querySelector('button[type="submit"] span[data-i18n]');
     const orig = btn.innerHTML;
-    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px">
-      <polyline points="20 6 9 17 4 12"/></svg> Message sent!`;
-    btn.disabled = true;
-    setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; e.target.reset(); }, 3500);
+    btn.innerHTML = T[currentLang]['form.sent'] || 'Sent ✓';
+    e.target.querySelector('button').disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      e.target.querySelector('button').disabled = false;
+      e.target.reset();
+    }, 3500);
   });
 
 });
