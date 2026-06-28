@@ -81,6 +81,24 @@ const T = {
     'form.submit': 'Send message',
     'footer.text': 'Designed by',
     'form.sent': 'Message sent! ✓',
+    'nav.blog': 'Blog',
+    'blog.eyebrow': 'Deep dives',
+    'blog.title': 'Blog articles',
+    'blog.desc': 'Longer, more detailed writeups on the technical challenges I faced during the internship — the kind of stuff that doesn\'t fit in a weekly journal entry.',
+    'blog.soon': 'Coming soon',
+    'blog.read': 'Read article',
+    'tag.docs': 'Documentation',
+    'blog.art1.date': 'April 2026',
+    'blog.art1.title': 'Mass deploying GLPI agents across 200 machines: lessons learned',
+    'blog.art1.desc': 'Scripting, silent failures, agent conflicts — a full walkthrough of the rollout, what broke, and how I fixed it.',
+    'blog.art2.title': 'Building Zabbix dashboards for a zoo: custom triggers and alert fatigue',
+    'blog.art2.desc': 'How I tuned 80+ monitoring rules to be actionable without waking the on-call team for every blip.',
+    'blog.art3.title': 'Security audit on a live production network: what I found',
+    'blog.art3.desc': 'Findings, priorities, and the diplomatic art of telling a team their network config needs work.',
+    'blog.art4.title': 'Writing IT documentation people actually read',
+    'blog.art4.desc': 'The process behind building a knowledge base from scratch — structure, tone, and getting colleagues to contribute.',
+    'blog.footer': 'Articles published as the internship progresses —',
+    'blog.footer.strong': '3 more coming',
   },
   fr: {
     'preloader.label': 'Chargement du blog de stage',
@@ -158,6 +176,24 @@ const T = {
     'form.submit': 'Envoyer le message',
     'footer.text': 'Conçu par',
     'form.sent': 'Message envoyé ! ✓',
+    'nav.blog': 'Blog',
+    'blog.eyebrow': 'En détail',
+    'blog.title': 'Articles de blog',
+    'blog.desc': 'Des articles plus longs et détaillés sur les défis techniques rencontrés pendant le stage — ce qui ne rentre pas dans une entrée de journal hebdomadaire.',
+    'blog.soon': 'Bientôt disponible',
+    'blog.read': 'Lire l\'article',
+    'tag.docs': 'Documentation',
+    'blog.art1.date': 'Avril 2026',
+    'blog.art1.title': 'Déployer des agents GLPI sur 200 machines : retour d\'expérience',
+    'blog.art1.desc': 'Scripts, échecs silencieux, conflits d\'agents — un walkthrough complet du déploiement, ce qui a cassé, et comment j\'ai résolu.',
+    'blog.art2.title': 'Construire des dashboards Zabbix pour un zoo : déclencheurs custom et alert fatigue',
+    'blog.art2.desc': 'Comment j\'ai calibré 80+ règles de supervision pour qu\'elles soient exploitables sans réveiller l\'astreinte à chaque anomalie.',
+    'blog.art3.title': 'Audit de sécurité sur un réseau de production : ce que j\'ai trouvé',
+    'blog.art3.desc': 'Constats, priorités, et l\'art diplomatique d\'expliquer à une équipe que sa config réseau mérite du travail.',
+    'blog.art4.title': 'Écrire une documentation IT que les gens lisent vraiment',
+    'blog.art4.desc': 'La démarche derrière la construction d\'une base de connaissances from scratch — structure, ton, et comment impliquer les collègues.',
+    'blog.footer': 'Articles publiés au fil du stage —',
+    'blog.footer.strong': '3 autres à venir',
   }
 };
 
@@ -312,15 +348,29 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ── HAMBURGER ── */
   const toggle  = document.getElementById('navToggle');
   const navMenu = document.getElementById('navMenu');
+
+  function openNav() {
+    navMenu.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('nav-open');
+  }
+  function closeNav() {
+    navMenu.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('nav-open');
+  }
+
   toggle?.addEventListener('click', () => {
-    const open = navMenu.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open);
+    navMenu.classList.contains('open') ? closeNav() : openNav();
   });
+
   navMenu?.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      navMenu.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-    });
+    a.addEventListener('click', closeNav);
+  });
+
+  /* Fermer avec Escape */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navMenu.classList.contains('open')) closeNav();
   });
 
   /* ── SWIPER ── */
