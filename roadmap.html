@@ -484,12 +484,62 @@ footer strong { color: var(--muted); }
 
 </div>
 
+  <div class="section">
+    <div class="section-label">Bugs mobile — à corriger</div>
+
+    <div class="task" data-diff="medium" data-id="t10">
+      <div class="task-header" onclick="toggleExpand('t10')">
+        <div class="checkbox" id="cb-t10" onclick="toggleDone(event,'t10')">
+          <svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
+        </div>
+        <div class="task-body">
+          <div class="task-top">
+            <span class="task-title">Hamburger mal positionné sur mobile</span>
+            <span class="badge badge-medium">Moyen</span>
+          </div>
+          <p class="task-desc">Le bouton hamburger s'affiche en dessous du sélecteur de langue au lieu d'être à côté. Revoir l'alignement du <code>header-right</code> sur mobile.</p>
+          <span class="task-toggle" id="tg-t10">Voir le contexte <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </div>
+      </div>
+      <div class="task-expanded" id="exp-t10">
+        <div class="expand-inner">
+          <p>Le <code>.header-right</code> contient le lang switcher et le hamburger. Sur mobile, ils s'empilent verticalement au lieu d'être côte à côte.</p>
+          <p>Fix : vérifier que <code>.header-right</code> a bien <code>display: flex; align-items: center; gap: 12px;</code> et que rien ne force un <code>flex-direction: column</code> sur mobile.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="task" data-diff="medium" data-id="t11">
+      <div class="task-header" onclick="toggleExpand('t11')">
+        <div class="checkbox" id="cb-t11" onclick="toggleDone(event,'t11')">
+          <svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6 5 9 10 3"/></svg>
+        </div>
+        <div class="task-body">
+          <div class="task-top">
+            <span class="task-title">Le drawer mobile ne s'ouvre pas</span>
+            <span class="badge badge-medium">Moyen</span>
+          </div>
+          <p class="task-desc">Le clic sur le hamburger transforme l'icône en croix mais le panel de navigation ne slide pas. Le drawer reste invisible.</p>
+          <span class="task-toggle" id="tg-t11">Voir le contexte <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </div>
+      </div>
+      <div class="task-expanded" id="exp-t11">
+        <div class="expand-inner">
+          <p>Le <code>#mobileDrawer</code> reçoit bien la classe <code>is-open</code> (la croix apparaît), mais le panel ne s'affiche pas.</p>
+          <p>Pistes : vérifier que <code>.mobile-drawer.is-open { display: block; }</code> est bien appliqué, que le <code>z-index</code> du panel est suffisant, et que l'animation <code>drawerSlideDown</code> ne cache pas le panel pendant son exécution.</p>
+          <p>Alternative fiable : remplacer <code>display: none / block</code> par <code>visibility: hidden / visible</code> + <code>pointer-events: none / auto</code> pour éviter les conflits avec les animations CSS.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 <footer>
   <p>Fait avec ❤️ par <strong>Morgane</strong> pour <strong>Benjamin Krauss</strong> · ESAIP · Pairi Daiza 2026</p>
 </footer>
 
 <script>
-const TOTAL = 9;
+const TOTAL = 11;
 const state = JSON.parse(localStorage.getItem('roadmap-bk') || '{}');
 
 function save() { localStorage.setItem('roadmap-bk', JSON.stringify(state)); }
