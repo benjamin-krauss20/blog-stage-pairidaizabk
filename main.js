@@ -350,11 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const navMenu = document.getElementById('navMenu');
 
   function openNav() {
-    /* display:none -> display:flex nécessite un double RAF pour animer */
-    navMenu.style.display = 'flex';
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      navMenu.classList.add('open');
-    }));
+    navMenu.classList.add('open');
     toggle.setAttribute('aria-expanded', 'true');
     document.body.classList.add('nav-open');
   }
@@ -362,12 +358,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navMenu.classList.remove('open');
     toggle.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('nav-open');
-    /* Remettre display:none après la transition (280ms) */
-    setTimeout(() => {
-      if (!navMenu.classList.contains('open')) {
-        navMenu.style.display = '';
-      }
-    }, 300);
   }
 
   toggle?.addEventListener('click', () => {
