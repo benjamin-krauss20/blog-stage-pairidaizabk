@@ -219,7 +219,7 @@
         <span></span><span></span><span></span>
       </button>
 
-      <nav id="navMenu" aria-label="Main navigation">
+      <nav id="navDesktop" aria-label="Main navigation" class="nav-desktop">
         <a href="#about"    class="nav-link" data-i18n="nav.about">About</a>
         <a href="#missions" class="nav-link" data-i18n="nav.missions">Missions</a>
         <a href="#articles" class="nav-link" data-i18n="nav.journal">Journal</a>
@@ -236,6 +236,24 @@
     </div>
   </header>
 
+  <!-- ── DRAWER MOBILE — indépendant du header ── -->
+  <div id="mobileDrawer" class="mobile-drawer" aria-hidden="true">
+    <div class="mobile-drawer__overlay" id="drawerOverlay"></div>
+    <nav class="mobile-drawer__nav" aria-label="Mobile navigation">
+      <button class="mobile-drawer__close" id="drawerClose" aria-label="Fermer le menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round" width="22" height="22">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <a href="#about"    class="drawer-link" data-i18n="nav.about">About</a>
+      <a href="#missions" class="drawer-link" data-i18n="nav.missions">Missions</a>
+      <a href="#articles" class="drawer-link" data-i18n="nav.journal">Journal</a>
+      <a href="#blog"     class="drawer-link" data-i18n="nav.blog">Blog</a>
+      <a href="#life"     class="drawer-link" data-i18n="nav.life">Life</a>
+      <a href="#contact"  class="drawer-link drawer-link--cta" data-i18n="nav.contact">Contact</a>
+    </nav>
+  </div>
 
   <main class="main-container">
 
