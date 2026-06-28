@@ -36,6 +36,144 @@
   <!-- ── CSS ── -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- ── BLOG SECTION STYLES ── -->
+  <style>
+    /* ── BLOG SECTION ── */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 2rem;
+    }
+
+    .blog-card {
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(220,157,35,0.15);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1),
+                  border-color 0.3s ease,
+                  box-shadow 0.3s ease;
+    }
+    .blog-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(220,157,35,0.4);
+      box-shadow: 0 12px 40px rgba(26,18,8,0.10);
+    }
+
+    .blog-card__thumb {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .blog-card__body {
+      padding: 1.2rem 1.3rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 0.5rem;
+    }
+
+    .blog-card__meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .blog-card__tag {
+      font-size: 0.65rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(220,157,35,0.12);
+      color: #b07d12;
+      border: 1px solid rgba(220,157,35,0.25);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .blog-card__date {
+      font-size: 0.72rem;
+      color: var(--color-muted, #6b5e3e);
+      opacity: 0.7;
+    }
+
+    .blog-card__title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--color-ink, #1a1208);
+      margin: 0;
+    }
+
+    .blog-card__desc {
+      font-size: 0.83rem;
+      color: var(--color-muted, #6b5e3e);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .blog-card__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #DC9D23;
+      margin-top: 0.4rem;
+      transition: gap 0.2s ease;
+      text-decoration: none;
+    }
+    .blog-card__link:hover { gap: 10px; }
+
+    /* Coming soon state */
+    .blog-card--soon {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .blog-card--soon .blog-card__thumb {
+      filter: grayscale(30%);
+    }
+    .blog-card__soon-badge {
+      font-size: 0.65rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(107,94,62,0.08);
+      color: #6b5e3e;
+      border: 1px solid rgba(107,94,62,0.18);
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    .blog-section-footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(220,157,35,0.12);
+    }
+    .blog-section-footer p {
+      font-size: 0.85rem;
+      color: var(--color-muted, #6b5e3e);
+    }
+    .blog-section-footer strong {
+      color: #DC9D23;
+    }
+
+    @media (max-width: 600px) {
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
@@ -85,6 +223,7 @@
         <a href="#about"    class="nav-link" data-i18n="nav.about">About</a>
         <a href="#missions" class="nav-link" data-i18n="nav.missions">Missions</a>
         <a href="#articles" class="nav-link" data-i18n="nav.journal">Journal</a>
+        <a href="#blog"     class="nav-link" data-i18n="nav.blog">Blog</a>
         <a href="#life"     class="nav-link" data-i18n="nav.life">Life</a>
         <a href="#contact"  class="nav-link nav-link--cta" data-i18n="nav.contact">Contact</a>
       </nav>
@@ -108,7 +247,6 @@
         <div class="hero-bg-overlay" aria-hidden="true"></div>
       </div>
 
-      <!-- Badge coin haut-gauche -->
       <div class="hero-badge-corner">
         <div class="badge">
           <span class="badge-dot" aria-hidden="true"></span>
@@ -133,7 +271,7 @@
           <strong>GLPI</strong>, and harden network security.
         </p>
         <div class="hero-actions">
-          <a href="#articles" class="btn btn--primary">
+          <a href="#blog" class="btn btn--primary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -447,6 +585,115 @@
     </section>
 
 
+    <!-- ============================================================ BLOG -->
+    <section id="blog" aria-labelledby="blog-title">
+      <div class="card">
+        <p class="section-eyebrow" data-i18n="blog.eyebrow">Deep dives</p>
+        <h2 class="section-title" id="blog-title" data-i18n="blog.title">Blog articles</h2>
+        <p class="description" data-i18n="blog.desc">
+          Longer, more detailed writeups on the technical challenges I faced during the internship —
+          the kind of stuff that doesn't fit in a weekly journal entry.
+        </p>
+
+        <div class="blog-grid">
+
+          <!-- Article 1 — GLPI (ready to publish) -->
+          <article class="blog-card">
+            <img src="photo/panda.webp" alt="Giant panda — GLPI deployment"
+                 class="blog-card__thumb" loading="lazy" decoding="async" />
+            <div class="blog-card__body">
+              <div class="blog-card__meta">
+                <span class="blog-card__tag">GLPI</span>
+                <span class="blog-card__date" data-i18n="blog.art1.date">April 2026</span>
+              </div>
+              <h3 class="blog-card__title" data-i18n="blog.art1.title">
+                Mass deploying GLPI agents across 200 machines: lessons learned
+              </h3>
+              <p class="blog-card__desc" data-i18n="blog.art1.desc">
+                Scripting, silent failures, agent conflicts — a full walkthrough of the rollout,
+                what broke, and how I fixed it.
+              </p>
+              <a href="#" class="blog-card__link" data-i18n="blog.read">
+                Read article
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Article 2 — Zabbix (coming soon) -->
+          <article class="blog-card blog-card--soon" aria-label="Coming soon">
+            <img src="photo/paon.jpeg" alt="Zabbix monitoring dashboard"
+                 class="blog-card__thumb" loading="lazy" decoding="async" />
+            <div class="blog-card__body">
+              <div class="blog-card__meta">
+                <span class="blog-card__tag">Zabbix</span>
+                <span class="blog-card__soon-badge" data-i18n="blog.soon">Coming soon</span>
+              </div>
+              <h3 class="blog-card__title" data-i18n="blog.art2.title">
+                Building Zabbix dashboards for a zoo: custom triggers and alert fatigue
+              </h3>
+              <p class="blog-card__desc" data-i18n="blog.art2.desc">
+                How I tuned 80+ monitoring rules to be actionable without waking
+                the on-call team for every blip.
+              </p>
+            </div>
+          </article>
+
+          <!-- Article 3 — Cybersecurity (coming soon) -->
+          <article class="blog-card blog-card--soon" aria-label="Coming soon">
+            <img src="photo/ours.jpeg" alt="Network security audit"
+                 class="blog-card__thumb" loading="lazy" decoding="async" />
+            <div class="blog-card__body">
+              <div class="blog-card__meta">
+                <span class="blog-card__tag" data-i18n="tag.cyber">Cybersecurity</span>
+                <span class="blog-card__soon-badge" data-i18n="blog.soon">Coming soon</span>
+              </div>
+              <h3 class="blog-card__title" data-i18n="blog.art3.title">
+                Security audit on a live production network: what I found
+              </h3>
+              <p class="blog-card__desc" data-i18n="blog.art3.desc">
+                Findings, priorities, and the diplomatic art of telling a team
+                their network config needs work.
+              </p>
+            </div>
+          </article>
+
+          <!-- Article 4 — Docs (coming soon) -->
+          <article class="blog-card blog-card--soon" aria-label="Coming soon">
+            <img src="photo/herbe.jpeg" alt="Documentation and knowledge base"
+                 class="blog-card__thumb" loading="lazy" decoding="async" />
+            <div class="blog-card__body">
+              <div class="blog-card__meta">
+                <span class="blog-card__tag" data-i18n="tag.docs">Documentation</span>
+                <span class="blog-card__soon-badge" data-i18n="blog.soon">Coming soon</span>
+              </div>
+              <h3 class="blog-card__title" data-i18n="blog.art4.title">
+                Writing IT documentation people actually read
+              </h3>
+              <p class="blog-card__desc" data-i18n="blog.art4.desc">
+                The process behind building a knowledge base from scratch —
+                structure, tone, and getting colleagues to contribute.
+              </p>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="blog-section-footer">
+          <p data-i18n="blog.footer">
+            Articles published as the internship progresses —
+            <strong data-i18n="blog.footer.strong">3 more coming</strong>
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+
     <!-- ============================================================ LIFE -->
     <section id="life" aria-labelledby="life-title">
       <div class="card">
@@ -508,87 +755,87 @@
     </section>
 
 
-    <!-- ============================================================ CONTACT — Formulaire automatique -->
-  <section id="contact" aria-labelledby="contact-title">
-  <div class="card">
-    <p class="section-eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
-    <h2 class="section-title" id="contact-title" data-i18n="contact.title">A question about my internship?</h2>
-    <p class="description" data-i18n="contact.desc">
-      Recruiter, curious student, or simply passionate about systems and networks —
-      I'm always up for a conversation.
-    </p>
+    <!-- ============================================================ CONTACT -->
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="card">
+        <p class="section-eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
+        <h2 class="section-title" id="contact-title" data-i18n="contact.title">A question about my internship?</h2>
+        <p class="description" data-i18n="contact.desc">
+          Recruiter, curious student, or simply passionate about systems and networks —
+          I'm always up for a conversation.
+        </p>
 
-    <form class="contact-form" id="contactForm" novalidate
-          onsubmit="handleSend(event)">
+        <form class="contact-form" id="contactForm" novalidate
+              onsubmit="handleSend(event)">
 
-      <div class="form-row">
-        <div class="form-group">
-          <label for="name" data-i18n="form.name">Name</label>
-          <input type="text" id="name" name="name"
-                 data-i18n-ph="ph.name" placeholder="Your name"
-                 autocomplete="name" required />
-        </div>
-        <div class="form-group">
-          <label for="email" data-i18n="form.email">Email</label>
-          <input type="email" id="email" name="email"
-                 placeholder="you@email.com" autocomplete="email" required />
-        </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name" data-i18n="form.name">Name</label>
+              <input type="text" id="name" name="name"
+                     data-i18n-ph="ph.name" placeholder="Your name"
+                     autocomplete="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email" data-i18n="form.email">Email</label>
+              <input type="email" id="email" name="email"
+                     placeholder="you@email.com" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message" data-i18n="form.message">Message</label>
+            <textarea id="message" name="message" rows="5"
+                      data-i18n-ph="ph.message" placeholder="Your message..."
+                      required></textarea>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn btn--primary btn--full">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            <span data-i18n="form.submit">Send message</span>
+          </button>
+        </form>
       </div>
+    </section>
 
-      <div class="form-group">
-        <label for="message" data-i18n="form.message">Message</label>
-        <textarea id="message" name="message" rows="5"
-                  data-i18n-ph="ph.message" placeholder="Your message..."
-                  required></textarea>
-      </div>
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+      const EMAILJS_PUBLIC_KEY  = 'VOTRE_PUBLIC_KEY';
+      const EMAILJS_SERVICE_ID  = 'VOTRE_SERVICE_ID';
+      const EMAILJS_TEMPLATE_ID = 'VOTRE_TEMPLATE_ID';
 
-      <button type="submit" id="submitBtn" class="btn btn--primary btn--full">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="22" y1="2" x2="11" y2="13"/>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-        </svg>
-        <span data-i18n="form.submit">Send message</span>
-      </button>
-    </form>
-  </div>
-</section>
+      emailjs.init(EMAILJS_PUBLIC_KEY);
 
-<!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-  // 🔧 Remplace ces 3 valeurs par les tiennes
-  const EMAILJS_PUBLIC_KEY  = 'VOTRE_PUBLIC_KEY';
-  const EMAILJS_SERVICE_ID  = 'VOTRE_SERVICE_ID';
-  const EMAILJS_TEMPLATE_ID = 'VOTRE_TEMPLATE_ID';
+      async function handleSend(e) {
+        e.preventDefault();
+        const form = e.target;
+        if (!form.checkValidity()) { form.reportValidity(); return; }
 
-  emailjs.init(EMAILJS_PUBLIC_KEY);
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.querySelector('span').textContent = 'Sending…';
 
-  async function handleSend(e) {
-    e.preventDefault();
-    const form = e.target;
-    if (!form.checkValidity()) { form.reportValidity(); return; }
+        try {
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+            from_name:  document.getElementById('name').value.trim(),
+            from_email: document.getElementById('email').value.trim(),
+            message:    document.getElementById('message').value.trim(),
+          });
 
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.querySelector('span').textContent = 'Sending…';
+          btn.querySelector('span').textContent = '✓ Message sent!';
+          form.reset();
+        } catch (err) {
+          console.error(err);
+          btn.querySelector('span').textContent = 'Error — please retry';
+          btn.disabled = false;
+        }
+      }
+    </script>
 
-    try {
-      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        from_name:  document.getElementById('name').value.trim(),
-        from_email: document.getElementById('email').value.trim(),
-        message:    document.getElementById('message').value.trim(),
-      });
-
-      btn.querySelector('span').textContent = '✓ Message sent!';
-      form.reset();
-    } catch (err) {
-      console.error(err);
-      btn.querySelector('span').textContent = 'Error — please retry';
-      btn.disabled = false;
-    }
-  }
-</script>
 
   <!-- ============================================================ FOOTER -->
   <footer>
