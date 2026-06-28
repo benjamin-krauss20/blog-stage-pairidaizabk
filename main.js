@@ -341,45 +341,45 @@ document.addEventListener('DOMContentLoaded', () => {
     let current = '';
     sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
     navLinks.forEach(lk => lk.classList.toggle('active', lk.getAttribute('href') === `#${current}`));
+    document.querySelectorAll('.drawer-link').forEach(lk => lk.classList.toggle('active', lk.getAttribute('href') === `#${current}`));
   }, { passive: true });
 
   backBtn.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
 
   /* ── HAMBURGER + DRAWER MOBILE ── */
-  const toggle  = document.getElementById('navToggle');
-  const drawer  = document.getElementById('mobileDrawer');
-  const overlay = document.getElementById('drawerOverlay');
-  const closeBtn = document.getElementById('drawerClose');
+  const navToggle   = document.getElementById('navToggle');
+  const drawer      = document.getElementById('mobileDrawer');
+  const drawerOverlay = document.getElementById('drawerOverlay');
 
   function openDrawer() {
     drawer.classList.add('is-open');
     drawer.setAttribute('aria-hidden', 'false');
-    toggle.setAttribute('aria-expanded', 'true');
+    navToggle.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
   }
+
   function closeDrawer() {
     drawer.classList.remove('is-open');
     drawer.setAttribute('aria-hidden', 'true');
-    toggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   }
 
-  toggle?.addEventListener('click', () => {
+  navToggle?.addEventListener('click', () => {
     drawer.classList.contains('is-open') ? closeDrawer() : openDrawer();
   });
-  overlay?.addEventListener('click', closeDrawer);
-  closeBtn?.addEventListener('click', closeDrawer);
+
+  drawerOverlay?.addEventListener('click', closeDrawer);
 
   drawer?.querySelectorAll('.drawer-link').forEach(a => {
     a.addEventListener('click', closeDrawer);
   });
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && drawer?.classList.contains('is-open')) closeDrawer();
+    if (e.key === 'Escape') closeDrawer();
   });
 
-
-  /* ── SWIPER ── */
+  /* ── SWIPER ──  /* ── SWIPER ── */
   new Swiper('.animal-swiper', {
     slidesPerView:3, spaceBetween:16, loop:true, speed:700, grabCursor:true,
     pagination:  { el:'.swiper-pagination', clickable:true, dynamicBullets:true },
