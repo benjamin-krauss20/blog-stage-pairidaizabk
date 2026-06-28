@@ -323,29 +323,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── CUSTOM CURSOR ── */
-  if (window.matchMedia('(pointer: fine)').matches) {
-    const cur  = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let rx=0, ry=0, mx=0, my=0;
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cur.style.left = mx+'px'; cur.style.top = my+'px';
-    });
-    const tick = () => {
-      rx += (mx-rx)*0.11; ry += (my-ry)*0.11;
-      ring.style.left = rx+'px'; ring.style.top = ry+'px';
-      requestAnimationFrame(tick);
-    };
-    tick();
-    document.querySelectorAll('a,button,.card,.mission-item,.timeline-card').forEach(el => {
-      el.addEventListener('mouseenter', ()=>{ cur.classList.add('hovering'); ring.classList.add('hovering'); });
-      el.addEventListener('mouseleave', ()=>{ cur.classList.remove('hovering'); ring.classList.remove('hovering'); });
-    });
-    document.addEventListener('mouseleave', ()=>{ cur.style.opacity='0'; ring.style.opacity='0'; });
-    document.addEventListener('mouseenter', ()=>{ cur.style.opacity='1'; ring.style.opacity='1'; });
-  }
-
   /* ── SWIPER ── */
   new Swiper('.animal-swiper', {
     slidesPerView:3, spaceBetween:16, loop:true, speed:700, grabCursor:true,

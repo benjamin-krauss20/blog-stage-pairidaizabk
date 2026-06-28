@@ -39,9 +39,7 @@ html { scroll-behavior: smooth; font-size: 16px; }
 body {
   font-family: var(--font-b); color: var(--ink); background: var(--cream);
   line-height: 1.75; overflow-x: hidden; -webkit-font-smoothing: antialiased;
-  cursor: none;
 }
-@media (pointer: coarse) { body { cursor: auto; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
 }
@@ -49,8 +47,7 @@ h1,h2,h3,h4 { font-family: var(--font-h); letter-spacing: -0.025em; }
 img,svg { display: block; max-width: 100%; }
 ul,ol   { list-style: none; }
 a       { color: inherit; text-decoration: none; }
-button  { font-family: inherit; border: none; background: none; cursor: none; }
-@media (pointer: coarse) { button { cursor: auto; } }
+button  { font-family: inherit; border: none; background: none; cursor: pointer; }
 ::selection { background: var(--gold); color: #fff; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
 ::-webkit-scrollbar { width: 5px; }
@@ -76,22 +73,6 @@ button  { font-family: inherit; border: none; background: none; cursor: none; }
 .preloader__bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width 0.08s linear; }
 @keyframes plFade { to { opacity: 1; } }
 
-/* ── CURSOR ── */
-.cursor {
-  position: fixed; top: 0; left: 0; width: 8px; height: 8px; background: var(--gold);
-  border-radius: 50%; pointer-events: none; z-index: 10001;
-  transform: translate(-50%,-50%); mix-blend-mode: multiply;
-  transition: width var(--t-fast), height var(--t-fast);
-}
-.cursor-ring {
-  position: fixed; top: 0; left: 0; width: 36px; height: 36px;
-  border: 1.5px solid rgba(220,157,35,0.45); border-radius: 50%;
-  pointer-events: none; z-index: 10000; transform: translate(-50%,-50%); will-change: transform;
-  transition: width var(--t), height var(--t), border-color var(--t);
-}
-.cursor.hovering    { width: 14px; height: 14px; }
-.cursor-ring.hovering { width: 52px; height: 52px; border-color: rgba(220,157,35,0.2); }
-@media (pointer: coarse) { .cursor, .cursor-ring { display: none; } }
 
 /* ── SCROLL PROGRESS ── */
 .scroll-progress {
@@ -105,13 +86,12 @@ button  { font-family: inherit; border: none; background: none; cursor: none; }
   position: fixed; bottom: 1.75rem; right: 1.75rem; width: 46px; height: 46px;
   background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #fff;
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  z-index: 500; cursor: none; box-shadow: 0 8px 24px rgba(220,157,35,0.38);
+  z-index: 500; cursor: pointer; box-shadow: 0 8px 24px rgba(220,157,35,0.38);
   opacity: 0; transform: translateY(16px); transition: opacity var(--t), transform var(--t), box-shadow var(--t);
 }
 .back-to-top.visible { opacity: 1; transform: translateY(0); }
 .back-to-top:hover   { box-shadow: 0 14px 36px rgba(220,157,35,0.52); transform: translateY(-3px); }
 .back-to-top svg { width: 18px; height: 18px; }
-@media (pointer: coarse) { .back-to-top { cursor: auto; } }
 
 /* ── BACKGROUND ── */
 .bg-mesh { position: fixed; inset: 0; z-index: -1; background: var(--cream); overflow: hidden; }
@@ -172,7 +152,7 @@ nav { display: flex; align-items: center; gap: 2px; }
 .lang-btn.active { background: var(--gold); color: #fff; }
 .lang-btn:hover:not(.active) { color: var(--ink); background: rgba(220,157,35,0.1); }
 
-.nav-toggle { display: none; flex-direction: column; gap: 5px; padding: 6px; cursor: none; }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; padding: 6px; cursor: pointer; }
 .nav-toggle span { display: block; width: 20px; height: 1.5px; background: var(--ink); border-radius: 2px; transition: transform 0.36s cubic-bezier(0.16,1,0.3,1), opacity 0.36s; }
 .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0); }
@@ -223,7 +203,7 @@ nav { display: flex; align-items: center; gap: 2px; }
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 13px 28px; border-radius: var(--r-pill);
   font-family: var(--font-h); font-size: 0.88rem; font-weight: 700;
-  transition: transform var(--t), box-shadow var(--t); position: relative; overflow: hidden; cursor: none;
+  transition: transform var(--t), box-shadow var(--t); position: relative; overflow: hidden;
 }
 .btn::before { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.15); opacity: 0; transition: opacity var(--t-fast); }
 .btn:hover::before { opacity: 1; }
@@ -233,7 +213,6 @@ nav { display: flex; align-items: center; gap: 2px; }
 .btn--ghost:hover { background: rgba(220,157,35,0.08); border-color: var(--gold); color: var(--gold-dark); transform: translateY(-3px); }
 .btn--full { width: 100%; }
 .btn svg { width: 17px; height: 17px; flex-shrink: 0; }
-@media (pointer: coarse) { .btn { cursor: auto; } }
 
 /* ── HERO ── */
 .hero-section { position: relative; border-radius: var(--r-lg); overflow: hidden; min-height: 580px; display: flex; align-items: flex-end; }
@@ -284,7 +263,7 @@ nav { display: flex; align-items: center; gap: 2px; }
 /* ── SWIPER ── */
 .animal-swiper { margin-top: 2rem; padding-bottom: 3rem !important; }
 .swiper { overflow: hidden; }
-.animal-swiper .swiper-slide { border-radius: var(--r-md); overflow: hidden; aspect-ratio: 4/5; position: relative; cursor: none; }
+.animal-swiper .swiper-slide { border-radius: var(--r-md); overflow: hidden; aspect-ratio: 4/5; position: relative; }
 .animal-swiper .swiper-slide img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
 .animal-swiper .swiper-slide:hover img { transform: scale(1.07); }
 .animal-slide-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem 1rem 0.9rem; background: linear-gradient(to top, rgba(13,10,5,0.82), transparent); color: #fff; font-family: var(--font-h); font-size: 0.84rem; font-weight: 700; letter-spacing: 0.04em; }
