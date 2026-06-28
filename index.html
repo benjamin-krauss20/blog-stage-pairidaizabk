@@ -509,62 +509,67 @@
 
 
     <!-- ============================================================ CONTACT — Formspree -->
-    <section id="contact" aria-labelledby="contact-title">
-      <div class="card">
-        <p class="section-eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
-        <h2 class="section-title" id="contact-title" data-i18n="contact.title">A question about my internship?</h2>
-        <p class="description" data-i18n="contact.desc">
-          Recruiter, curious student, or simply passionate about systems and networks —
-          I'm always up for a conversation.
-        </p>
+   <section id="contact" aria-labelledby="contact-title">
+  <div class="card">
+    <p class="section-eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
+    <h2 class="section-title" id="contact-title" data-i18n="contact.title">A question about my internship?</h2>
+    <p class="description" data-i18n="contact.desc">
+      Recruiter, curious student, or simply passionate about systems and networks —
+      I'm always up for a conversation.
+    </p>
 
-        <!--
-          FORMSPREE : pour activer l'envoi réel des emails
-          1. Va sur https://formspree.io et crée un compte gratuit
-          2. Crée un nouveau formulaire → copie ton Form ID (ex: xrgepkqd)
-          3. Remplace VOTRE_FORM_ID ci-dessous par cet ID
-          4. Supprime ce commentaire
-        -->
-        <form class="contact-form" id="contactForm" novalidate
-              action="https://formspree.io/f/VOTRE_FORM_ID"
-              method="POST">
+    <form class="contact-form" id="contactForm" novalidate
+          onsubmit="handleMailto(event)">
 
-          <input type="hidden" name="_subject" value="Message depuis le blog de stage — Pairi Daiza" />
-          <input type="text"   name="_gotcha"  style="display:none" tabindex="-1" autocomplete="off" />
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="name"  data-i18n="form.name">Name</label>
-              <input type="text"  id="name"  name="name"
-                     data-i18n-ph="ph.name" placeholder="Your name"
-                     autocomplete="name" required />
-            </div>
-            <div class="form-group">
-              <label for="email" data-i18n="form.email">Email</label>
-              <input type="email" id="email" name="email"
-                     placeholder="you@email.com" autocomplete="email" required />
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="message" data-i18n="form.message">Message</label>
-            <textarea id="message" name="message" rows="5"
-                      data-i18n-ph="ph.message" placeholder="Your message..."
-                      required></textarea>
-          </div>
-          <button type="submit" class="btn btn--primary btn--full">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="22" y1="2" x2="11" y2="13"/>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-            <span data-i18n="form.submit">Send message</span>
-          </button>
-        </form>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name" data-i18n="form.name">Name</label>
+          <input type="text" id="name" name="name"
+                 data-i18n-ph="ph.name" placeholder="Your name"
+                 autocomplete="name" required />
+        </div>
+        <div class="form-group">
+          <label for="email" data-i18n="form.email">Email</label>
+          <input type="email" id="email" name="email"
+                 placeholder="you@email.com" autocomplete="email" required />
+        </div>
       </div>
-    </section>
 
-  </main>
+      <div class="form-group">
+        <label for="message" data-i18n="form.message">Message</label>
+        <textarea id="message" name="message" rows="5"
+                  data-i18n-ph="ph.message" placeholder="Your message..."
+                  required></textarea>
+      </div>
 
+      <button type="submit" class="btn btn--primary btn--full">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+        <span data-i18n="form.submit">Send message</span>
+      </button>
+    </form>
+  </div>
+</section>
+
+<script>
+function handleMailto(e) {
+  e.preventDefault();
+  const form = e.target;
+  if (!form.checkValidity()) { form.reportValidity(); return; }
+
+  const name    = document.getElementById('name').value.trim();
+  const email   = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+
+  const subject = encodeURIComponent('Message depuis le blog de stage — Pairi Daiza');
+  const body    = encodeURIComponent(`Nom : ${name}\nEmail : ${email}\n\n${message}`);
+
+  window.location.href = `mailto:bkrauss18@gmail.com?subject=${subject}&body=${body}`;
+}
+</script>
 
   <!-- ============================================================ FOOTER -->
   <footer>
