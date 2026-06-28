@@ -345,33 +345,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
   backBtn.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
 
-  /* ── HAMBURGER ── */
+  /* ── HAMBURGER + DRAWER MOBILE ── */
   const toggle  = document.getElementById('navToggle');
-  const navMenu = document.getElementById('navMenu');
+  const drawer  = document.getElementById('mobileDrawer');
+  const overlay = document.getElementById('drawerOverlay');
+  const closeBtn = document.getElementById('drawerClose');
 
-  function openNav() {
-    navMenu.classList.add('open');
+  function openDrawer() {
+    drawer.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
     toggle.setAttribute('aria-expanded', 'true');
-    document.body.classList.add('nav-open');
+    document.body.style.overflow = 'hidden';
   }
-  function closeNav() {
-    navMenu.classList.remove('open');
+  function closeDrawer() {
+    drawer.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
     toggle.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('nav-open');
+    document.body.style.overflow = '';
   }
 
   toggle?.addEventListener('click', () => {
-    navMenu.classList.contains('open') ? closeNav() : openNav();
+    drawer.classList.contains('is-open') ? closeDrawer() : openDrawer();
+  });
+  overlay?.addEventListener('click', closeDrawer);
+  closeBtn?.addEventListener('click', closeDrawer);
+
+  drawer?.querySelectorAll('.drawer-link').forEach(a => {
+    a.addEventListener('click', closeDrawer);
   });
 
-  navMenu?.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', closeNav);
-  });
-
-  /* Fermer avec Escape */
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && navMenu.classList.contains('open')) closeNav();
+    if (e.key === 'Escape' && drawer?.classList.contains('is-open')) closeDrawer();
   });
+
 
   /* ── SWIPER ── */
   new Swiper('.animal-swiper', {
