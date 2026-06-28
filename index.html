@@ -509,7 +509,7 @@
 
 
     <!-- ============================================================ CONTACT — Formspree -->
-   <section id="contact" aria-labelledby="contact-title">
+  <section id="contact" aria-labelledby="contact-title">
   <div class="card">
     <p class="section-eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
     <h2 class="section-title" id="contact-title" data-i18n="contact.title">A question about my internship?</h2>
@@ -519,7 +519,7 @@
     </p>
 
     <form class="contact-form" id="contactForm" novalidate
-          onsubmit="handleMailto(event)">
+          onsubmit="handleSend(event)">
 
       <div class="form-row">
         <div class="form-group">
@@ -542,7 +542,7 @@
                   required></textarea>
       </div>
 
-      <button type="submit" class="btn btn--primary btn--full">
+      <button type="submit" id="submitBtn" class="btn btn--primary btn--full">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="22" y1="2" x2="11" y2="13"/>
@@ -554,21 +554,40 @@
   </div>
 </section>
 
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-function handleMailto(e) {
-  e.preventDefault();
-  const form = e.target;
-  if (!form.checkValidity()) { form.reportValidity(); return; }
+  // 🔧 Remplace ces 3 valeurs par les tiennes
+  const EMAILJS_PUBLIC_KEY  = 'VOTRE_PUBLIC_KEY';
+  const EMAILJS_SERVICE_ID  = 'VOTRE_SERVICE_ID';
+  const EMAILJS_TEMPLATE_ID = 'VOTRE_TEMPLATE_ID';
 
-  const name    = document.getElementById('name').value.trim();
-  const email   = document.getElementById('email').value.trim();
-  const message = document.getElementById('message').value.trim();
+  emailjs.init(EMAILJS_PUBLIC_KEY);
 
-  const subject = encodeURIComponent('Message depuis le blog de stage — Pairi Daiza');
-  const body    = encodeURIComponent(`Nom : ${name}\nEmail : ${email}\n\n${message}`);
+  async function handleSend(e) {
+    e.preventDefault();
+    const form = e.target;
+    if (!form.checkValidity()) { form.reportValidity(); return; }
 
-  window.location.href = `mailto:bkrauss18@gmail.com?subject=${subject}&body=${body}`;
-}
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.querySelector('span').textContent = 'Sending…';
+
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        from_name:  document.getElementById('name').value.trim(),
+        from_email: document.getElementById('email').value.trim(),
+        message:    document.getElementById('message').value.trim(),
+      });
+
+      btn.querySelector('span').textContent = '✓ Message sent!';
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      btn.querySelector('span').textContent = 'Error — please retry';
+      btn.disabled = false;
+    }
+  }
 </script>
 
   <!-- ============================================================ FOOTER -->
