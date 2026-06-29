@@ -389,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function animatePaw() {
       pawX = lerp(pawX, mouseX, 0.14);
       pawY = lerp(pawY, mouseY, 0.14);
-      paw.style.transform = `translate(calc(${pawX}px - 50%), calc(${pawY}px - 50%))`;
+      paw.style.transform = `translate(${pawX - 14}px, ${pawY - 14}px)`;
       requestAnimationFrame(animatePaw);
     }
     animatePaw();
