@@ -259,19 +259,26 @@ document.addEventListener('DOMContentLoaded', () => {
   let prog = 0;
   const ticker = setInterval(() => {
     prog = Math.min(prog + Math.random() * 18, 92);
-    barEl.style.width = prog + '%';
+    if (barEl) barEl.style.width = prog + '%';
   }, 90);
 
-  window.addEventListener('load', () => {
+  function hidePreloader() {
     clearInterval(ticker);
-    barEl.style.width = '100%';
+    if (!preloaderEl) return;
+    if (barEl) barEl.style.width = '100%';
     setTimeout(() => {
-      gsap.to(preloaderEl, {
-        opacity: 0, duration: 0.7, ease: 'power2.inOut',
-        onComplete: () => { preloaderEl.style.display = 'none'; }
-      });
+      preloaderEl.style.transition = 'opacity 0.6s ease';
+      preloaderEl.style.opacity = '0';
+      preloaderEl.style.pointerEvents = 'none';
+      setTimeout(() => {
+        preloaderEl.style.display = 'none';
+      }, 650);
     }, 350);
-  });
+  }
+
+  window.addEventListener('load', hidePreloader);
+  /* Fallback — si window.load ne se déclenche pas après 4s */
+  setTimeout(hidePreloader, 4000);
 
   /* ── GSAP ── */
   gsap.registerPlugin(ScrollTrigger);
