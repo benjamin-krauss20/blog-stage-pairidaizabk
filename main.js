@@ -423,13 +423,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const hoverTargets = 'a, button, [role="button"], .card, .mission-item, .timeline-card, .blog-card, .nav-link, .drawer-link, .lang-btn, .chip';
     document.addEventListener('mouseover', e => {
-      if (e.target.closest(hoverTargets)) paw.classList.add('is-hovering');
+      if (e.target.closest(hoverTargets)) {
+        paw.classList.add('is-hovering');
+        paw.classList.remove('is-clicking');
+      }
     });
     document.addEventListener('mouseout', e => {
       if (e.target.closest(hoverTargets)) paw.classList.remove('is-hovering');
     });
-    document.addEventListener('mousedown', () => paw.classList.add('is-clicking'));
-    document.addEventListener('mouseup',   () => paw.classList.remove('is-clicking'));
+    document.addEventListener('mousedown', () => {
+      paw.classList.add('is-clicking');
+      paw.classList.remove('is-hovering');
+    });
+    document.addEventListener('mouseup', () => paw.classList.remove('is-clicking'));
     document.documentElement.addEventListener('mouseleave', () => paw.classList.remove('is-visible'));
     document.documentElement.addEventListener('mouseenter', () => { if (started) paw.classList.add('is-visible'); });
 
