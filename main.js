@@ -253,32 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ── PRELOADER ── */
-  const preloaderEl = document.getElementById('preloader');
-  const barEl       = document.getElementById('preloaderBar');
-  let prog = 0;
-  const ticker = setInterval(() => {
-    prog = Math.min(prog + Math.random() * 18, 92);
-    if (barEl) barEl.style.width = prog + '%';
-  }, 90);
-
-  function hidePreloader() {
-    clearInterval(ticker);
-    if (!preloaderEl) return;
-    if (barEl) barEl.style.width = '100%';
-    setTimeout(() => {
-      preloaderEl.style.transition = 'opacity 0.6s ease';
-      preloaderEl.style.opacity = '0';
-      preloaderEl.style.pointerEvents = 'none';
-      setTimeout(() => {
-        preloaderEl.style.display = 'none';
-      }, 650);
-    }, 350);
-  }
-
-  window.addEventListener('load', hidePreloader);
-  /* Fallback — si window.load ne se déclenche pas après 4s */
-  setTimeout(hidePreloader, 4000);
+  /* ── PRELOADER — désactivé temporairement ── */
 
   /* ── GSAP ── */
   gsap.registerPlugin(ScrollTrigger);
