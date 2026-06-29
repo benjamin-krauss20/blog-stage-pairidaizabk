@@ -293,20 +293,28 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollTrigger: { trigger:'.life-photos', start:'top 86%' }
   });
 
-  /* ── STATS COUNTER ── */
-  document.querySelectorAll('.stat-number[data-target]').forEach(el => {
-    const target = +el.dataset.target;
-    ScrollTrigger.create({
-      trigger: el, start:'top 92%', once:true,
-      onEnter() {
-        const obj = { val: 0 };
-        gsap.to(obj, {
-          val: target, duration:1.8, ease:'power2.out',
-          onUpdate: () => { el.textContent = Math.round(obj.val); }
-        });
-      }
-    });
-  });
+  /* ── STATS COUNTER (sans GSAP) ── */
+  const statEls = document.querySelectorAll('.stat-number[data-target]');
+  if (statEls.length) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = +el.dataset.target;
+        let start = 0;
+        const dur = 1600;
+        const step = 16;
+        const inc = target / (dur / step);
+        const timer = setInterval(() => {
+          start += inc;
+          el.textContent = Math.min(Math.round(start), target);
+          if (start >= target) clearInterval(timer);
+        }, step);
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    statEls.forEach(el => observer.observe(el));
+  }
 
   /* ── SCROLL PROGRESS ── */
   const progressBar = document.getElementById('scrollProgress');
