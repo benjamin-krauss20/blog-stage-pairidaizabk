@@ -126,7 +126,7 @@ button  { font-family: inherit; border: none; background: none; cursor: pointer;
 .nav-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .nav-logo-img { height: 33px; width: auto; object-fit: contain; }
 .nav-logo-text { font-family: var(--font-h); font-size: 0.84rem; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
-nav { display: flex; align-items: center; gap: 2px; }
+nav { display: flex; align-items: center; gap: 2px; flex-shrink: 1; overflow: hidden; }
 .nav-link {
   font-family: var(--font-h); font-size: 0.82rem; font-weight: 600;
   color: var(--muted); padding: 7px 13px; border-radius: var(--r-pill);
@@ -418,18 +418,20 @@ footer strong { color: var(--muted); }
 body { cursor: none; }
 @media (max-width: 768px) { body { cursor: auto; } }
 .cursor-paw {
-  position: fixed; top: 0; left: 0;
-  width: 36px; height: 36px;
-  pointer-events: none; z-index: 10001;
-  will-change: transform; opacity: 0;
-  transition: opacity 0.15s;
-  font-size: 26px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 10001;
+  opacity: 0;
+  transition: opacity 0.15s, font-size 0.1s;
+  font-size: 28px;
+  line-height: 1;
   user-select: none;
+  /* Le positionnement se fait via transform dans le JS */
 }
 .cursor-paw.is-visible { opacity: 1; }
-.cursor-paw.is-hovering { font-size: 32px; }
-.cursor-paw.is-clicking { font-size: 20px; }
+.cursor-paw.is-hovering { font-size: 34px; }
+.cursor-paw.is-clicking { font-size: 20px; opacity: 0.7; }
 
 /* Preloader désactivé */
 .preloader { display: none !important; }
