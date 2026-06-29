@@ -239,6 +239,53 @@ function applyLang(lang, animate = false) {
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ── CURSEUR PATTE D'OURS (desktop uniquement) ── */
+  const paw = document.getElementById('cursorPaw');
+  if (paw && window.matchMedia('(pointer: fine)').matches) {
+    let mouseX = -200, mouseY = -200;
+    let pawX = -200, pawY = -200;
+    let raf;
+
+    /* Suivi fluide avec lerp */
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function animatePaw() {
+      pawX = lerp(pawX, mouseX, 0.14);
+      pawY = lerp(pawY, mouseY, 0.14);
+      paw.style.left = pawX + 'px';
+      paw.style.top  = pawY + 'px';
+      raf = requestAnimationFrame(animatePaw);
+    }
+    animatePaw();
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    /* Hover sur éléments interactifs */
+    const hoverTargets = 'a, button, [role="button"], .card, .mission-item, .timeline-card, .blog-card, .swiper-button-prev, .swiper-button-next';
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest(hoverTargets)) paw.classList.add('is-hovering');
+    });
+    document.addEventListener('mouseout', e => {
+      if (e.target.closest(hoverTargets)) paw.classList.remove('is-hovering');
+    });
+
+    /* Clic */
+    document.addEventListener('mousedown', () => paw.classList.add('is-clicking'));
+    document.addEventListener('mouseup',   () => paw.classList.remove('is-clicking'));
+
+    /* Cacher quand la souris quitte la fenêtre */
+    document.addEventListener('mouseleave', () => { paw.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { paw.style.opacity = '1'; });
+  } else if (paw) {
+    /* Tactile ou stylet — on cache la patte */
+    paw.style.display = 'none';
+  }
+
+
+
   /* year */
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
