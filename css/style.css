@@ -430,3 +430,6 @@ body { cursor: none; }
 .cursor-paw.is-visible { opacity: 1; }
 .cursor-paw.is-hovering { font-size: 32px; }
 .cursor-paw.is-clicking { font-size: 20px; }
+
+/* Preloader désactivé */
+.preloader { display: none !important; }
