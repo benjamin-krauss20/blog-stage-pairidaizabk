@@ -116,29 +116,32 @@ button    { font-family: inherit; cursor: pointer; border: none; background: non
 }
 
 /* ----------------------------------------------------------------
-   4. CURSEUR PERSONNALISÉ
+   4. CURSEUR PERSONNALISÉ — Patte d'ours
 ---------------------------------------------------------------- */
-.cursor {
+.cursor-paw {
   position: fixed;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--accent-primary);
+  top: 0; left: 0;
+  width: 40px; height: 40px;
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%,-50%);
-  transition: transform var(--t-fast) var(--ease-out), opacity var(--t-base);
+  transform: translate(-50%, -50%);
   will-change: transform;
+  transition: transform 0.08s var(--ease-out), opacity 0.2s;
+  opacity: 1;
+  filter: drop-shadow(0 2px 6px rgba(15,23,42,0.18));
 }
-.cursor-follower {
-  position: fixed;
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(99,102,241,0.35);
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%,-50%);
-  transition: transform 0.1s linear, opacity var(--t-base);
-  will-change: transform;
+.cursor-paw svg {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.15s var(--ease-out);
+}
+/* Scale up sur les éléments cliquables */
+.cursor-paw.is-hovering {
+  transform: translate(-50%, -50%) scale(1.35);
+}
+/* Scale down au clic */
+.cursor-paw.is-clicking {
+  transform: translate(-50%, -50%) scale(0.85);
 }
 
 /* ----------------------------------------------------------------
