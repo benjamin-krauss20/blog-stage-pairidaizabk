@@ -414,26 +414,6 @@ footer strong { color: var(--muted); }
   .hero-tags { display: none; }
 }
 
-/* ── CURSEUR PATTE D'OURS ── */
-body { cursor: none; }
-@media (max-width: 768px) { body { cursor: auto; } }
-.cursor-paw {
-  position: fixed;
-  top: 0; left: 0;
-  width: 28px; height: 28px;
-  pointer-events: none;
-  z-index: 10001;
-  opacity: 0;
-  transition: opacity 0.15s;
-  font-size: 28px;
-  line-height: 28px;
-  text-align: center;
-  user-select: none;
-  display: block;
-}
-.cursor-paw.is-visible { opacity: 1; }
-.cursor-paw.is-hovering { font-size: 34px; line-height: 34px; width: 34px; height: 34px; }
-.cursor-paw.is-clicking { font-size: 20px; line-height: 20px; width: 20px; height: 20px; opacity: 0.7; }
 
 /* Preloader désactivé */
 .preloader { display: none !important; }

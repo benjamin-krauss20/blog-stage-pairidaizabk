@@ -185,11 +185,11 @@ const T = {
     'blog.read': "Lire l'article",
     'blog.art1.date': 'Avril 2026',
     'blog.art1.title': "Déployer des agents GLPI sur 200 machines : retour d'expérience",
-    'blog.art1.desc': 'Scripts, échecs silencieux, conflits d'agents — un walkthrough complet du déploiement, ce qui a cassé, et comment j'ai résolu.',
+    'blog.art1.desc': "Scripts, échecs silencieux, conflits d'agents — un walkthrough complet du déploiement, ce qui a cassé, et comment j'ai résolu.",
     'blog.art2.title': 'Construire des dashboards Zabbix pour un zoo : déclencheurs custom et alert fatigue',
     'blog.art2.desc': "Comment j'ai calibré 80+ règles de supervision pour qu'elles soient exploitables sans réveiller l'astreinte à chaque anomalie.",
-    'blog.art3.title': 'Audit de sécurité sur un réseau de production : ce que j'ai trouvé',
-    'blog.art3.desc': 'Constats, priorités, et l'art diplomatique d'expliquer à une équipe que sa config réseau mérite du travail.',
+    'blog.art3.title': "Audit de sécurité sur un réseau de production : ce que j'ai trouvé",
+    'blog.art3.desc': "Constats, priorités, et l'art diplomatique d'expliquer à une équipe que sa config réseau mérite du travail.",
     'blog.art4.title': 'Écrire une documentation IT que les gens lisent vraiment',
     'blog.art4.desc': "La démarche derrière la construction d'une base de connaissances from scratch — structure, ton, et comment impliquer les collègues.",
     'blog.footer': 'Articles publiés au fil du stage —',
@@ -293,28 +293,16 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollTrigger: { trigger:'.life-photos', start:'top 86%' }
   });
 
-  /* ── STATS COUNTER (sans GSAP) ── */
-  const statEls = document.querySelectorAll('.stat-number[data-target]');
-  if (statEls.length) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const target = +el.dataset.target;
-        let start = 0;
-        const dur = 1600;
-        const step = 16;
-        const inc = target / (dur / step);
-        const timer = setInterval(() => {
-          start += inc;
-          el.textContent = Math.min(Math.round(start), target);
-          if (start >= target) clearInterval(timer);
-        }, step);
-        observer.unobserve(el);
-      });
-    }, { threshold: 0.5 });
-    statEls.forEach(el => observer.observe(el));
-  }
+  /* ── STATS COUNTER ── */
+  document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+    const target = +el.dataset.target;
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: target, duration: 1.8, ease: 'power2.out',
+      scrollTrigger: { trigger: el, start: 'top 92%' },
+      onUpdate() { el.textContent = Math.round(obj.val); }
+    });
+  });
 
   /* ── SCROLL PROGRESS ── */
   const progressBar = document.getElementById('scrollProgress');
@@ -375,57 +363,6 @@ document.addEventListener('DOMContentLoaded', () => {
     autoplay:    { delay:3800, disableOnInteraction:false, pauseOnMouseEnter:true },
     breakpoints: { 0:{slidesPerView:1.2,spaceBetween:12}, 480:{slidesPerView:2,spaceBetween:14}, 700:{slidesPerView:3,spaceBetween:16} }
   });
-
-  /* ── CURSEUR PATTE D'OURS (desktop uniquement) ── */
-  const paw = document.getElementById('cursorPaw');
-
-  if (paw && window.matchMedia('(pointer: fine)').matches) {
-    let mouseX = 0, mouseY = 0;
-    let pawX   = 0, pawY   = 0;
-    let started = false;
-
-    function lerp(a, b, t) { return a + (b - a) * t; }
-
-    function animatePaw() {
-      pawX = lerp(pawX, mouseX, 0.14);
-      pawY = lerp(pawY, mouseY, 0.14);
-      paw.style.transform = `translate(${pawX - 14}px, ${pawY - 14}px)`;
-      requestAnimationFrame(animatePaw);
-    }
-    animatePaw();
-
-    document.addEventListener('mousemove', e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (!started) {
-        pawX = mouseX; pawY = mouseY;
-        paw.classList.add('is-visible');
-        started = true;
-      }
-    }, { passive: true });
-
-    const hoverTargets = 'a, button, [role="button"], .card, .mission-item, .timeline-card, .blog-card, .nav-link, .drawer-link, .lang-btn, .chip';
-    document.addEventListener('mouseover', e => {
-      if (e.target.closest(hoverTargets)) {
-        paw.classList.add('is-hovering');
-        paw.classList.remove('is-clicking');
-      }
-    });
-    document.addEventListener('mouseout', e => {
-      if (e.target.closest(hoverTargets)) paw.classList.remove('is-hovering');
-    });
-    document.addEventListener('mousedown', () => {
-      paw.classList.add('is-clicking');
-      paw.classList.remove('is-hovering');
-    });
-    document.addEventListener('mouseup', () => paw.classList.remove('is-clicking'));
-    document.documentElement.addEventListener('mouseleave', () => paw.classList.remove('is-visible'));
-    document.documentElement.addEventListener('mouseenter', () => { if (started) paw.classList.add('is-visible'); });
-
-  } else if (paw) {
-    paw.style.display = 'none';
-    document.body.style.cursor = 'auto';
-  }
 
   /* ── CONTACT ── */
   document.getElementById('contactForm')?.addEventListener('submit', e => {
