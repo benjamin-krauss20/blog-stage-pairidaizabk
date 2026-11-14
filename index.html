@@ -3,612 +3,408 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Internship journal — Benjamin Krauss, systems &amp; network administrator at Pairi Daiza. ESAIP engineering student." />
+  <meta name="theme-color" content="#0c0b09" />
+  <title>Benjamin Krauss — Behind the scenes of Pairi Daiza</title>
 
-  <!-- ── SEO ── -->
-  <meta name="description" content="Blog de stage — Benjamin Krauss, administrateur Systèmes &amp; Réseaux à Pairi Daiza. Étudiant ingénieur ESAIP." />
-  <title>Benjamin Krauss | Pairi Daiza Internship</title>
+  <link rel="icon" type="image/png" href="img/logo.png" />
+  <link rel="apple-touch-icon" href="img/logo.png" />
 
-  <!-- ── FAVICON ── -->
-  <link rel="icon"             type="image/png" href="photo/logo.png" />
-  <link rel="apple-touch-icon"                  href="photo/logo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Behind the scenes of Pairi Daiza — internship journal" />
+  <meta property="og:description" content="Twelve weeks as a systems &amp; network administrator at Pairi Daiza: Zabbix monitoring, field support, public Wi-Fi, IP telephony." />
+  <meta property="og:image" content="https://blog-stage-pairidaizabk.vercel.app/img/og.jpg" />
+  <meta property="og:url" content="https://blog-stage-pairidaizabk.vercel.app" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- ── OPEN GRAPH (LinkedIn / Twitter preview) ── -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:title"       content="Benjamin Krauss | Pairi Daiza Internship" />
-  <meta property="og:description" content="Blog de stage — administrateur Systèmes &amp; Réseaux chez Pairi Daiza. Déploiement GLPI, supervision Zabbix, cybersécurité. ESAIP 2026." />
-  <meta property="og:image"       content="https://blog-stage-pairidaizabk.vercel.app/photo/entre.png" />
-  <meta property="og:url"         content="https://blog-stage-pairidaizabk.vercel.app" />
-  <meta property="og:locale"      content="fr_BE" />
-  <meta name="twitter:card"       content="summary_large_image" />
-  <meta name="twitter:title"      content="Benjamin Krauss | Pairi Daiza Internship" />
-  <meta name="twitter:description" content="Blog de stage — administrateur Systèmes &amp; Réseaux chez Pairi Daiza. ESAIP 2026." />
-  <meta name="twitter:image"      content="https://blog-stage-pairidaizabk.vercel.app/photo/entre.png" />
-
-  <!-- ── PLAUSIBLE ANALYTICS ── -->
-  <!-- Créer un compte sur plausible.io, ajouter le domaine, puis décommenter : -->
-  <!-- <script defer data-domain="blog-stage-pairidaizabk.vercel.app" src="https://plausible.io/js/script.js"></script> -->
-
-  <!-- ── FONTS ── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- ── CSS ── -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="img/hero.webp" />
   <link rel="stylesheet" href="css/style.css" />
-
-  <!-- ── BLOG SECTION STYLES ── -->
-  <style>
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.25rem;
-      margin-top: 2rem;
-    }
-    .blog-card {
-      background: rgba(255,255,255,0.6);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(220,157,35,0.15);
-      border-radius: 20px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-    .blog-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(220,157,35,0.4);
-      box-shadow: 0 12px 40px rgba(26,18,8,0.10);
-    }
-    .blog-card__thumb { width: 100%; height: 170px; object-fit: cover; display: block; }
-    .blog-card__body { padding: 1.2rem 1.3rem 1.4rem; display: flex; flex-direction: column; flex: 1; gap: 0.5rem; }
-    .blog-card__meta { display: flex; align-items: center; gap: 0.6rem; }
-    .blog-card__tag {
-      font-size: 0.65rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      background: rgba(220,157,35,0.12); color: #b07d12;
-      border: 1px solid rgba(220,157,35,0.25); padding: 3px 10px; border-radius: 999px;
-    }
-    .blog-card__date { font-size: 0.72rem; color: #6b5e3e; opacity: 0.7; }
-    .blog-card__title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; font-weight: 700; line-height: 1.35; color: #1a1208; margin: 0; }
-    .blog-card__desc { font-size: 0.83rem; color: #6b5e3e; line-height: 1.65; flex: 1; }
-    .blog-card__link {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; font-weight: 700;
-      color: #DC9D23; margin-top: 0.4rem; transition: gap 0.2s ease; text-decoration: none;
-    }
-    .blog-card__link:hover { gap: 10px; }
-    .blog-card--soon { opacity: 0.6; pointer-events: none; }
-    .blog-card--soon .blog-card__thumb { filter: grayscale(30%); }
-    .blog-card__soon-badge {
-      font-size: 0.65rem; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      background: rgba(107,94,62,0.08); color: #6b5e3e;
-      border: 1px solid rgba(107,94,62,0.18); padding: 3px 10px; border-radius: 999px;
-    }
-    .blog-section-footer { text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(220,157,35,0.12); }
-    .blog-section-footer p { font-size: 0.85rem; color: #6b5e3e; }
-    .blog-section-footer strong { color: #DC9D23; }
-    @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
-  </style>
+  <script>
+    /* Langue mémorisée, appliquée avant l'affichage pour éviter un clignotement */
+    try { if (localStorage.getItem('lang') === 'fr') document.documentElement.lang = 'fr'; } catch (e) {}
+  </script>
 </head>
 
 <body>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
-  <!-- PRELOADER désactivé -->
-
-  <!-- SCROLL PROGRESS -->
-  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
-
-  <!-- BACK TO TOP -->
-  <button class="back-to-top" id="backToTop" aria-label="Back to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="18 15 12 9 6 15"/>
-    </svg>
-  </button>
-
-  <!-- BACKGROUND -->
-  <div class="bg-mesh" aria-hidden="true">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
-  </div>
-
-  <!-- ============================================================ NAVIGATION -->
-  <header class="site-header" id="navbar">
-    <div class="header-inner">
-      <a href="#hero" class="nav-logo" aria-label="Home — Benjamin Krauss">
-        <img src="photo/logo.png" alt="Pairi Daiza logo" class="nav-logo-img" loading="eager" decoding="sync" />
-        <span class="nav-logo-text">Benjamin Krauss</span>
-      </a>
-      <nav class="nav-desktop" aria-label="Main navigation">
-        <a href="#about"    class="nav-link" data-i18n="nav.about">About</a>
-        <a href="#missions" class="nav-link" data-i18n="nav.missions">Missions</a>
-        <a href="#articles" class="nav-link" data-i18n="nav.journal">Journal</a>
-        <a href="#blog"     class="nav-link" data-i18n="nav.blog">Blog</a>
-        <a href="#life"     class="nav-link" data-i18n="nav.life">Life</a>
-        <a href="#contact"  class="nav-link nav-link--cta" data-i18n="nav.contact">Contact</a>
-      </nav>
-      <div class="lang-switch" role="group" aria-label="Language">
-        <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
-        <button class="lang-btn"        data-lang="fr" aria-pressed="false">FR</button>
+  <!-- ================================================= NAVIGATION -->
+  <header class="nav" id="nav">
+    <a href="#hero" class="nav__brand">
+      <span class="nav__name">Benjamin Krauss</span>
+      <span class="nav__sub">Pairi Daiza · 2026</span>
+    </a>
+    <nav class="nav__links" id="navLinks" aria-label="Main navigation">
+      <a href="#story"><span class="en">The story</span><span class="fr">Le récit</span></a>
+      <a href="#missions"><span class="en">Missions</span><span class="fr">Missions</span></a>
+      <a href="#life"><span class="en">Life</span><span class="fr">Vie sur place</span></a>
+      <a href="#lessons"><span class="en">Lessons</span><span class="fr">Bilan</span></a>
+    </nav>
+    <div class="nav__tools">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="fr">FR</button>
       </div>
-      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span><span></span>
+      <button type="button" class="present-btn" id="presentBtn" title="Presentation mode (P)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        <span class="en">Present</span><span class="fr">Présenter</span>
       </button>
+      <button type="button" class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
     </div>
   </header>
 
-  <!-- ============================================================ DRAWER MOBILE -->
-  <div id="mobileDrawer" class="mobile-drawer" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="mobile-drawer__overlay" id="drawerOverlay"></div>
-    <div class="mobile-drawer__panel">
-      <nav aria-label="Mobile navigation">
-        <a href="#about"    class="drawer-link" data-i18n="nav.about">About</a>
-        <a href="#missions" class="drawer-link" data-i18n="nav.missions">Missions</a>
-        <a href="#articles" class="drawer-link" data-i18n="nav.journal">Journal</a>
-        <a href="#blog"     class="drawer-link" data-i18n="nav.blog">Blog</a>
-        <a href="#life"     class="drawer-link" data-i18n="nav.life">Life</a>
-        <a href="#contact"  class="drawer-link drawer-link--cta" data-i18n="nav.contact">Contact</a>
-      </nav>
-    </div>
+  <main>
+
+    <!-- ================================================= HERO -->
+    <section class="hero" id="hero" data-stop>
+      <div class="hero__media" aria-hidden="true">
+        <img src="img/hero.webp" alt="" width="1920" height="1280" id="heroImg" fetchpriority="high" />
+      </div>
+      <div class="hero__inner">
+        <p class="eyebrow load load--1">
+          <span class="en">Internship journal · June – September 2026</span>
+          <span class="fr">Journal de stage · juin – septembre 2026</span>
+        </p>
+        <h1 class="display">
+          <span class="line"><span class="load load--2"><span class="en">Behind the scenes</span><span class="fr">Dans les coulisses</span></span></span>
+          <span class="line"><span class="load load--3"><span class="en">of <em>Pairi Daiza</em></span><span class="fr">de <em>Pairi Daiza</em></span></span></span>
+        </h1>
+        <p class="hero__lead load load--4">
+          <span class="en">Twelve weeks as a systems &amp; network administrator inside one of Europe's largest zoological parks.</span>
+          <span class="fr">Douze semaines comme administrateur systèmes &amp; réseaux au cœur de l'un des plus grands parcs zoologiques d'Europe.</span>
+        </p>
+        <div class="hero__cta load load--5">
+          <a href="#story" class="btn btn--gold"><span class="en">Read the story</span><span class="fr">Lire le récit</span></a>
+          <a href="#missions" class="btn btn--line"><span class="en">See the missions</span><span class="fr">Voir les missions</span></a>
+        </div>
+      </div>
+      <div class="hero__foot load load--5" aria-hidden="true">
+        <span>Brugelette · <span class="en">Belgium</span><span class="fr">Belgique</span></span>
+        <span class="hero__scroll"><span class="en">Scroll</span><span class="fr">Défiler</span><i></i></span>
+        <span>ESAIP · <span class="en">Engineering</span><span class="fr">Ingénieur</span></span>
+      </div>
+    </section>
+
+    <!-- ================================================= ABOUT -->
+    <section class="about section" id="about" data-stop>
+      <div class="about__grid">
+        <div class="reveal">
+          <p class="eyebrow"><span class="en">The intern</span><span class="fr">Le stagiaire</span></p>
+          <h2 class="title">Benjamin <em>Krauss</em></h2>
+          <p class="lead">
+            <span class="en">Engineering student at ESAIP, drawn to network infrastructure. For one summer I joined Pairi Daiza's IT department: keeping an information system running a few steps away from giant pandas and Siberian tigers.</span>
+            <span class="fr">Étudiant ingénieur à l'ESAIP, attiré par les infrastructures réseau. Le temps d'un été, j'ai rejoint le service informatique de Pairi Daiza : faire tourner un système d'information à quelques pas des pandas géants et des tigres de Sibérie.</span>
+          </p>
+        </div>
+        <dl class="facts reveal">
+          <div><dt><span class="en">School</span><span class="fr">École</span></dt><dd>ESAIP · <span class="en">Engineering</span><span class="fr">cycle ingénieur</span></dd></div>
+          <div><dt><span class="en">Role</span><span class="fr">Poste</span></dt><dd><span class="en">Systems &amp; network administrator</span><span class="fr">Administrateur systèmes &amp; réseaux</span></dd></div>
+          <div><dt><span class="en">Host</span><span class="fr">Entreprise</span></dt><dd>Pairi Daiza · <span class="en">IT department</span><span class="fr">service informatique</span></dd></div>
+          <div><dt><span class="en">Place</span><span class="fr">Lieu</span></dt><dd>Brugelette, <span class="en">Wallonia, Belgium</span><span class="fr">Wallonie, Belgique</span></dd></div>
+          <div><dt><span class="en">Dates</span><span class="fr">Dates</span></dt><dd><span class="en">17 June – 11 September 2026</span><span class="fr">17 juin – 11 septembre 2026</span></dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ================================================= PARK -->
+    <section class="park section" id="park" data-stop>
+      <div class="park__bg" aria-hidden="true"><img src="img/park.webp" alt="" loading="lazy" decoding="async" /></div>
+      <div class="park__head reveal">
+        <p class="eyebrow"><span class="en">The setting</span><span class="fr">Le décor</span></p>
+        <h2 class="title"><span class="en">A garden of <em>worlds</em></span><span class="fr">Un jardin des <em>mondes</em></span></h2>
+        <p class="lead">
+          <span class="en">A zoological and botanical park voted Europe's best zoo several times. Behind the temples and the enclosures: tills, card terminals, Wi-Fi, telephony and servers that have to work every single day the gates are open.</span>
+          <span class="fr">Un parc zoologique et botanique plusieurs fois élu meilleur zoo d'Europe. Derrière les temples et les enclos : des caisses, des terminaux de paiement, du Wi-Fi, de la téléphonie et des serveurs qui doivent fonctionner chaque jour d'ouverture.</span>
+        </p>
+      </div>
+      <ul class="stats reveal" role="list">
+        <li><strong><span data-count="80">80</span> ha</strong><span><span class="en">of park to cover</span><span class="fr">de parc à couvrir</span></span></li>
+        <li><strong><span data-count="2.8" data-dec="1">2.8</span> M+</strong><span><span class="en">visitors in 2025</span><span class="fr">visiteurs en 2025</span></span></li>
+        <li><strong><span data-count="7500">7500</span></strong><span><span class="en">animals, 800 species</span><span class="fr">animaux, 800 espèces</span></span></li>
+        <li><strong><span data-count="12">12</span></strong><span><span class="en">weeks on site</span><span class="fr">semaines sur place</span></span></li>
+      </ul>
+      <div class="strips" aria-label="Pairi Daiza">
+        <div class="strip" data-dir="-1">
+          <img src="img/g-pavilion.webp" srcset="img/g-pavilion-810.webp 810w, img/g-pavilion.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Chinese pavilion at blue hour" loading="lazy" decoding="async" />
+          <img src="img/g-panda.webp" srcset="img/g-panda-810.webp 810w, img/g-panda.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Giant panda" loading="lazy" decoding="async" />
+          <img src="img/g-temple.webp" srcset="img/g-temple-810.webp 810w, img/g-temple.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Chinese temple by night" loading="lazy" decoding="async" />
+          <img src="img/g-tiger.webp" srcset="img/g-tiger-810.webp 810w, img/g-tiger.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="White tiger" loading="lazy" decoding="async" />
+          <img src="img/g-hall.webp" srcset="img/g-hall-810.webp 810w, img/g-hall.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Illuminated hall" loading="lazy" decoding="async" />
+          <img src="img/g-elephants.webp" srcset="img/g-elephants-810.webp 810w, img/g-elephants.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Elephants bathing" loading="lazy" decoding="async" />
+        </div>
+        <div class="strip" data-dir="1">
+          <img src="img/g-redpanda.webp" srcset="img/g-redpanda-810.webp 810w, img/g-redpanda.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Red panda" loading="lazy" decoding="async" />
+          <img src="img/g-lake.webp" srcset="img/g-lake-810.webp 810w, img/g-lake.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="The lake at dusk" loading="lazy" decoding="async" />
+          <img src="img/g-monkeys.webp" srcset="img/g-monkeys-810.webp 810w, img/g-monkeys.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Golden snub-nosed monkeys" loading="lazy" decoding="async" />
+          <img src="img/g-crypt.webp" srcset="img/g-crypt-810.webp 810w, img/g-crypt.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="The crypt of Cambron abbey" loading="lazy" decoding="async" />
+          <img src="img/g-flamingo.webp" srcset="img/g-flamingo-810.webp 810w, img/g-flamingo.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Flamingos" loading="lazy" decoding="async" />
+          <img src="img/g-sunset.webp" srcset="img/g-sunset-810.webp 810w, img/g-sunset.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Sunset over the park" loading="lazy" decoding="async" />
+        </div>
+        <div class="strip" data-dir="-1">
+          <img src="img/g-giraffe.webp" srcset="img/g-giraffe-810.webp 810w, img/g-giraffe.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Giraffe" loading="lazy" decoding="async" />
+          <img src="img/g-koala.webp" srcset="img/g-koala-810.webp 810w, img/g-koala.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Koala" loading="lazy" decoding="async" />
+          <img src="img/g-polar.webp" srcset="img/g-polar-810.webp 810w, img/g-polar.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Polar bear" loading="lazy" decoding="async" />
+          <img src="img/g-orangutan.webp" srcset="img/g-orangutan-810.webp 810w, img/g-orangutan.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Orangutans" loading="lazy" decoding="async" />
+          <img src="img/g-lemurs.webp" srcset="img/g-lemurs-810.webp 810w, img/g-lemurs.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Ring-tailed lemurs" loading="lazy" decoding="async" />
+          <img src="img/g-walrus.webp" srcset="img/g-walrus-810.webp 810w, img/g-walrus.webp 1620w" sizes="(max-width: 900px) 72vw, 34vw" width="1620" height="1080" alt="Walrus" loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================= STORY -->
+    <section class="story" id="story" aria-label="The story">
+      <div class="story__chapters">
+
+        <article class="chapter" id="ch1" data-ch="1" data-stop>
+          <div class="chapter__inner">
+            <p class="chapter__when"><span class="en">17 – 30 June</span><span class="fr">17 – 30 juin</span></p>
+            <p class="eyebrow"><span class="en">Chapter one · First steps</span><span class="fr">Chapitre un · Premiers pas</span></p>
+            <h2 class="title"><span class="en">Learning the park, <em>one till at a time</em></span><span class="fr">Découvrir le parc, <em>une caisse à la fois</em></span></h2>
+            <p>
+              <span class="en">Meeting the IT team, its tools and its procedures. Then straight into the field: diagnosing and fixing tills and card terminals in the shops and restaurants, with GLPI for tickets and inventory.</span>
+              <span class="fr">Découverte de l'équipe informatique, de ses outils et de ses procédures. Puis directement le terrain : diagnostic et dépannage des caisses et des terminaux de paiement dans les boutiques et les restaurants, avec GLPI pour les tickets et l'inventaire.</span>
+            </p>
+            <ul class="tags" role="list"><li>Support</li><li>PC-Shop</li><li><span class="en">Card terminals</span><span class="fr">TPE</span></li><li>GLPI</li></ul>
+            <button type="button" class="more" data-entry="entry-1"><span class="en">Read the full entry</span><span class="fr">Lire l'article</span></button>
+          </div>
+        </article>
+
+        <article class="chapter" id="ch2" data-ch="2" data-stop>
+          <div class="chapter__inner">
+            <p class="chapter__when"><span class="en">July</span><span class="fr">Juillet</span></p>
+            <p class="eyebrow"><span class="en">Chapter two · The main mission</span><span class="fr">Chapitre deux · La mission principale</span></p>
+            <h2 class="title"><span class="en">The whole park under <em>Zabbix's</em> watch</span><span class="fr">Tout le parc sous l'œil de <em>Zabbix</em></span></h2>
+            <p>
+              <span class="en">My main mission: centralise monitoring with Zabbix 7.4. Agents deployed automatically on the Windows servers through a GPO (MSI + MST), without forced reboots, and hosts that register and sort themselves into groups thanks to their metadata.</span>
+              <span class="fr">Ma mission principale : centraliser la supervision avec Zabbix 7.4. Des agents déployés automatiquement sur les serveurs Windows par GPO (MSI + MST), sans redémarrage forcé, et des hôtes qui s'enregistrent et se rangent seuls dans leurs groupes grâce à leurs métadonnées.</span>
+            </p>
+            <ul class="tags" role="list"><li>Zabbix 7.4</li><li>GPO</li><li>MSI + MST</li><li><span class="en">Auto-registration</span><span class="fr">Auto-enregistrement</span></li></ul>
+            <button type="button" class="more" data-entry="entry-2"><span class="en">Read the full entry</span><span class="fr">Lire l'article</span></button>
+          </div>
+        </article>
+
+        <article class="chapter" id="ch3" data-ch="3" data-stop>
+          <div class="chapter__inner">
+            <p class="chapter__when"><span class="en">August</span><span class="fr">Août</span></p>
+            <p class="eyebrow"><span class="en">Chapter three · Out in the park</span><span class="fr">Chapitre trois · Sur le terrain</span></p>
+            <h2 class="title"><span class="en">Wi-Fi, sound and alerts <em>that get heard</em></span><span class="fr">Wi-Fi, son et des alertes <em>qu'on entend</em></span></h2>
+            <p>
+              <span class="en">Field work across the park: diagnosing, replacing and reconfiguring the visitors' public Wi-Fi access points, and working on the sound system. Back at the desk: firewall and switches added to Zabbix, a dedicated core-network dashboard, audio and SMS alerts.</span>
+              <span class="fr">Interventions dans tout le parc : diagnostic, remplacement et reconfiguration des bornes Wi-Fi publiques des visiteurs, et travail sur la sonorisation. De retour au bureau : pare-feu et switchs ajoutés à Zabbix, un tableau de bord dédié au cœur de réseau, des alertes sonores et par SMS.</span>
+            </p>
+            <ul class="tags" role="list"><li>Wi-Fi</li><li><span class="en">Sound</span><span class="fr">Sonorisation</span></li><li><span class="en">Firewall · switches</span><span class="fr">Pare-feu · switchs</span></li><li><span class="en">SMS alerts</span><span class="fr">Alertes SMS</span></li></ul>
+            <button type="button" class="more" data-entry="entry-3"><span class="en">Read the full entry</span><span class="fr">Lire l'article</span></button>
+          </div>
+        </article>
+
+        <article class="chapter" id="ch4" data-ch="4" data-stop>
+          <div class="chapter__inner">
+            <p class="chapter__when"><span class="en">1 – 11 September</span><span class="fr">1 – 11 septembre</span></p>
+            <p class="eyebrow"><span class="en">Chapter four · Closing the loop</span><span class="fr">Chapitre quatre · Boucler la boucle</span></p>
+            <h2 class="title"><span class="en">IP telephony, bulk scripts and <em>a look back</em></span><span class="fr">Téléphonie IP, scripts de masse et <em>bilan</em></span></h2>
+            <p>
+              <span class="en">The 3CX IP telephony hosts brought into line: renamed in bulk with the TEL- prefix through YAML edits and scripts. The last complex field tickets closed, then time to look back on the summer.</span>
+              <span class="fr">Les hôtes de téléphonie IP 3CX remis au carré : renommés en masse avec le préfixe TEL- par modification de fichiers YAML et scripts. Les derniers tickets complexes du terrain clôturés, puis l'heure du bilan.</span>
+            </p>
+            <ul class="tags" role="list"><li>3CX</li><li>YAML</li><li><span class="en">Scripting</span><span class="fr">Scripts</span></li><li><span class="en">Review</span><span class="fr">Bilan</span></li></ul>
+            <button type="button" class="more" data-entry="entry-4"><span class="en">Read the full entry</span><span class="fr">Lire l'article</span></button>
+          </div>
+        </article>
+      </div>
+
+      <div class="story__stage" id="stage" data-ch="1" aria-hidden="true">
+        <svg class="scene" id="scene" viewBox="0 0 600 600" role="img"></svg>
+        <ol class="stage__dots"><li></li><li></li><li></li><li></li></ol>
+      </div>
+    </section>
+
+    <!-- ================================================= MISSIONS -->
+    <section class="missions section" id="missions" data-stop>
+      <div class="reveal">
+        <p class="eyebrow"><span class="en">At a glance</span><span class="fr">En résumé</span></p>
+        <h2 class="title"><span class="en">What I <em>worked on</em></span><span class="fr">Ce sur quoi j'ai <em>travaillé</em></span></h2>
+      </div>
+      <div class="missions__grid">
+        <article class="mission mission--main reveal">
+          <span class="mission__no">01</span>
+          <p class="mission__flag"><span class="en">Main mission</span><span class="fr">Mission principale</span></p>
+          <h3><span class="en">Monitoring with Zabbix</span><span class="fr">Supervision avec Zabbix</span></h3>
+          <p>
+            <span class="en">Zabbix 7.4 as the single place to watch servers and network equipment: automated agent deployment, auto-registration, dashboards, audio and SMS alerts.</span>
+            <span class="fr">Zabbix 7.4 comme point unique pour surveiller les serveurs et les équipements réseau : déploiement automatisé des agents, auto-enregistrement, tableaux de bord, alertes sonores et SMS.</span>
+          </p>
+        </article>
+        <article class="mission reveal">
+          <span class="mission__no">02</span>
+          <h3><span class="en">Shop &amp; restaurant support</span><span class="fr">Support boutiques &amp; restaurants</span></h3>
+          <p><span class="en">Tills and card terminals: diagnosis and repair on site.</span><span class="fr">Caisses et terminaux de paiement : diagnostic et dépannage sur place.</span></p>
+        </article>
+        <article class="mission reveal">
+          <span class="mission__no">03</span>
+          <h3><span class="en">Wi-Fi &amp; sound in the park</span><span class="fr">Wi-Fi &amp; son dans le parc</span></h3>
+          <p><span class="en">Public access points replaced and reconfigured, work on the sound system.</span><span class="fr">Bornes publiques remplacées et reconfigurées, interventions sur la sonorisation.</span></p>
+        </article>
+        <article class="mission reveal">
+          <span class="mission__no">04</span>
+          <h3>GLPI</h3>
+          <p><span class="en">Tickets and inventory of the IT estate.</span><span class="fr">Tickets et inventaire du parc informatique.</span></p>
+        </article>
+        <article class="mission reveal">
+          <span class="mission__no">05</span>
+          <h3><span class="en">IP telephony</span><span class="fr">Téléphonie IP</span></h3>
+          <p><span class="en">3CX hosts managed and renamed in bulk by script.</span><span class="fr">Hôtes 3CX gérés et renommés en masse par script.</span></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================================================= LIFE -->
+    <section class="life section" id="life" data-stop>
+      <div class="life__photos reveal">
+        <img src="img/life-fields.webp" alt="Fields around Ath" loading="lazy" decoding="async" />
+        <img src="img/life-horse.webp" alt="A horse near the flat in Ath" loading="lazy" decoding="async" />
+      </div>
+      <div class="life__text reveal">
+        <p class="eyebrow"><span class="en">Beyond the helpdesk</span><span class="fr">Au-delà du helpdesk</span></p>
+        <h2 class="title"><span class="en">Life in <em>Ath</em></span><span class="fr">La vie à <em>Ath</em></span></h2>
+        <p class="lead">
+          <span class="en">A shared flat in Ath with three flatmates, and the car every morning: twenty-five minutes of Walloon countryside, between fields and horses, before diving into the tickets.</span>
+          <span class="fr">Une colocation à Ath avec trois colocataires, et la voiture chaque matin : vingt-cinq minutes de campagne wallonne, entre champs et chevaux, avant de plonger dans les tickets.</span>
+        </p>
+        <p>
+          <span class="en">These photos were taken right from the flat. Calm, green, far from open-plan offices: a striking contrast with the technical days.</span>
+          <span class="fr">Ces photos ont été prises depuis la colocation. Calme, vert, loin des open spaces : un contraste saisissant avec les journées techniques.</span>
+        </p>
+        <dl class="facts facts--row">
+          <div><dt><span class="en">Housing</span><span class="fr">Logement</span></dt><dd><span class="en">Shared flat, Ath</span><span class="fr">Colocation, Ath</span></dd></div>
+          <div><dt><span class="en">Commute</span><span class="fr">Trajet</span></dt><dd>Ath → Brugelette · ~25 min</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ================================================= LESSONS -->
+    <section class="lessons section" id="lessons" data-stop>
+      <div class="reveal">
+        <p class="eyebrow"><span class="en">Takeaways</span><span class="fr">À retenir</span></p>
+        <h2 class="title"><span class="en">Four lessons <em>from the summer</em></span><span class="fr">Quatre leçons <em>de l'été</em></span></h2>
+      </div>
+      <ol class="lessons__list">
+        <li class="reveal">
+          <h3><span class="en">Handle the paperwork early</span><span class="fr">Gérer les démarches tôt</span></h3>
+          <p><span class="en">Student health cover, car insurance abroad, the internship agreement: sort it all out before day one.</span><span class="fr">Couverture santé étudiante, assurance auto à l'étranger, convention de stage : tout régler avant le premier jour.</span></p>
+        </li>
+        <li class="reveal">
+          <h3><span class="en">Truly immerse yourself</span><span class="fr">S'immerger vraiment</span></h3>
+          <p><span class="en">Make the most of working in a wildlife park. A lunch break among the pandas recharges you as much as a coffee.</span><span class="fr">Profiter de travailler dans un parc animalier. Une pause déjeuner parmi les pandas recharge autant qu'un café.</span></p>
+        </li>
+        <li class="reveal">
+          <h3><span class="en">Talk to the team</span><span class="fr">Parler avec l'équipe</span></h3>
+          <p><span class="en">Breaks with the IT team are often where you learn the most: the undocumented fixes, the in-house habits.</span><span class="fr">Les pauses avec l'équipe informatique sont souvent là où l'on apprend le plus : les correctifs non documentés, les habitudes maison.</span></p>
+        </li>
+        <li class="reveal">
+          <h3><span class="en">Document as you go</span><span class="fr">Documenter au fil de l'eau</span></h3>
+          <p><span class="en">Never put off the docs. A ticket closed without a resolution note is technical debt for the whole team.</span><span class="fr">Ne jamais repousser la rédaction. Un ticket fermé sans note de résolution est une dette technique pour toute l'équipe.</span></p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ================================================= END -->
+    <section class="end" id="end" data-stop>
+      <div class="end__media" aria-hidden="true"><img src="img/closing.webp" alt="" loading="lazy" decoding="async" /></div>
+      <div class="end__inner reveal">
+        <p class="eyebrow"><span class="en">End of the journey</span><span class="fr">Fin du voyage</span></p>
+        <h2 class="display"><span class="en">Thank <em>you</em></span><span class="fr"><em>Merci</em></span></h2>
+        <p class="hero__lead"><span class="en">Any questions about the internship?</span><span class="fr">Des questions sur le stage ?</span></p>
+        <div class="hero__cta">
+          <a href="#hero" class="btn btn--line"><span class="en">Back to the start</span><span class="fr">Revenir au début</span></a>
+          <a href="https://github.com/benjamin-krauss20/blog-stage-pairidaizabk" class="btn btn--line" target="_blank" rel="noopener"><span class="en">Source code</span><span class="fr">Code source</span></a>
+        </div>
+      </div>
+      <footer class="footer">
+        <p><span class="en">Designed by</span><span class="fr">Conçu par</span> <strong>Benjamin Krauss</strong> · ESAIP · <span class="en">Pairi Daiza internship</span><span class="fr">Stage Pairi Daiza</span> 2026</p>
+        <p>Domaine de Cambron · Brugelette, <span class="en">Belgium</span><span class="fr">Belgique</span> · <span class="en">Park photos</span><span class="fr">Photos du parc</span> © Pairi Daiza</p>
+      </footer>
+    </section>
+  </main>
+
+  <!-- ================================================= ARTICLES -->
+  <dialog class="entry" id="entry-1" aria-labelledby="entry-1-t">
+    <button type="button" class="entry__close" data-close aria-label="Close">×</button>
+    <p class="eyebrow"><span class="en">Chapter one · 17 – 30 June 2026</span><span class="fr">Chapitre un · 17 – 30 juin 2026</span></p>
+    <h2 class="title" id="entry-1-t"><span class="en">First steps: IT support at Pairi Daiza</span><span class="fr">Premiers pas : le support informatique de Pairi Daiza</span></h2>
+    <h3><span class="en">Context</span><span class="fr">Contexte</span></h3>
+    <p><span class="en">The park's IT estate is heterogeneous: servers, PC-Shop tills, card terminals, routers and switches, spread over the whole site. The first two weeks were about understanding it, alongside the team.</span><span class="fr">Le parc informatique est hétérogène : serveurs, caisses PC-Shop, terminaux de paiement, routeurs et switchs, répartis sur tout le site. Les deux premières semaines ont servi à le comprendre, aux côtés de l'équipe.</span></p>
+    <h3><span class="en">What I did</span><span class="fr">Ce que j'ai fait</span></h3>
+    <ul>
+      <li><span class="en">Got to know the team, the internal tools and the procedures.</span><span class="fr">Découverte de l'équipe, des outils internes et des procédures.</span></li>
+      <li><span class="en">Handled my first support tickets: diagnosing and fixing tills and card terminals in the shops and restaurants.</span><span class="fr">Prise en charge de mes premiers tickets : diagnostic et dépannage des caisses et des terminaux de paiement en boutiques et restaurants.</span></li>
+      <li><span class="en">Used GLPI for tickets and inventory.</span><span class="fr">Utilisation de GLPI pour les tickets et l'inventaire.</span></li>
+    </ul>
+    <h3><span class="en">What I take away</span><span class="fr">Ce que j'en retiens</span></h3>
+    <p><span class="en">Support in a park open to the public happens on site, in front of the equipment and the people using it: a clear diagnosis matters as much as the fix.</span><span class="fr">Dans un parc ouvert au public, le support se fait sur place, devant le matériel et les personnes qui l'utilisent : un diagnostic clair compte autant que la réparation.</span></p>
+  </dialog>
+
+  <dialog class="entry" id="entry-2" aria-labelledby="entry-2-t">
+    <button type="button" class="entry__close" data-close aria-label="Close">×</button>
+    <p class="eyebrow"><span class="en">Chapter two · July 2026</span><span class="fr">Chapitre deux · juillet 2026</span></p>
+    <h2 class="title" id="entry-2-t"><span class="en">Industrialising monitoring: Zabbix at scale</span><span class="fr">Industrialiser la supervision : Zabbix à grande échelle</span></h2>
+    <h3><span class="en">Context</span><span class="fr">Contexte</span></h3>
+    <p><span class="en">My main mission: centralise the monitoring of the park's infrastructure with Zabbix 7.4. The challenge was not installing one agent, but making sure every machine ends up monitored without manual work.</span><span class="fr">Ma mission principale : centraliser la supervision de l'infrastructure du parc avec Zabbix 7.4. L'enjeu n'était pas d'installer un agent, mais que chaque machine se retrouve supervisée sans travail manuel.</span></p>
+    <h3><span class="en">What I did</span><span class="fr">Ce que j'ai fait</span></h3>
+    <ul>
+      <li><span class="en">Deployed the agent on the Windows servers through a GPO: the MSI package plus an MST transform file carrying the settings, without forced reboots.</span><span class="fr">Déploiement de l'agent sur les serveurs Windows par GPO : le paquet MSI accompagné d'un fichier de transformation MST qui porte les réglages, sans redémarrage forcé.</span></li>
+      <li><span class="en">Set up auto-registration: each agent announces itself with its host metadata, and the server uses it to place the machine in the right group straight away.</span><span class="fr">Mise en place de l'auto-enregistrement : chaque agent s'annonce avec ses métadonnées d'hôte, et le serveur s'en sert pour ranger aussitôt la machine dans le bon groupe.</span></li>
+    </ul>
+    <h3><span class="en">What I take away</span><span class="fr">Ce que j'en retiens</span></h3>
+    <p><span class="en">Automating takes longer than doing it once by hand, but it is the only approach that still holds when the number of machines grows.</span><span class="fr">Automatiser prend plus de temps que de le faire une fois à la main, mais c'est la seule approche qui tient encore quand le nombre de machines augmente.</span></p>
+  </dialog>
+
+  <dialog class="entry" id="entry-3" aria-labelledby="entry-3-t">
+    <button type="button" class="entry__close" data-close aria-label="Close">×</button>
+    <p class="eyebrow"><span class="en">Chapter three · August 2026</span><span class="fr">Chapitre trois · août 2026</span></p>
+    <h2 class="title" id="entry-3-t"><span class="en">Field infrastructure: public Wi-Fi, sound and alerts</span><span class="fr">Infrastructures terrain : Wi-Fi public, son et alertes</span></h2>
+    <h3><span class="en">Context</span><span class="fr">Contexte</span></h3>
+    <p><span class="en">August is high season. Visitors rely on the public Wi-Fi, and the IT team needs to hear about an incident on the core network immediately.</span><span class="fr">Août, c'est la haute saison. Les visiteurs comptent sur le Wi-Fi public, et l'équipe informatique doit être prévenue tout de suite d'un incident sur le cœur de réseau.</span></p>
+    <h3><span class="en">What I did</span><span class="fr">Ce que j'ai fait</span></h3>
+    <ul>
+      <li><span class="en">Diagnosed, replaced and reconfigured public Wi-Fi access points in the park.</span><span class="fr">Diagnostic, remplacement et reconfiguration de bornes Wi-Fi publiques dans le parc.</span></li>
+      <li><span class="en">Worked on the park's sound system.</span><span class="fr">Interventions sur la sonorisation du parc.</span></li>
+      <li><span class="en">Added the firewall and the switches to Zabbix and built a dashboard dedicated to the core network.</span><span class="fr">Ajout du pare-feu et des switchs dans Zabbix et création d'un tableau de bord dédié au cœur de réseau.</span></li>
+      <li><span class="en">Set up audio and SMS notification channels for critical incidents.</span><span class="fr">Mise en place de canaux de notification sonores et par SMS pour les incidents critiques.</span></li>
+    </ul>
+    <h3><span class="en">What I take away</span><span class="fr">Ce que j'en retiens</span></h3>
+    <p><span class="en">An alert nobody sees is useless: the way a notification reaches the team matters as much as the trigger behind it.</span><span class="fr">Une alerte que personne ne voit ne sert à rien : la façon dont une notification arrive à l'équipe compte autant que le déclencheur.</span></p>
+  </dialog>
+
+  <dialog class="entry" id="entry-4" aria-labelledby="entry-4-t">
+    <button type="button" class="entry__close" data-close aria-label="Close">×</button>
+    <p class="eyebrow"><span class="en">Chapter four · 1 – 11 September 2026</span><span class="fr">Chapitre quatre · 1 – 11 septembre 2026</span></p>
+    <h2 class="title" id="entry-4-t"><span class="en">IP telephony, bulk scripts and end-of-internship review</span><span class="fr">Téléphonie IP, scripts de masse et bilan de fin de stage</span></h2>
+    <h3><span class="en">Context</span><span class="fr">Contexte</span></h3>
+    <p><span class="en">Last stretch: tidy up what remains and hand over something clean.</span><span class="fr">Dernière ligne droite : ranger ce qui reste et transmettre quelque chose de propre.</span></p>
+    <h3><span class="en">What I did</span><span class="fr">Ce que j'ai fait</span></h3>
+    <ul>
+      <li><span class="en">Managed the 3CX IP telephony hosts and renamed them in bulk with the TEL- prefix, by editing YAML files and using scripts.</span><span class="fr">Gestion des hôtes de téléphonie IP 3CX et renommage en masse avec le préfixe TEL-, par modification de fichiers YAML et scripts.</span></li>
+      <li><span class="en">Closed the last complex field tickets.</span><span class="fr">Clôture des derniers tickets complexes du terrain.</span></li>
+    </ul>
+    <h3><span class="en">What I take away</span><span class="fr">Ce que j'en retiens</span></h3>
+    <p><span class="en">Looking back, the summer covered system administration, networking, project management and, above all, working autonomously.</span><span class="fr">Avec le recul, l'été a couvert l'administration système, les réseaux, la gestion de projet et, surtout, le travail en autonomie.</span></p>
+  </dialog>
+
+  <!-- ================================================= MODE PRÉSENTATION -->
+  <div class="hud" id="hud" hidden>
+    <button type="button" id="hudPrev" aria-label="Previous">‹</button>
+    <span class="hud__count" id="hudCount">01 / 11</span>
+    <button type="button" id="hudNext" aria-label="Next">›</button>
+    <span class="hud__time" id="hudTime" title="T : reset">00:00</span>
+    <button type="button" id="hudExit" aria-label="Exit">×</button>
   </div>
 
-  <main class="main-container">
-
-    <!-- ============================================================ HERO -->
-    <section id="hero" class="hero-section" aria-label="Introduction">
-      <div class="hero-bg-wrap">
-        <img src="photo/entre.png" alt="Pairi Daiza main entrance" class="hero-bg-img" loading="eager" decoding="async" />
-        <div class="hero-bg-overlay" aria-hidden="true"></div>
-      </div>
-      <div class="hero-badge-corner">
-        <div class="badge">
-          <span class="badge-dot" aria-hidden="true"></span>
-          <span data-i18n="hero.badge">ESAIP Engineering Student · Work-Study</span>
-        </div>
-      </div>
-      <div class="hero-tags" aria-hidden="true">
-        <span class="hero-tag" data-i18n="hero.tag1">Best Zoo in Europe</span>
-        <span class="hero-tag">80 ha · Wallonia</span>
-        <span class="hero-tag" data-i18n="hero.tag3">IT Department</span>
-      </div>
-      <div class="hero-content-wrap" id="heroContent">
-        <h1>
-          <span data-i18n="hero.line1">Live from</span><br />
-          <span class="text-gradient">Pairi Daiza</span>
-        </h1>
-        <p class="hero-sub" data-i18n="hero.sub">
-          Systems &amp; Network Administrator — three months at the heart of Europe's best zoo.
-          I monitor infrastructure with <strong>Zabbix</strong>, manage IT assets via <strong>GLPI</strong>, and harden network security.
-        </p>
-        <div class="hero-actions">
-          <a href="#blog" class="btn btn--primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-            </svg>
-            <span data-i18n="hero.btn.journal">Read the journal</span>
-          </a>
-          <a href="#missions" class="btn btn--ghost" data-i18n="hero.btn.missions">View missions</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ MARQUEE -->
-    <div class="marquee-wrap" aria-hidden="true">
-      <div class="marquee-track">
-        <span class="marquee-item">Zabbix monitoring<span class="marquee-dot"></span></span>
-        <span class="marquee-item">GLPI asset management<span class="marquee-dot"></span></span>
-        <span class="marquee-item">Cybersecurity<span class="marquee-dot"></span></span>
-        <span class="marquee-item">LAN / VLAN<span class="marquee-dot"></span></span>
-        <span class="marquee-item">Pairi Daiza · Belgium<span class="marquee-dot"></span></span>
-        <span class="marquee-item">Network infrastructure<span class="marquee-dot"></span></span>
-        <span class="marquee-item">ESAIP Engineering<span class="marquee-dot"></span></span>
-        <span class="marquee-item">Systems administration<span class="marquee-dot"></span></span>
-        <span class="marquee-item">Zabbix monitoring<span class="marquee-dot"></span></span>
-        <span class="marquee-item">GLPI asset management<span class="marquee-dot"></span></span>
-        <span class="marquee-item">Cybersecurity<span class="marquee-dot"></span></span>
-        <span class="marquee-item">LAN / VLAN<span class="marquee-dot"></span></span>
-        <span class="marquee-item">Pairi Daiza · Belgium<span class="marquee-dot"></span></span>
-        <span class="marquee-item">Network infrastructure<span class="marquee-dot"></span></span>
-        <span class="marquee-item">ESAIP Engineering<span class="marquee-dot"></span></span>
-        <span class="marquee-item">Systems administration<span class="marquee-dot"></span></span>
-      </div>
-    </div>
-
-    <!-- ============================================================ STATS -->
-    <section class="stats-section" aria-label="Key figures">
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-number" data-target="80">0</span><span class="stat-unit"> ha</span>
-          <span class="stat-label" data-i18n="stat.area">Park area</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number" data-target="5">0</span><span class="stat-unit">M+</span>
-          <span class="stat-label" data-i18n="stat.visitors">Visitors / year</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number" data-target="200">0</span><span class="stat-unit"></span>
-          <span class="stat-label" data-i18n="stat.machines">Machines deployed</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number" data-target="3">0</span><span class="stat-unit"> months</span>
-          <span class="stat-label" data-i18n="stat.internship">Internship</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ ABOUT -->
-    <section id="about" aria-labelledby="about-title">
-      <div class="card about-card">
-        <div class="about-img-wrap">
-          <img src="photo/entrezoom.png" alt="Pairi Daiza entrance plaza" class="about-img" loading="lazy" decoding="async" />
-          <div class="about-img-shim" aria-hidden="true"></div>
-        </div>
-        <div class="about-content">
-          <p class="section-eyebrow" data-i18n="about.eyebrow">Who I am</p>
-          <h2 class="section-title" id="about-title">Benjamin Krauss</h2>
-          <div class="info-grid">
-            <div class="info-item">
-              <span class="label" data-i18n="about.lbl.school">School</span>
-              <span class="value">ESAIP · Engineering</span>
-            </div>
-            <div class="info-item">
-              <span class="label" data-i18n="about.lbl.role">Role</span>
-              <span class="value" data-i18n="about.val.role">Systems &amp; Network Admin</span>
-            </div>
-            <div class="info-item">
-              <span class="label" data-i18n="about.lbl.location">Location</span>
-              <span class="value" data-i18n="about.val.location">Brugelette, Belgium</span>
-            </div>
-            <div class="info-item">
-              <span class="label" data-i18n="about.lbl.duration">Duration</span>
-              <span class="value" data-i18n="about.val.duration">3 months · 2026</span>
-            </div>
-          </div>
-          <p class="description" data-i18n="about.desc">
-            Passionate about network infrastructure and cybersecurity, I joined Pairi Daiza's IT department for my final-year internship. Running a professional information system just steps from giant pandas and Siberian tigers — an experience unlike any other.
-          </p>
-          <ul class="skill-chips" role="list" aria-label="Skills">
-            <li class="chip">GLPI</li>
-            <li class="chip">Zabbix</li>
-            <li class="chip" data-i18n="chip.cyber">Cybersecurity</li>
-            <li class="chip">LAN / VLAN</li>
-            <li class="chip" data-i18n="chip.monitoring">Network monitoring</li>
-            <li class="chip" data-i18n="chip.sysadmin">System administration</li>
-            <li class="chip" data-i18n="chip.docs">Documentation</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ DESTINATION -->
-    <section id="destination" aria-labelledby="dest-title">
-      <div class="card">
-        <p class="section-eyebrow" data-i18n="dest.eyebrow">The destination</p>
-        <h2 class="section-title" id="dest-title">Pairi Daiza</h2>
-        <div class="info-grid">
-          <div class="info-item">
-            <span class="label" data-i18n="dest.lbl.company">Company</span>
-            <span class="value">Pairi Daiza</span>
-          </div>
-          <div class="info-item">
-            <span class="label" data-i18n="dest.lbl.sector">Sector</span>
-            <span class="value" data-i18n="dest.val.sector">Zoological &amp; botanical park</span>
-          </div>
-          <div class="info-item">
-            <span class="label" data-i18n="dest.lbl.location">Location</span>
-            <span class="value" data-i18n="dest.val.location">Brugelette, Wallonia</span>
-          </div>
-          <div class="info-item">
-            <span class="label" data-i18n="dest.lbl.dept">Department</span>
-            <span class="value" data-i18n="dest.val.dept">IT · Systems &amp; Network</span>
-          </div>
-        </div>
-        <p class="description" data-i18n="dest.desc">
-          One of the largest zoological parks in Europe — voted best zoo in Europe several times, three Michelin Green Guide stars. Its IT department runs a critical infrastructure across 80 hectares: ticketing, video surveillance, internal networks. An exceptional technical playground.
-        </p>
-        <div class="swiper animal-swiper" aria-label="Animals at Pairi Daiza">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="photo/panda.webp" alt="Giant panda" loading="lazy" decoding="async" /><span class="animal-slide-label" data-i18n="animal.panda">Giant panda</span></div>
-            <div class="swiper-slide"><img src="photo/flamandrose.jpeg" alt="Flamingos" loading="lazy" decoding="async" /><span class="animal-slide-label" data-i18n="animal.flamingo">Flamingos</span></div>
-            <div class="swiper-slide"><img src="photo/manchot.jpeg" alt="Penguins" loading="lazy" decoding="async" /><span class="animal-slide-label" data-i18n="animal.penguin">Penguins</span></div>
-            <div class="swiper-slide"><img src="photo/ours.jpeg" alt="Bear" loading="lazy" decoding="async" /><span class="animal-slide-label" data-i18n="animal.bear">Bear</span></div>
-            <div class="swiper-slide"><img src="photo/paon.jpeg" alt="Peacock" loading="lazy" decoding="async" /><span class="animal-slide-label" data-i18n="animal.peacock">Peacock</span></div>
-            <div class="swiper-slide"><img src="photo/kangourou.jpeg" alt="Kangaroo" loading="lazy" decoding="async" /><span class="animal-slide-label" data-i18n="animal.kangaroo">Kangaroo</span></div>
-            <div class="swiper-slide"><img src="photo/singe.jpeg" alt="Monkey" loading="lazy" decoding="async" /><span class="animal-slide-label" data-i18n="animal.monkey">Monkey</span></div>
-            <div class="swiper-slide"><img src="photo/panda2.jpeg" alt="Panda" loading="lazy" decoding="async" /><span class="animal-slide-label" data-i18n="animal.panda2">Panda</span></div>
-          </div>
-          <div class="swiper-pagination"></div>
-          <div class="swiper-button-prev" aria-label="Previous"></div>
-          <div class="swiper-button-next" aria-label="Next"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ MISSIONS -->
-    <section id="missions" aria-labelledby="missions-title">
-      <div class="card">
-        <p class="section-eyebrow" data-i18n="missions.eyebrow">What I did</p>
-        <h2 class="section-title" id="missions-title" data-i18n="missions.title">Technical missions</h2>
-        <div class="missions-grid">
-          <article class="mission-item">
-            <div class="mission-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-            <div>
-              <h3 data-i18n="m1.title">Asset management — GLPI</h3>
-              <p data-i18n="m1.desc">Inventory, ticketing and IT asset tracking. Agent deployment, automated imports, SLA configuration and the internal helpdesk.</p>
-              <span class="mission-tag">GLPI · ITSM</span>
-            </div>
-          </article>
-          <article class="mission-item">
-            <div class="mission-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-            <div>
-              <h3 data-i18n="m2.title">Network monitoring — Zabbix</h3>
-              <p data-i18n="m2.desc">Building monitoring dashboards, configuring custom triggers and alerts to watch the park's infrastructure in real time.</p>
-              <span class="mission-tag">Zabbix · Monitoring</span>
-            </div>
-          </article>
-          <article class="mission-item">
-            <div class="mission-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-            <div>
-              <h3 data-i18n="m3.title">Cybersecurity &amp; hardening</h3>
-              <p data-i18n="m3.desc">Auditing network configurations, strengthening security policies and applying best practices across the IS active equipment.</p>
-              <span class="mission-tag" data-i18n="m3.tag">Security · Audit</span>
-            </div>
-          </article>
-          <article class="mission-item">
-            <div class="mission-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M9 9h6M9 12h6M9 15h4"/></svg></div>
-            <div>
-              <h3 data-i18n="m4.title">Documentation &amp; procedures</h3>
-              <p data-i18n="m4.desc">Writing technical procedures, documenting critical configurations and passing best practices on to the IT team.</p>
-              <span class="mission-tag" data-i18n="m4.tag">Docs · Knowledge base</span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ JOURNAL -->
-    <section id="articles" aria-labelledby="articles-title">
-      <div class="card">
-        <p class="section-eyebrow" data-i18n="journal.eyebrow">Week by week</p>
-        <h2 class="section-title" id="articles-title" data-i18n="journal.title">Technical journal</h2>
-        <div class="timeline">
-
-          <!-- ── JUIN 2026 ── -->
-          <div class="timeline-item timeline-item--featured">
-            <span class="timeline-date" data-i18n="art1.date">17–30 June 2026</span>
-            <article class="timeline-card">
-              <img src="photo/BEN_1411.jpg" alt="First days at Pairi Daiza" class="timeline-thumb" loading="lazy" decoding="async" />
-              <div class="timeline-body">
-                <span class="article-tag" data-i18n="tag.onboarding">Onboarding</span>
-                <h3 data-i18n="art1.title">First steps: diving into IT support at Pairi Daiza</h3>
-                <p data-i18n="art1.desc">Team onboarding, internal tools and procedures. Overview of a heterogeneous estate — servers, PC-Shop POS, routers, switches. First support tickets: diagnosing and fixing cash registers and card terminals in shops and restaurants.</p>
-                <a href="#" class="article-link" data-i18n="art.read">Read →</a>
-              </div>
-            </article>
-          </div>
-
-          <!-- ── JUILLET 2026 ── -->
-          <div class="timeline-item">
-            <span class="timeline-date" data-i18n="art2.date">July 2026</span>
-            <article class="timeline-card">
-              <img src="photo/paon.jpeg" alt="Zabbix monitoring" class="timeline-thumb" loading="lazy" decoding="async" />
-              <div class="timeline-body">
-                <span class="article-tag">Zabbix 7.4</span>
-                <h3 data-i18n="art2.title">Industrialising supervision: deploying Zabbix at scale</h3>
-                <p data-i18n="art2.desc">Architectural choices for centralising park monitoring with Zabbix 7.4. Automated agent deployment via GPO (MSI + MST) on Windows servers without forced reboots. Auto-registration via host metadata to assign machines to their groups instantly.</p>
-                <a href="#" class="article-link" data-i18n="art.read">Read →</a>
-              </div>
-            </article>
-          </div>
-
-          <!-- ── AOÛT 2026 ── -->
-          <div class="timeline-item">
-            <span class="timeline-date" data-i18n="art3.date">August 2026</span>
-            <article class="timeline-card">
-              <img src="photo/WinterTimePairiDaizaRoyaumeduMilieu.jpg" alt="Public Wi-Fi outdoor" class="timeline-thumb" loading="lazy" decoding="async" />
-              <div class="timeline-body">
-                <span class="article-tag" data-i18n="tag.field">Field work</span>
-                <h3 data-i18n="art3.title">Field infrastructure: public Wi-Fi overhaul and alert hardening</h3>
-                <p data-i18n="art3.desc">Diagnosed, replaced and reconfigured public Wi-Fi access points for visitors. Integrated firewalls and switches into Zabbix and built a dedicated core-network dashboard. Set up audio and SMS notification channels for rapid incident response.</p>
-                <a href="#" class="article-link" data-i18n="art.read">Read →</a>
-              </div>
-            </article>
-          </div>
-
-          <!-- ── SEPTEMBRE 2026 ── -->
-          <div class="timeline-item">
-            <span class="timeline-date" data-i18n="art4.date">1–11 September 2026</span>
-            <article class="timeline-card">
-              <img src="photo/entre.png" alt="Pairi Daiza entrance" class="timeline-thumb" loading="lazy" decoding="async" />
-              <div class="timeline-body">
-                <span class="article-tag" data-i18n="tag.recap">Recap</span>
-                <h3 data-i18n="art4.title">IP telephony, mass scripts and end-of-internship review</h3>
-                <p data-i18n="art4.desc">Managed 3CX IP telephony hosts and mass-renamed them with the TEL- prefix via YAML edits and bulk scripts. Closed out the final complex field cases. Retrospective on system admin, networking, project management and professional autonomy.</p>
-                <a href="#" class="article-link" data-i18n="art.read">Read →</a>
-              </div>
-            </article>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ BLOG -->
-    <section id="blog" aria-labelledby="blog-title">
-      <div class="card">
-        <p class="section-eyebrow" data-i18n="blog.eyebrow">Deep dives</p>
-        <h2 class="section-title" id="blog-title" data-i18n="blog.title">Blog articles</h2>
-        <p class="description" data-i18n="blog.desc">Longer, more detailed writeups on the technical challenges I faced during the internship — the kind of stuff that doesn't fit in a weekly journal entry.</p>
-        <div class="blog-grid">
-          <article class="blog-card">
-            <img src="photo/MI4A3911.jpg" alt="Support terrain caisses TPE" class="blog-card__thumb" loading="lazy" decoding="async" />
-            <div class="blog-card__body">
-              <div class="blog-card__meta">
-                <span class="blog-card__tag" data-i18n="tag.onboarding">Onboarding</span>
-                <span class="blog-card__date" data-i18n="blog.art1.date">Juin 2026</span>
-              </div>
-              <h3 class="blog-card__title" data-i18n="blog.art1.title">Premiers pas : immersion dans le support IT de Pairi Daiza</h3>
-              <p class="blog-card__desc" data-i18n="blog.art1.desc">Intégration, découverte d'un parc hétérogène et premiers tickets de support — caisses PC-Shop, TPE restaurants et boutiques, routeurs et switchs.</p>
-              <a href="#" class="blog-card__link" data-i18n="blog.read">Lire l'article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-            </div>
-          </article>
-          <article class="blog-card">
-            <img src="photo/paon.jpeg" alt="Zabbix supervision" class="blog-card__thumb" loading="lazy" decoding="async" />
-            <div class="blog-card__body">
-              <div class="blog-card__meta">
-                <span class="blog-card__tag">Zabbix 7.4</span>
-                <span class="blog-card__date" data-i18n="blog.art2.date">Juillet 2026</span>
-              </div>
-              <h3 class="blog-card__title" data-i18n="blog.art2.title">Industrialiser la supervision : déploiement de Zabbix à grande échelle</h3>
-              <p class="blog-card__desc" data-i18n="blog.art2.desc">Architecture centralisée, déploiement automatisé via GPO (MSI + MST) sans redémarrage forcé, et auto-enregistrement des hôtes par métadonnées.</p>
-              <a href="#" class="blog-card__link" data-i18n="blog.read">Lire l'article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-            </div>
-          </article>
-          <article class="blog-card">
-            <img src="photo/WinterTimePairiDaizaRoyaumeduMilieu.jpg" alt="Wi-Fi public parc" class="blog-card__thumb" loading="lazy" decoding="async" />
-            <div class="blog-card__body">
-              <div class="blog-card__meta">
-                <span class="blog-card__tag" data-i18n="tag.field">Terrain</span>
-                <span class="blog-card__date" data-i18n="blog.art3.date">Août 2026</span>
-              </div>
-              <h3 class="blog-card__title" data-i18n="blog.art3.title">Infrastructures terrain : Wi-Fi public et sécurisation des alertes</h3>
-              <p class="blog-card__desc" data-i18n="blog.art3.desc">Remise en état des bornes Wi-Fi visiteurs, intégration firewall/switchs dans Zabbix et mise en place des alertes sonores et SMS pour les incidents critiques.</p>
-              <a href="#" class="blog-card__link" data-i18n="blog.read">Lire l'article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-            </div>
-          </article>
-          <article class="blog-card">
-            <img src="photo/BEN_5704.jpg" alt="Bilan fin de stage" class="blog-card__thumb" loading="lazy" decoding="async" />
-            <div class="blog-card__body">
-              <div class="blog-card__meta">
-                <span class="blog-card__tag">3CX · Scripts</span>
-                <span class="blog-card__date" data-i18n="blog.art4.date">Septembre 2026</span>
-              </div>
-              <h3 class="blog-card__title" data-i18n="blog.art4.title">Téléphonie IP, scripts de masse et bilan de fin de stage</h3>
-              <p class="blog-card__desc" data-i18n="blog.art4.desc">Gestion 3CX, renommage massif TEL- via YAML et scripts, derniers tickets complexes terrain, et rétrospective complète sur les compétences acquises.</p>
-              <a href="#" class="blog-card__link" data-i18n="blog.read">Lire l'article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-            </div>
-          </article>
-        </div>
-        <div class="blog-section-footer">
-          <p data-i18n="blog.footer">Articles published as the internship progresses — <strong data-i18n="blog.footer.strong">3 more coming</strong></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ LIFE -->
-    <section id="life" aria-labelledby="life-title">
-      <div class="card">
-        <p class="section-eyebrow" data-i18n="life.eyebrow">Beyond the helpdesk</p>
-        <h2 class="section-title" id="life-title" data-i18n="life.title">Internship life</h2>
-        <div class="life-grid">
-          <div class="life-photos">
-            <img src="photo/herbe.jpeg" alt="Fields around Ath" class="life-photo life-photo--main" loading="lazy" decoding="async" />
-            <img src="photo/chevaux.perso.jpeg" alt="Horses near the flat in Ath" class="life-photo life-photo--sub" loading="lazy" decoding="async" />
-          </div>
-          <div class="life-content">
-            <div class="info-grid">
-              <div class="info-item"><span class="label" data-i18n="life.lbl.housing">Housing</span><span class="value" data-i18n="life.val.housing">Shared flat in Ath</span></div>
-              <div class="info-item"><span class="label" data-i18n="life.lbl.flatmates">Flatmates</span><span class="value" data-i18n="life.val.flatmates">3 other people</span></div>
-              <div class="info-item"><span class="label" data-i18n="life.lbl.commute">Commute</span><span class="value" data-i18n="life.val.commute">Personal car</span></div>
-              <div class="info-item"><span class="label" data-i18n="life.lbl.travel">Travel time</span><span class="value">Ath → Brugelette (~25 min)</span></div>
-            </div>
-            <p class="description" data-i18n="life.desc1">Based in Ath with three flatmates, I drive to the park every morning. Twenty-five minutes of Walloon countryside between fields and horses — a decompression bubble before diving into the helpdesk tickets.</p>
-            <p class="description" data-i18n="life.desc2">These photos, taken right from the flat, capture the atmosphere well: calm, green, far from open-plan offices. A striking contrast with the technical days.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================ TIPS -->
-    <section id="tips" aria-labelledby="tips-title">
-      <div class="card highlight-card">
-        <p class="section-eyebrow" data-i18n="tips.eyebrow">Takeaways</p>
-        <h2 class="section-title" id="tips-title" data-i18n="tips.title">Lessons from the internship</h2>
-        <ul class="custom-list" role="list">
-          <li data-i18n="tip1"><strong>Handle the paperwork early:</strong> student health cover, car insurance abroad, the internship agreement — sort it all out before day one.</li>
-          <li data-i18n="tip2"><strong>Truly immerse yourself:</strong> make the most of being in a wildlife park. A lunch break among the pandas recharges you as much as a coffee.</li>
-          <li data-i18n="tip3"><strong>Network internally:</strong> breaks with the IT team are often where you learn the most — the undocumented fixes, the in-house practices.</li>
-          <li data-i18n="tip4"><strong>Document as you go:</strong> never put off the docs. A ticket closed without a resolution note is technical debt for the whole team.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ============================================================ CONTACT -->
-    <section id="contact" aria-labelledby="contact-title">
-      <div class="card">
-        <p class="section-eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
-        <h2 class="section-title" id="contact-title" data-i18n="contact.title">A question about my internship?</h2>
-        <p class="description" data-i18n="contact.desc">Recruiter, curious student, or simply passionate about systems and networks — I'm always up for a conversation.</p>
-        <form class="contact-form" id="contactForm" novalidate onsubmit="handleSend(event)">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="name" data-i18n="form.name">Name</label>
-              <input type="text" id="name" name="name" data-i18n-ph="ph.name" placeholder="Your name" autocomplete="name" required />
-            </div>
-            <div class="form-group">
-              <label for="email" data-i18n="form.email">Email</label>
-              <input type="email" id="email" name="email" placeholder="you@email.com" autocomplete="email" required />
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="message" data-i18n="form.message">Message</label>
-            <textarea id="message" name="message" rows="5" data-i18n-ph="ph.message" placeholder="Your message..." required></textarea>
-          </div>
-          <button type="submit" id="submitBtn" class="btn btn--primary btn--full">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span data-i18n="form.submit">Send message</span>
-          </button>
-        </form>
-      </div>
-    </section>
-
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script>
-      const EMAILJS_PUBLIC_KEY  = 'VOTRE_PUBLIC_KEY';
-      const EMAILJS_SERVICE_ID  = 'VOTRE_SERVICE_ID';
-      const EMAILJS_TEMPLATE_ID = 'VOTRE_TEMPLATE_ID';
-      emailjs.init(EMAILJS_PUBLIC_KEY);
-      async function handleSend(e) {
-        e.preventDefault();
-        const form = e.target;
-        if (!form.checkValidity()) { form.reportValidity(); return; }
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        btn.querySelector('span').textContent = 'Sending…';
-        try {
-          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-            from_name:  document.getElementById('name').value.trim(),
-            from_email: document.getElementById('email').value.trim(),
-            message:    document.getElementById('message').value.trim(),
-          });
-          btn.querySelector('span').textContent = '✓ Message sent!';
-          form.reset();
-        } catch (err) {
-          console.error(err);
-          btn.querySelector('span').textContent = 'Error — please retry';
-          btn.disabled = false;
-        }
-      }
-    </script>
-
-  <!-- ============================================================ FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <img src="photo/logo.png" alt="Pairi Daiza logo" class="footer-logo" loading="lazy" decoding="async" />
-      <div class="footer-divider" aria-hidden="true"></div>
-      <p><span data-i18n="footer.text">Designed by</span> <strong>Benjamin Krauss</strong> · ESAIP Engineering · Pairi Daiza Internship <span id="year"></span></p>
-      <p class="footer-sub">Domaine de Cambron · Brugelette, Wallonia, Belgium</p>
-    </div>
-  </footer>
-
-  <!-- ── LIBRARIES ── -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" defer></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>
