@@ -21,8 +21,8 @@
   --gold-2: #d39a52; /* même teinte, éclaircie pour survols et pictos */
   --line: rgba(244, 237, 221, 0.08);
   --line-soft: rgba(244, 237, 221, 0.12);
-  --serif: 'Playfair Display', 'Times New Roman', serif;
-  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --serif: 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif; /* titres : Lato, la police sans empattement du site Pairi Daiza */
+  --sans: 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --pad: clamp(1.25rem, 5vw, 5rem);
   /* Mouvement : une seule courbe, trois durées */
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -59,16 +59,16 @@ html:not([lang='fr']) .fr, html[lang='fr'] .en { display: none !important; }
 /* ── Typographie ── */
 .display {
   font-family: var(--serif);
-  font-weight: 500;
+  font-weight: 300;
   font-size: clamp(2.75rem, 7.6vw, 7rem);
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
 }
 /* Moment de marque : seuls le titre d'accueil et le « Merci » gardent l'italique dorée */
 .hero .display em, .end .display em { font-style: italic; color: var(--gold); }
 .title {
   font-family: var(--serif);
-  font-weight: 500;
+  font-weight: 300;
   font-size: clamp(2rem, 4.6vw, 4rem);
   line-height: 1.06;
   letter-spacing: -0.02em;
