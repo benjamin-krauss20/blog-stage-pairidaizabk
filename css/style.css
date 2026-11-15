@@ -17,8 +17,8 @@
   --ink: #f4eddd;      /* texte principal */
   --ink-2: #d8d0bf;    /* texte secondaire */
   --muted: #a89f8b;    /* méta, légendes (7,49:1 sur --bg) */
-  --gold: #d9a441;
-  --gold-2: #edcf8f;
+  --gold: #bb7b28;   /* or du logo Pairi Daiza 2026 (moyenne mesurée sur PDZ_Logo2026_Gold) */
+  --gold-2: #d39a52; /* même teinte, éclaircie pour survols et pictos */
   --line: rgba(244, 237, 221, 0.08);
   --line-soft: rgba(244, 237, 221, 0.12);
   --serif: 'Playfair Display', 'Times New Roman', serif;
