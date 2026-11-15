@@ -207,7 +207,7 @@
     });
 
     var hub = el('g', { 'class': 'hub' }, scene);
-    el('circle', { cx: HUB.x, cy: HUB.y, r: 40, 'class': 'halo' }, hub);
+    el('circle', { cx: HUB.x, cy: HUB.y, r: 52, 'class': 'halo' }, hub);
     el('circle', { cx: HUB.x, cy: HUB.y, r: 40 }, hub);
     built.hubIT = el('g', {}, hub);
     twoLang(built.hubIT, HUB.x, HUB.y + 5, 'IT team', 'Équipe IT');
@@ -230,7 +230,7 @@
         tl.fromTo(p, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.4 }, t0 + 0.18 + i * 0.05);
       });
       built.nodes[c].forEach(function (g, i) {
-        tl.fromTo(g, { scale: 0, opacity: 0, svgOrigin: g._o }, { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.6)' }, t0 + 0.45 + i * 0.05);
+        tl.fromTo(g, { scale: 0, opacity: 0, svgOrigin: g._o }, { scale: 1, opacity: 1, duration: 0.3, ease: 'power2.out' }, t0 + 0.45 + i * 0.05);
       });
       tl.fromTo(built.caps[c], { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25 }, t0 + 0.68);
     });
@@ -262,16 +262,29 @@
     chapters.forEach(function (c) { c.classList.add('is-active'); });
   }
 
-  /* Effets liés au défilement : photo d'accueil et bandes de photos */
+  /* Effets liés au défilement, harmonisés : même règle pour la photo d'accueil et les bandes.
+     Chaque calque dérive de DRIFT × la distance parcourue, sans courbe (ease 'none'),
+     avec le même lissage (SCRUB) : un seul rythme, transform seul (GPU).
+     Désactivé si « réduire les animations ». */
+  var DRIFT = 0.18, SCRUB = 0.8;
   if (hasGsap && !reduced) {
-    gsap.to('#heroImg', { yPercent: -12, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+    var hero = $('#hero');
+    /* L'accueil commence déjà en haut de l'écran : il parcourt sa propre hauteur */
+    gsap.to('#heroImg', {
+      y: function () { return -DRIFT * hero.offsetHeight; }, ease: 'none', force3D: true,
+      scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: SCRUB, invalidateOnRefresh: true }
+    });
+    var strips = $('.strips');
     $$('.strip').forEach(function (strip) {
       var dir = parseInt(strip.dataset.dir, 10);
-      var extra = function () { return Math.max(0, strip.scrollWidth - window.innerWidth); };
+      var room = function () { return Math.max(0, strip.scrollWidth - window.innerWidth); };
+      /* Même amplitude que l'accueil : DRIFT × parcours (hauteur des bandes + écran), bornée par la place disponible */
+      var amp = function () { return Math.min(DRIFT * (strips.offsetHeight + window.innerHeight), room()); };
+      var mid = function () { return -room() / 2; };
       gsap.fromTo(strip,
-        { x: function () { return dir < 0 ? 0 : -extra(); } },
-        { x: function () { return dir < 0 ? -extra() : 0; }, ease: 'none',
-          scrollTrigger: { trigger: '.strips', start: 'top bottom', end: 'bottom top', scrub: 0.5, invalidateOnRefresh: true } });
+        { x: function () { return mid() - dir * amp() / 2; } },
+        { x: function () { return mid() + dir * amp() / 2; }, ease: 'none', force3D: true,
+          scrollTrigger: { trigger: strips, start: 'top bottom', end: 'bottom top', scrub: SCRUB, invalidateOnRefresh: true } });
     });
     window.addEventListener('load', function () { ScrollTrigger.refresh(); });
   }
